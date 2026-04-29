@@ -1,0 +1,53 @@
+---
+description: Sympathetic Technology interior page design and copy standards
+globs: src/about.jsx,src/services.jsx,src/our-approach.jsx,src/sovereign-ai.jsx,src/talk.jsx
+alwaysApply: false
+---
+
+# Sympathetic Technology Design Standards
+
+Use this rule when building or updating interior pages on the Sympathetic Technology website, including About, Services, Our Approach, Sovereign AI, and Let's Talk. Do not apply this rule to the landing page in `src/App.jsx` unless the user explicitly asks to bring the landing page into this system.
+
+## Design Philosophy
+- Nordic minimalism: cinematic, editorial, warm, and print-like. Not SaaS dashboard minimalism.
+- No decoration for its own sake. Every element must earn its place.
+- No gradients, drop shadows, or border radius on structural elements.
+
+## Typography
+- Font stack: `-apple-system, 'Helvetica Neue', Arial, sans-serif`.
+- Body: `17px`, `line-height: 1.75`, color `#333`, with `-webkit-font-smoothing: antialiased`.
+- Headings: `font-weight: 800`, `letter-spacing: -0.02em`, `line-height: 1.05`.
+- Hero headlines: `clamp(40px, 5vw, 68px)`.
+- Section headlines: `clamp(28px, 3vw, 42px)`.
+- Eyebrows: `11px`, `font-weight: 500`, `letter-spacing: 0.12em`, uppercase, `#999`.
+- Nav links: `11px`, `font-weight: 500`, `letter-spacing: 0.1em`, uppercase.
+- Detail text: `14px`, color `#888`.
+
+## Color And Layout
+- Background `#fff`; body text `#111`; body copy `#333`; muted text `#888` or `#999`.
+- Borders and rules: `1px solid #e8e8e8`.
+- Dark sections and nav: `#0a0a0a` background, white text.
+- Max content width: `1200px`, centered.
+- Section padding: desktop `80px 48px`, mobile `48px 24px`.
+- Hero padding: desktop `120px 48px 80px`, mobile `64px 24px 48px`.
+- Split layouts: two equal columns, `gap: 80px`, `align-items: start`; collapse to one column below `768px`.
+- Alternate photo left and photo right between content sections.
+- Do not use sidebar navigation on interior pages.
+
+## Navigation, Images, CTA, Footer
+- Sticky nav: full width, `64px` height, `#0a0a0a`.
+- Nav items: About, Services, Work, Our Approach, Journal, Start Here, Let's Talk. Hide links below `768px` and show hamburger.
+- Photography must be grayscale, editorial, and object-fit cover. Portrait ratio `4/5`; landscape ratio `3/2`.
+- Dark pull quotes use `#0a0a0a`, centered white text, `padding: 100px 48px`, and max width `860px`.
+- CTA buttons: inline block, `#111` background, white text, `12px`, `font-weight: 600`, uppercase, `padding: 18px 40px`, square corners. Hover `#333`.
+- Every page needs the standard footer CTA above the footer: "Mission-driven organizations shouldn't have to choose between progress and privacy." The Let's Talk link should use `mailto:hello@sympathetictechnology.com`.
+- Footer: `#0a0a0a`, three columns, `64px 48px`, headings `10px` uppercase white, body and links `13px`, `#777`, `line-height: 1.8`.
+
+## Copy Rules
+- No em dashes in copy. Rewrite the sentence or use a full stop.
+- No "may include" or "typically includes". State what the work does.
+- No bullet lists in body copy. Use sentences and paragraphs.
+- Avoid vendor jargon such as "leverage", "ecosystem", "at scale", and "end-to-end solutions".
+- Each paragraph must move the reader somewhere new. Cut repetition.
+- Humans are the grammatical subject. AI is the object being directed.
+- Tone is warm, direct, and specific. Not casual, not corporate.

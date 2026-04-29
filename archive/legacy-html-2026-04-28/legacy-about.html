@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Sympathetic Technology</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,600&family=IBM+Plex+Sans:wght@300;400;500&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --accent: #c4874a;
+        --white: #f6f3ee;
+        --muted: rgba(246, 243, 238, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #0a0a0a;
+        color: var(--white);
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
+        cursor: none;
+        min-height: 100vh;
+      }
+
+      /* Custom cursor (same concept as your landing page) */
+      #cur {
+        width: 9px;
+        height: 9px;
+        background: var(--accent);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.12s ease;
+      }
+
+      #cur-ring {
+        width: 34px;
+        height: 34px;
+        border: 1px solid rgba(196, 135, 74, 0.6);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: left 0.08s linear, top 0.08s linear;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #cur,
+        #cur-ring {
+          display: none;
+        }
+        body {
+          cursor: auto;
+        }
+      }
+
+      nav {
+        position: relative;
+        z-index: 10;
+        padding: 34px 152px;
+      }
+
+      nav .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .logo-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logo {
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
+        font-size: 16.5px;
+        font-weight: 400;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+      }
+
+      .logo-tagline {
+        margin: 4px 0 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans', system-ui, sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        color: rgba(250, 248, 243, 0.6);
+        letter-spacing: 0.02em;
+        line-height: 1;
+        text-transform: none;
+      }
+
+      nav.scrolled .logo-tagline {
+        display: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 44px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .nav-links a:hover {
+        color: var(--white);
+      }
+
+      main {
+        padding: 0 152px 80px;
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        padding-top: 40px;
+      }
+
+      .title {
+        font-family: 'Fraunces', ui-serif, Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(44px, 5vw, 66px);
+        line-height: 1.05;
+      }
+
+      .sub {
+        margin-top: 16px;
+        max-width: 70ch;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .card {
+        margin-top: 34px;
+        border: 1px solid rgba(246, 243, 238, 0.08);
+        border-radius: 18px;
+        padding: 22px 20px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .card h3 {
+        color: var(--white);
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      footer {
+        padding: 34px 152px 52px;
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="cur"></div>
+    <div id="cur-ring"></div>
+
+    <nav>
+      <div class="row">
+        <div class="logo-stack">
+          <a class="logo" href="index.html">Sympathetic Technology</a>
+          <p class="logo-tagline">Organisational guidance for nonprofits, associations, and arts orgs</p>
+        </div>
+        <ul class="nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="#">Work</a></li>
+          <li><a href="#">Journal</a></li>
+          <li><a href="#">Start here</a></li>
+          <li><a href="about.html">Let&rsquo;s talk</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <h1 class="title">About Sympathetic Technology</h1>
+        <p class="sub">
+          This is a starter page so you can iterate quickly. Copy/edit `index.html` for the full
+          landing experience, and keep adding new pages as you go.
+        </p>
+
+        <div class="card">
+          <h3>What we do</h3>
+          <p>
+            Lorem ipsum placeholder text. Replace this with your Vancouver story, services, or
+            credibility points. The goal is: clean typography, strong visuals, and fast editing.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>Copyright &copy; Sympathetic Technology</footer>
+
+    <script>
+      const cur = document.getElementById('cur')
+      const ring = document.getElementById('cur-ring')
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0
+
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX
+        my = e.clientY
+        cur.style.left = mx + 'px'
+        cur.style.top = my + 'px'
+      })
+
+      ;(function tick() {
+        rx += (mx - rx) * 0.09
+        ry += (my - ry) * 0.09
+        ring.style.left = rx + 'px'
+        ring.style.top = ry + 'px'
+        requestAnimationFrame(tick)
+      })()
+
+      document.querySelectorAll('a').forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          cur.style.transform = 'translate(-50%,-50%) scale(2.2)'
+        })
+        el.addEventListener('mouseleave', () => {
+          cur.style.transform = 'translate(-50%,-50%) scale(1)'
+        })
+      })
+
+      ;(function () {
+        const nav = document.querySelector('nav')
+        if (!nav) return
+        function syncNavScrolled() {
+          nav.classList.toggle('scrolled', window.scrollY > 1)
+        }
+        window.addEventListener('scroll', syncNavScrolled, { passive: true })
+        syncNavScrolled()
+      })()
+    </script>
+  </body>
+</html>
+
