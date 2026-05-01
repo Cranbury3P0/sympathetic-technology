@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom'
-import { FooterCta, ctaClass, pageFont } from './InteriorFooter.jsx'
+import {
+  FooterCta,
+  bodyTextClass,
+  ctaClass,
+  eyebrowClass,
+  pageFont,
+  sectionHeadlineClass,
+} from './InteriorFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 
 const publicTools = [
@@ -97,15 +104,6 @@ const secureTools = [
       'Capture institutional knowledge and make it searchable for new staff without it ever touching a commercial platform.',
   },
 ]
-
-const eyebrowClass =
-  'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
-
-const bodyTextClass =
-  'text-[17px] font-normal leading-[1.75] text-[#333333]'
-
-const sectionHeadlineClass =
-  'text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]'
 
 function ServiceRows({ items }) {
   return (

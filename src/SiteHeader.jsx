@@ -1,22 +1,34 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
-/** Black bar nav — shared by home and inner pages. Order: About → Services → Work → … */
+/** Black bar nav shared by the header and footer. */
 export const SITE_HEADER_NAV = [
+  ['HOME', '/'],
   ['ABOUT', '/about'],
   ['SERVICES', '/services'],
-  ['WORK', '/#work'],
   ['OUR APPROACH', '/approach'],
   ['SOVEREIGN AI', '/sovereign-ai'],
+  ['JOURNAL', '/journal'],
   ["LET'S TALK", '/talk'],
 ]
 
 export default function SiteHeader({ overlay = false }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { pathname } = useLocation()
 
   const positionClass = overlay
-    ? 'absolute left-0 right-0 top-0'
+    ? 'fixed left-0 right-0 top-0'
     : 'sticky top-0'
+
+  const isActive = (to) => {
+    if (to === '/') return pathname === '/'
+    return pathname === to || pathname.startsWith(`${to}/`)
+  }
+
+  const navLinkClass = (to, mobile = false) =>
+    `${mobile ? 'block ' : ''}font-sans text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 hover:text-white ${
+      isActive(to) ? 'text-white' : 'text-white/70'
+    }`
 
   return (
     <nav
@@ -64,14 +76,14 @@ export default function SiteHeader({ overlay = false }) {
               {to.startsWith('mailto:') ? (
                 <a
                   href={to}
-                  className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 transition-colors duration-200 hover:text-white"
+                  className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 hover:text-white"
                 >
                   {label}
                 </a>
               ) : (
                 <Link
                   to={to}
-                  className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 transition-colors duration-200 hover:text-white"
+                  className={navLinkClass(to)}
                 >
                   {label}
                 </Link>
@@ -94,7 +106,7 @@ export default function SiteHeader({ overlay = false }) {
               {to.startsWith('mailto:') ? (
                 <a
                   href={to}
-                  className="block font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 transition-colors duration-200 hover:text-white"
+                  className="block font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 hover:text-white"
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}
@@ -102,7 +114,7 @@ export default function SiteHeader({ overlay = false }) {
               ) : (
                 <Link
                   to={to}
-                  className="block font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 transition-colors duration-200 hover:text-white"
+                  className={navLinkClass(to, true)}
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}

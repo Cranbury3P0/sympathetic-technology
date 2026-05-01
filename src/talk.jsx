@@ -1,14 +1,10 @@
-import { pageFont } from './InteriorFooter.jsx'
+import {
+  bodyTextClass,
+  eyebrowClass,
+  pageFont,
+  sectionHeadlineClass,
+} from './InteriorFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
-
-const eyebrowClass =
-  'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
-
-const bodyTextClass =
-  'text-[17px] font-normal leading-[1.75] text-[#333333]'
-
-const sectionHeadlineClass =
-  'text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]'
 
 export default function TalkPage() {
   return (

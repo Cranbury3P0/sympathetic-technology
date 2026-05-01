@@ -1,14 +1,36 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import AboutPage from './about.jsx'
 import ServicesPage from './services.jsx'
 import OurApproachPage from './our-approach.jsx'
 import SovereignAIPage from './sovereign-ai.jsx'
+import { JournalIndexPage, JournalPostPage } from './Journal.jsx'
 import TalkPage from './talk.jsx'
 import SiteFooter from './SiteFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 
 function SectionDivider() {
   return <div className="h-px w-full bg-neutral-200" aria-hidden />
+}
+
+function ScrollToRoutePosition() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      return
+    }
+
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById(hash.slice(1))
+      if (target) {
+        target.scrollIntoView({ block: 'start', behavior: 'auto' })
+      }
+    })
+  }, [pathname, hash])
+
+  return null
 }
 
 const sectionYMobile = 'py-[80px]'
@@ -129,6 +151,78 @@ const WORK_UNITS = [
 
 const ctaButtonClass =
   'rounded-none border border-transparent bg-black px-10 py-4 font-sans text-sm font-bold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#2a2826] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black'
+
+function WorkUnit({ unit, idx }) {
+  const textRight = unit.textAlign === 'right'
+  const bodyLeft = unit.bodyTextAlign === 'left'
+  const textColAlignClass =
+    textRight && !bodyLeft
+      ? 'text-left md:ml-auto md:text-right'
+      : textRight && bodyLeft
+        ? 'text-left md:ml-auto'
+        : 'text-left'
+  const textCol = (
+    <div
+      className={`min-w-0 w-full max-w-[36rem] md:flex-[6] md:self-center ${textColAlignClass}`}
+    >
+      <h3 className="font-sans text-balance text-3xl font-bold leading-tight tracking-tight text-ink">
+        {unit.title}
+      </h3>
+      <div
+        className={`my-8 h-px w-12 bg-neutral-200 ${
+          textRight && !bodyLeft ? 'md:ml-auto' : ''
+        }`}
+        aria-hidden
+      />
+      <div
+        className={`text-pretty space-y-5 md:space-y-6 ${
+          textRight ? 'md:ml-auto' : ''
+        }`}
+      >
+        {unit.bodyParagraphs.map((para, pIdx) => (
+          <p key={pIdx} className={workSectionBodyClass}>
+            {para}
+          </p>
+        ))}
+      </div>
+    </div>
+  )
+  const mediaCol = unit.imageSrc ? (
+    <div className="w-full min-w-0 shrink-0 md:flex-[4]">
+      <CraftPlaceholder
+        imageSrc={unit.imageSrc}
+        imageObjectPosition={unit.imageObjectPosition}
+        punchyMono={unit.punchyMono}
+        punchyContrast125={unit.punchyContrast125}
+      />
+    </div>
+  ) : (
+    <div
+      className="hidden md:block md:flex-[4] md:self-stretch"
+      aria-hidden
+    />
+  )
+
+  return (
+    <div
+      className={`flex flex-col gap-8 md:flex-row md:items-center ${
+        idx === 0 ? 'md:gap-12 lg:gap-20' : 'md:gap-10 lg:gap-16'
+      }`}
+    >
+      {textRight ? (
+        <>
+          {mediaCol}
+          {textCol}
+        </>
+      ) : (
+        <>
+          {textCol}
+          {mediaCol}
+        </>
+      )}
+    </div>
+  )
+}
 
 function HomePage() {
   return (
@@ -265,108 +359,7 @@ function HomePage() {
                     {unit.label}
                   </span>
                   <div className="pl-8 sm:pl-10 md:pl-14">
-                    {(() => {
-                      const textRight = unit.textAlign === 'right'
-                      const bodyLeft = unit.bodyTextAlign === 'left'
-                      const textColAlignClass =
-                        textRight && !bodyLeft
-                          ? 'text-left md:ml-auto md:text-right'
-                          : textRight && bodyLeft
-                            ? 'text-left md:ml-auto'
-                            : 'text-left'
-                      const textCol = (
-                        <div
-                          className={`min-w-0 w-full max-w-[36rem] md:flex-[6] md:self-center ${textColAlignClass}`}
-                        >
-                          <h3 className="font-sans text-balance text-3xl font-bold leading-tight tracking-tight text-ink">
-                            {unit.title}
-                          </h3>
-                          <div
-                            className={`my-8 h-px w-12 bg-neutral-200 ${
-                              textRight && !bodyLeft ? 'md:ml-auto' : ''
-                            }`}
-                            aria-hidden
-                          />
-                          {unit.bodyParagraphs != null ? (
-                            <div
-                              className={`text-pretty space-y-5 md:space-y-6 ${
-                                textRight ? 'md:ml-auto' : ''
-                              }`}
-                            >
-                              {unit.bodyParagraphs.map((para, pIdx) => (
-                                <p key={pIdx} className={workSectionBodyClass}>
-                                  {para}
-                                </p>
-                              ))}
-                            </div>
-                          ) : (
-                            <p
-                              className={`text-pretty ${workSectionBodyClass} ${
-                                textRight ? 'md:ml-auto' : ''
-                              }`}
-                            >
-                              {unit.bodyPrefix != null &&
-                              unit.bodyBold != null &&
-                              unit.bodySuffix != null ? (
-                                <>
-                                  {unit.bodyPrefix}
-                                  <span className="font-semibold text-neutral-800">
-                                    {unit.bodyBold}
-                                  </span>
-                                  {unit.bodySuffix}
-                                </>
-                              ) : unit.emphasis ? (
-                                <>
-                                  <span className="font-semibold text-neutral-800">
-                                    {unit.emphasis}
-                                  </span>
-                                  {unit.body}
-                                </>
-                              ) : (
-                                unit.body
-                              )}
-                            </p>
-                          )}
-                        </div>
-                      )
-                      const mediaCol =
-                        unit.imageSrc ? (
-                          <div className="w-full min-w-0 shrink-0 md:flex-[4]">
-                            <CraftPlaceholder
-                              imageSrc={unit.imageSrc}
-                              imageObjectPosition={unit.imageObjectPosition}
-                              punchyMono={unit.punchyMono}
-                              punchyContrast125={unit.punchyContrast125}
-                            />
-                          </div>
-                        ) : (
-                          <div
-                            className="hidden md:block md:flex-[4] md:self-stretch"
-                            aria-hidden
-                          />
-                        )
-                      return (
-                        <div
-                          className={`flex flex-col gap-8 md:flex-row md:items-center ${
-                            idx === 0
-                              ? 'md:gap-12 lg:gap-20'
-                              : 'md:gap-10 lg:gap-16'
-                          }`}
-                        >
-                          {textRight ? (
-                            <>
-                              {mediaCol}
-                              {textCol}
-                            </>
-                          ) : (
-                            <>
-                              {textCol}
-                              {mediaCol}
-                            </>
-                          )}
-                        </div>
-                      )
-                    })()}
+                    <WorkUnit unit={unit} idx={idx} />
                   </div>
                 </article>
               ))}
@@ -468,11 +461,14 @@ function HomePage() {
 export default function App() {
   return (
     <>
+      <ScrollToRoutePosition />
       <Routes>
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/approach" element={<OurApproachPage />} />
         <Route path="/sovereign-ai" element={<SovereignAIPage />} />
+        <Route path="/journal" element={<JournalIndexPage />} />
+        <Route path="/journal/:slug" element={<JournalPostPage />} />
         <Route path="/talk" element={<TalkPage />} />
         <Route
           path="/our-approach"

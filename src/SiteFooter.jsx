@@ -1,14 +1,11 @@
 import { Link } from 'react-router-dom'
+import { SITE_HEADER_NAV } from './SiteHeader.jsx'
 
-const navLinks = [
-  { label: 'About', to: '/about' },
-  { label: 'Services', to: '/services' },
-  { label: 'Work', to: '/#work' },
-  { label: 'Our Approach', to: '/approach' },
-  { label: 'Journal', to: '/' },
-  { label: 'Start Here', to: '/#manifesto' },
-  { label: "Let's Talk", to: '/talk' },
-]
+const formatFooterNavLabel = (label) =>
+  label
+    .toLowerCase()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
+    .replace(/'S\b/g, "'s")
 
 const footerHeadingClass =
   'm-0 font-sans text-lg font-bold uppercase tracking-widest text-white'
@@ -57,15 +54,15 @@ export default function SiteFooter() {
             className={`order-4 md:col-start-2 md:row-start-2 md:self-start ${footerBodyClass}`}
           >
             <ul className="flex flex-col gap-2">
-              {navLinks.map(({ label, to }) => (
+              {SITE_HEADER_NAV.map(([label, to]) => (
                 <li key={label}>
                   {to.startsWith('mailto:') ? (
                     <a href={to} className={navLinkClass}>
-                      {label}
+                      {formatFooterNavLabel(label)}
                     </a>
                   ) : (
                     <Link to={to} className={navLinkClass}>
-                      {label}
+                      {formatFooterNavLabel(label)}
                     </Link>
                   )}
                 </li>

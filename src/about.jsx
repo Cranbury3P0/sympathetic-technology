@@ -1,3 +1,10 @@
+import {
+  bodyTextClass,
+  ctaClass,
+  eyebrowClass,
+  pageFont,
+  sectionHeadlineClass,
+} from './InteriorFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 
 const credentials = [
@@ -18,21 +25,6 @@ const credentials = [
     detail: 'Founder · Fifteen years',
   },
 ]
-
-const pageFont =
-  "-apple-system, 'Helvetica Neue', Arial, sans-serif"
-
-const bodyTextClass =
-  'text-[17px] font-normal leading-[1.75] text-[#333333]'
-
-const eyebrowClass =
-  'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
-
-const sectionHeadlineClass =
-  'text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]'
-
-const ctaClass =
-  'inline-block bg-[#111111] px-10 py-[18px] text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#333333]'
 
 export default function AboutPage() {
   return (
