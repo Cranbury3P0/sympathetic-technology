@@ -9,6 +9,7 @@ export const SITE_HEADER_NAV = [
   ['OUR APPROACH', '/approach'],
   ['SOVEREIGN AI', '/sovereign-ai'],
   ['JOURNAL', '/journal'],
+  ['AI READINESS', '/readiness-assessment'],
   ["LET'S TALK", '/talk'],
 ]
 

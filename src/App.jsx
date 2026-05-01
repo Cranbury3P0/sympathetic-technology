@@ -6,6 +6,9 @@ import OurApproachPage from './our-approach.jsx'
 import SovereignAIPage from './sovereign-ai.jsx'
 import { JournalIndexPage, JournalPostPage } from './Journal.jsx'
 import TalkPage from './talk.jsx'
+import ReadinessAssessmentPage from './readiness-assessment.jsx'
+import PrivacyPage from './privacy.jsx'
+import CookieBanner from './CookieBanner.jsx'
 import SiteFooter from './SiteFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 
@@ -470,6 +473,8 @@ export default function App() {
         <Route path="/journal" element={<JournalIndexPage />} />
         <Route path="/journal/:slug" element={<JournalPostPage />} />
         <Route path="/talk" element={<TalkPage />} />
+        <Route path="/readiness-assessment" element={<ReadinessAssessmentPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route
           path="/our-approach"
           element={<Navigate to={{ pathname: '/approach' }} replace />}
@@ -486,6 +491,7 @@ export default function App() {
         <Route path="*" element={<HomePage />} />
       </Routes>
       <SiteFooter />
+      <CookieBanner />
     </>
   )
 }
