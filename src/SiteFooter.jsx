@@ -70,34 +70,25 @@ export default function SiteFooter() {
             </ul>
           </nav>
 
-          <p
-            className={`${footerTitleRowClass} order-5 whitespace-nowrap md:col-start-3 md:row-start-1`}
-          >
-            SYMPATHETIC TECHNOLOGY
-          </p>
+          <h2 className={`${footerTitleRowClass} order-5 md:col-start-3 md:row-start-1`}>
+            Data &amp; Governance
+          </h2>
 
           <div
-            className={`order-6 flex min-w-0 flex-col items-start gap-4 md:col-start-3 md:row-start-2 md:self-start ${footerBodyClass}`}
+            className={`order-6 flex min-w-0 flex-col items-start gap-4 md:col-start-3 md:row-start-2 md:self-start ${footerBodyClass} text-white/60`}
           >
-            <p className="text-white/55">
-              Organizational guidance for nonprofits, associations, and arts institutions
+            <p>
+              Sympathetic Technology operates within Canada&apos;s privacy framework, including the
+              Personal Information Protection and Electronic Documents Act (PIPEDA).
             </p>
-            <p className="text-white/55">Sean Cranbury, Principal</p>
-            <a
-              href="/talk"
-              className={`${footerBodyClass} text-white/75 transition-opacity hover:opacity-100`}
-            >
-              Let&apos;s Talk
-            </a>
-            <p className="text-white/55">Vancouver, BC</p>
-            <a
-              href="https://linkedin.com/in/seancranbury"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={navLinkClass}
-            >
-              LinkedIn
-            </a>
+            <p>
+              In projects involving Indigenous organizations or communities, we support data
+              stewardship approaches consistent with OCAP™ (Ownership, Control, Access, and
+              Possession) principles and community authority over information.
+            </p>
+            <Link to="/privacy" className={navLinkClass}>
+              Privacy Policy
+            </Link>
           </div>
         </div>
       </div>

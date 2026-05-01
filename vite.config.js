@@ -28,8 +28,12 @@ export default defineConfig({
   base: './',
   /** Avoid stale JS/CSS in the browser while developing (SPA is easy to cache by mistake). */
   server: {
+    port: 5174,
     headers: {
       'Cache-Control': 'no-store',
+    },
+    proxy: {
+      '/api': 'http://localhost:3001',
     },
   },
   build: {
