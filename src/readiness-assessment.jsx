@@ -12,6 +12,10 @@ const SAGE = '#EFF5EF'
 const FIR = '#2A4A2E'
 const TERRA = '#C27059'
 
+function getFinalAssistantMessage(messages = []) {
+  return [...messages].reverse().find((message) => message?.role === 'assistant' && message.content)?.content || ''
+}
+
 // ─── Pillar icons ────────────────────────────────────────────────────────────
 
 function IconData() {
@@ -272,10 +276,12 @@ function ChatInterface({ formData }) {
   const [input, setInput] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [submissionStatus, setSubmissionStatus] = useState('idle')
   const [error, setError] = useState(null)
   const messagesContainerRef = useRef(null)
   const inputRef = useRef(null)
   const hasStarted = useRef(false)
+  const hasSubmitted = useRef(false)
 
   const scrollToBottom = useCallback(() => {
     const el = messagesContainerRef.current
@@ -336,11 +342,50 @@ function ChatInterface({ formData }) {
     }
   }, [formData])
 
+  const submitCompletedAssessment = useCallback(async () => {
+    if (hasSubmitted.current) return
+    hasSubmitted.current = true
+    setSubmissionStatus('saving')
+
+    const finalReport = getFinalAssistantMessage(messages)
+    let privacyAcknowledgedAt = null
+
+    try {
+      privacyAcknowledgedAt = localStorage.getItem('st_privacy_acknowledged') ? new Date().toISOString() : null
+    } catch {
+      privacyAcknowledgedAt = null
+    }
+
+    try {
+      const res = await fetch('/api/submit-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          formData,
+          messages: messages.map(({ role, content }) => ({ role, content })),
+          ai_summary: finalReport,
+          privacy_acknowledged_at: privacyAcknowledgedAt,
+        }),
+      })
+
+      if (!res.ok) throw new Error(`Server error ${res.status}`)
+      setSubmissionStatus('saved')
+    } catch {
+      hasSubmitted.current = false
+      setSubmissionStatus('error')
+    }
+  }, [formData, messages])
+
   useEffect(() => {
     if (hasStarted.current) return
     hasStarted.current = true
     callApi([])
   }, [callApi])
+
+  useEffect(() => {
+    if (!isComplete) return
+    submitCompletedAssessment()
+  }, [isComplete, submitCompletedAssessment])
 
   const handleSend = () => {
     const text = input.trim()
@@ -368,6 +413,13 @@ function ChatInterface({ formData }) {
             AI Readiness Assessment
             {isComplete && <span className="ml-2 text-[#2A4A2E]">Complete</span>}
           </p>
+          {submissionStatus !== 'idle' && (
+            <p className="mt-1 text-[11px] text-[#888888]">
+              {submissionStatus === 'saving' && 'Preparing your emailed PDF report...'}
+              {submissionStatus === 'saved' && 'PDF report sent to your email.'}
+              {submissionStatus === 'error' && 'Report ready, but email delivery needs a retry.'}
+            </p>
+          )}
         </div>
         {formData.name && (
           <p className="text-[11px] text-[#888888]">{formData.name}</p>
