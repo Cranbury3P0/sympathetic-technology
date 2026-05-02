@@ -141,26 +141,26 @@ const INDUSTRY_OPTIONS = [
 const PILLARS = [
   {
     number: '01',
-    title: 'Data & Infrastructure',
-    desc: 'The quality, accessibility, and governance of your organizational data and existing technology stack.',
+    title: 'Data and Infrastructure',
+    desc: "We look at how your organization's information systems are structured today, including the accessibility, quality, and stewardship of your data and the stability of your existing technology environment.",
     icon: <IconData />,
   },
   {
     number: '02',
-    title: 'Leadership & Culture',
-    desc: "Your team's AI literacy, risk tolerance, and readiness to lead through meaningful change.",
+    title: 'Leadership and Culture',
+    desc: 'We explore how prepared your leadership team and staff are to engage with artificial intelligence in practical ways, including levels of familiarity, comfort with experimentation, and readiness to guide change thoughtfully across the organization.',
     icon: <IconLeadership />,
   },
   {
     number: '03',
     title: 'Mission Alignment',
-    desc: 'Where AI tools can genuinely serve your mission — and where they risk quietly undermining it.',
+    desc: 'We consider where artificial intelligence tools could realistically support your mission and where their use might create tension with the values, responsibilities, or relationships your organization works to protect.',
     icon: <IconMission />,
   },
   {
     number: '04',
-    title: 'Ethics & Governance',
-    desc: 'The policies, protocols, and ethical frameworks your organization needs before deploying anything.',
+    title: 'Ethics and Governance',
+    desc: 'We review whether the policies, internal practices, and decision-making structures are in place to support responsible adoption before any tools are introduced.',
     icon: <IconEthics />,
   },
 ]
@@ -497,7 +497,6 @@ function IntakeGate({ onSubmit }) {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       e.email = 'Please enter a valid email address'
     }
-    if (!form.newsletter) e.newsletter = 'Newsletter signup is required to access the tool'
     return e
   }
 
@@ -517,7 +516,7 @@ function IntakeGate({ onSubmit }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.99 }}
       transition={{ duration: 0.35 }}
-      className="absolute inset-0 flex items-center justify-center px-4 py-8"
+      className="relative z-10 flex justify-center px-4 py-10"
       style={{ background: 'rgba(215, 232, 215, 0.88)', backdropFilter: 'blur(6px)' }}
     >
       <div
@@ -526,14 +525,17 @@ function IntakeGate({ onSubmit }) {
         aria-modal="true"
         aria-labelledby="gate-heading"
       >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#2A4A2E]">
-          Access the Tool
-        </p>
-        <h3 id="gate-heading" className="mt-3 text-[22px] font-extrabold leading-[1.15] tracking-[-0.01em] text-[#111111]">
-          Before we begin
+        <h3 id="gate-heading" className="text-[22px] font-extrabold leading-[1.15] tracking-[-0.01em] text-[#111111]">
+          Before You Begin
         </h3>
+        <p className="mt-3 text-[14px] leading-[1.65] text-[#555555]">
+          Tell us a little about yourself so we can personalize your AI Readiness Assessment.
+        </p>
         <p className="mt-2 text-[14px] leading-[1.65] text-[#555555]">
-          Tell us a little about yourself and your organization. Name and organizational email are required.
+          Name and organizational email are required. The assessment takes about 10–12 minutes to complete, and your personalized report will be delivered to your inbox immediately after submission.
+        </p>
+        <p className="mt-2 text-[14px] leading-[1.65] text-[#888888]">
+          Your responses are used only to generate your assessment report. We do not share or sell your information.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
@@ -586,13 +588,9 @@ function IntakeGate({ onSubmit }) {
                 </div>
               </div>
               <span className="text-[13px] leading-[1.6] text-[#444444]">
-                Sign me up for the Sympathetic Technology newsletter — thoughtful perspectives on AI, organizational change, and mission-driven work.
-                <span className="ml-1 text-[#C27059]">*</span>
+                Send me occasional updates from Sympathetic Technology on AI, organizational change, and mission-driven work.
               </span>
             </label>
-            {errors.newsletter && (
-              <p className="mt-2 pl-8 text-[11px] text-[#C27059]" role="alert">{errors.newsletter}</p>
-            )}
           </div>
 
           <button type="submit"
@@ -600,9 +598,6 @@ function IntakeGate({ onSubmit }) {
             Begin Assessment →
           </button>
 
-          <p className="text-center text-[11px] leading-[1.65] text-[#AABCAA]">
-            Used only to personalize your assessment and deliver our newsletter. We never share or sell your data.
-          </p>
         </form>
       </div>
     </motion.div>
@@ -629,20 +624,23 @@ export default function ReadinessAssessmentPage() {
               AI Organizational Readiness Assessment
             </p>
             <h1 className="mt-6 max-w-[860px] text-[clamp(36px,4.5vw,62px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Understand where your organization stands — before you leap.
+              Understand where your organization stands before taking the next step.
             </h1>
-            <p className="mt-8 max-w-[560px] text-[17px] font-normal leading-[1.75] text-[#445544]">
-              A guided conversation that maps your AI readiness, surfaces real risks, and identifies
-              where thoughtful technology can serve your mission.
+            <p className="mt-8 max-w-[640px] text-[17px] font-normal leading-[1.75] text-[#445544]">
+              This assessment is a structured conversation that helps you understand your organization&apos;s
+              current relationship to artificial intelligence. It highlights areas of confidence, surfaces
+              possible risks, and identifies practical opportunities where thoughtful technology could
+              support your mission and your staff.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <hr className="mt-10 max-w-[640px] border-[#C8D8C8]" />
+            <div className="mt-6 flex flex-col gap-3">
               {[
-                { icon: <IconClock />, label: '15–20 minutes' },
-                { icon: <IconChat />,  label: 'No technical expertise required' },
-                { icon: <IconCheck />, label: 'Free to complete' },
-              ].map(({ icon, label }) => (
-                <div key={label} className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.1em] text-[#889988]">
-                  <span className="block h-3.5 w-3.5 shrink-0 text-[#2A4A2E]">{icon}</span>
+                { emoji: '⏱', label: 'Takes about 10–12 minutes' },
+                { emoji: '💬', label: 'No technical background required' },
+                { emoji: '✓',  label: 'Free to complete and receive your own assessment by email' },
+              ].map(({ emoji, label }) => (
+                <div key={label} className="flex items-center gap-3 text-[15px] text-[#445544]">
+                  <span className="shrink-0 text-[16px]" aria-hidden>{emoji}</span>
                   <span>{label}</span>
                 </div>
               ))}
@@ -654,13 +652,15 @@ export default function ReadinessAssessmentPage() {
         <section className="border-t border-b border-[#D8E8D8] bg-white px-6 py-16 md:px-12 md:py-20">
           <div className="mx-auto max-w-[1200px]">
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
-              What You&apos;ll Discover
+              What You Will Discover
             </p>
             <h2 className="mt-5 max-w-[640px] text-[clamp(26px,3vw,40px)] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#111111]">
-              Four dimensions. One honest picture.
+              Four dimensions. One clear picture of where your organization stands.
             </h2>
-            <p className="mt-5 max-w-[520px] text-[17px] leading-[1.75] text-[#555555]">
-              Most AI readiness frameworks focus on technology. This one starts with your organization.
+            <p className="mt-5 max-w-[640px] text-[17px] leading-[1.75] text-[#555555]">
+              Many AI readiness frameworks begin with tools. This assessment begins with your organization,
+              your people, and the conditions that shape how technology can be introduced responsibly
+              and effectively.
             </p>
             <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {PILLARS.map((p) => (
@@ -672,6 +672,10 @@ export default function ReadinessAssessmentPage() {
                 </div>
               ))}
             </div>
+            <p className="mt-10 max-w-[640px] text-[17px] leading-[1.75] text-[#555555]">
+              Together, these four areas provide a practical snapshot of your organization&apos;s readiness
+              today and help identify where further conversation may be useful.
+            </p>
           </div>
         </section>
 
@@ -683,16 +687,18 @@ export default function ReadinessAssessmentPage() {
                 Built for Mission-Driven Organizations
               </p>
               <h2 className="mt-5 text-[clamp(24px,2.5vw,36px)] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#111111]">
-                Not all AI readiness frameworks are created equal.
+                Not every AI readiness framework reflects the realities that mission-driven organizations work within.
               </h2>
               <div className="mt-6 space-y-4 text-[16px] leading-[1.75] text-[#445544]">
                 <p>
-                  Generic assessments assume unlimited budgets, dedicated technical teams, and tolerance for risk.
-                  Nonprofits, associations, and arts organizations operate under very different conditions.
+                  Many readiness assessments assume large technical teams, flexible budgets, and a high tolerance
+                  for experimentation. Nonprofits, associations, foundations, and arts organizations often operate
+                  with different responsibilities and different constraints.
                 </p>
                 <p>
-                  This tool is built specifically for mission-driven organizations — with the constraints,
-                  values, and responsibilities you actually carry.
+                  This assessment is designed specifically for organizations working in public interest contexts.
+                  It reflects the governance expectations, resource conditions, and community relationships that
+                  shape how technology decisions are actually made.
                 </p>
               </div>
             </div>
@@ -700,15 +706,15 @@ export default function ReadinessAssessmentPage() {
               {[
                 {
                   title: 'Receive a scored readiness report',
-                  body: 'A clear breakdown across all four dimensions, with specific gaps identified.',
+                  body: 'You will receive a clear summary across all four assessment areas, with strengths identified and gaps highlighted in ways that support practical decision making.',
                 },
                 {
                   title: 'Get tailored next-step recommendations',
-                  body: 'Concrete actions matched to where your organization actually is — not where a generic framework assumes you are.',
+                  body: 'Your report includes suggested actions that reflect where your organization is today, rather than where a generic framework assumes you should already be.',
                 },
                 {
                   title: 'Inform your AI strategy',
-                  body: 'Use your results to guide board conversations, budget decisions, and vendor evaluations.',
+                  body: 'Many organizations use their results to support internal planning conversations, board discussions, budget decisions, and vendor evaluations.',
                 },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4">
@@ -724,72 +730,115 @@ export default function ReadinessAssessmentPage() {
         </section>
 
         {/* ── Sector Stats ── */}
-        {/* SOURCE NEEDED: Replace placeholder figures with verified data from
-            TechSoup Digital Adoption Report, NTEN Nonprofit Technology Survey,
-            Salesforce Nonprofit Trends Report, or similar sector research     */}
         <section className="border-b border-[#D8E8D8] bg-white px-6 py-16 md:px-12 md:py-20">
           <div className="mx-auto max-w-[1200px]">
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
               The State of AI in the Sector
             </p>
-            <div className="mt-10 grid grid-cols-1 gap-px bg-[#E8F0E8] sm:grid-cols-2 lg:grid-cols-4">
 
-              {/* Stat 1 */}
-              <div className="bg-white px-8 py-10">
-                <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">
-                  27<span className="text-[0.55em]">%</span>
-                </p>
-                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">
-                  Have a Formal AI Strategy
-                </p>
-                <p className="mt-3 text-[14px] leading-[1.7] text-[#555555]">
-                  Fewer than one in three nonprofits has a written policy or strategy guiding how AI tools can be used.
-                </p>
+            {/* Stat blocks */}
+            {[
+              {
+                stat: <><span>92</span><span className="text-[0.55em]">%</span></>,
+                label: 'Staff are already using AI tools in their daily work',
+                body: [
+                  'Across the nonprofit sector, staff adoption of tools such as ChatGPT, Claude, and Gemini has increased rapidly. In many organizations this use is happening informally and without internal guidance.',
+                  'These tools are designed for general consumer use. They are not built to operate inside organizational privacy environments and they are not configured to meet Canadian obligations such as the Personal Information Protection and Electronic Documents Act or sector-specific confidentiality requirements. As a result, staff may be using them in good faith while unintentionally introducing privacy, records management, or governance risks.',
+                  'For leadership teams, the question is no longer whether AI is present in the organization. The question is how visible and coordinated its use has become.',
+                ],
+              },
+              {
+                stat: <><span>74</span><span className="text-[0.55em]">%</span></>,
+                label: 'Organizations identify staff capacity as the primary barrier',
+                body: [
+                  'Sector leaders consistently report that the main constraint on responsible adoption is staff time and organizational capacity. Budget matters, but the larger challenge is having enough internal coordination to evaluate tools carefully and introduce them in ways that support long-term planning.',
+                  'Organizations are often expected to make technology decisions while already working at capacity across multiple priorities.',
+                ],
+              },
+              {
+                stat: <><span>47</span><span className="text-[0.55em]">%</span></>,
+                label: 'Many organizations do not yet have internal guidance in place',
+                body: [
+                  'Nearly half of nonprofits report that they do not yet have internal policies or shared expectations addressing the use of artificial intelligence.',
+                  'Without this guidance, adoption typically happens through individual experimentation rather than through coordinated organizational practice. This makes it difficult for leadership teams to understand where tools are being used, what information is being shared, and what level of oversight is appropriate.',
+                ],
+              },
+              {
+                stat: <><span>3</span><span className="text-[0.55em]">×</span></>,
+                label: 'Preparation significantly improves implementation outcomes',
+                body: [
+                  'Organizations that take time to assess readiness before introducing new tools are much more likely to implement them successfully.',
+                  'Preparation supports stronger alignment between technology decisions, staff confidence, governance expectations, and mission priorities.',
+                ],
+              },
+            ].map(({ stat, label, body }, i, arr) => (
+              <div key={label}>
+                <div className="py-10">
+                  <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">{stat}</p>
+                  <p className="mt-3 text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#111111]">{label}</p>
+                  <div className="mt-5 space-y-4">
+                    {body.map((p) => (
+                      <p key={p.slice(0, 40)} className="text-[16px] leading-[1.75] text-[#555555]">{p}</p>
+                    ))}
+                  </div>
+                </div>
+                {i < arr.length - 1 && <hr className="border-[#C8D8C8]" />}
               </div>
+            ))}
 
-              {/* Stat 2 */}
-              <div className="bg-white px-8 py-10">
-                <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">
-                  74<span className="text-[0.55em]">%</span>
-                </p>
-                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">
-                  Cite Capacity as the Barrier
-                </p>
-                <p className="mt-3 text-[14px] leading-[1.7] text-[#555555]">
-                  Of sector leaders say limited staff capacity — not budget — is their biggest obstacle to responsible AI adoption.
-                </p>
+            {/* Why Behind the Numbers */}
+            <hr className="mt-4 border-[#C8D8C8]" />
+            {[
+              {
+                label: 'The Talent Multiplier',
+                body: [
+                  'Organizations without dedicated technology staff are more likely to encounter barriers during adoption. Readiness assessments frequently identify coordination and staffing challenges before technical ones.',
+                  'In most cases, successful implementation depends on people, shared expectations, and decision clarity rather than on selecting the right platform.',
+                ],
+              },
+              {
+                label: 'The Efficiency Plateau',
+                body: [
+                  'Only a small number of nonprofits report that artificial intelligence has expanded their strategic impact in a meaningful way.',
+                  'Most organizations are currently using these tools to support drafting, summarizing, or routine communications rather than to strengthen program delivery or long-term mission work.',
+                ],
+              },
+              {
+                label: 'The Digital Divide',
+                body: [
+                  'Without intentional adoption practices, differences in staffing capacity, infrastructure, and governance support can widen the gap between well-resourced organizations and community-based ones.',
+                  'Structured readiness work helps organizations introduce new tools in ways that strengthen stability, confidence, and equity across the sector.',
+                ],
+              },
+            ].map(({ label, body }, i, arr) => (
+              <div key={label}>
+                <div className="py-10">
+                  <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">{label}</p>
+                  <div className="mt-4 space-y-4">
+                    {body.map((p) => (
+                      <p key={p.slice(0, 40)} className="text-[16px] leading-[1.75] text-[#555555]">{p}</p>
+                    ))}
+                  </div>
+                </div>
+                {i < arr.length - 1 && <hr className="border-[#C8D8C8]" />}
               </div>
+            ))}
 
-              {/* Stat 3 */}
-              <div className="bg-white px-8 py-10">
-                <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">
-                  1<span className="text-[0.45em] font-bold"> in 5</span>
-                </p>
-                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">
-                  Reviewed Data Governance
-                </p>
-                <p className="mt-3 text-[14px] leading-[1.7] text-[#555555]">
-                  Mission-driven organizations that have reviewed their data governance practices in the past two years.
-                </p>
-              </div>
-
-              {/* Stat 4 */}
-              <div className="bg-white px-8 py-10">
-                <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">
-                  3<span className="text-[0.55em]">×</span>
-                </p>
-                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">
-                  Better Implementation Rate
-                </p>
-                <p className="mt-3 text-[14px] leading-[1.7] text-[#555555]">
-                  Organizations that assess readiness before adopting AI tools report three times the successful implementation rate.
-                </p>
-              </div>
-
+            {/* Sources */}
+            <hr className="border-[#C8D8C8]" />
+            <div className="py-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#888888]">Sources</p>
+              <ul className="mt-3 space-y-1">
+                {[
+                  '2026 Nonprofit AI Adoption Report (Virtuous and Fundraising.AI)',
+                  'State of AI in Nonprofits 2025 (TechSoup)',
+                  'NTEN Technology Accelerate Data Analysis (2026)',
+                ].map((s) => (
+                  <li key={s} className="text-[13px] leading-[1.6] text-[#AABCAA]">{s}</li>
+                ))}
+              </ul>
             </div>
-            <p className="mt-5 text-[11px] text-[#AABCAA]">
-              Sources: TechSoup Digital Adoption Report, NTEN Nonprofit Technology Survey, Salesforce Nonprofit Trends — figures are illustrative placeholders pending verification.
-            </p>
+
           </div>
         </section>
 
@@ -853,9 +902,9 @@ export default function ReadinessAssessmentPage() {
                   <ChatInterface formData={formData} />
                 </motion.div>
               ) : (
-                <div className="relative h-[680px]">
+                <div className="relative min-h-[680px]">
                   {/* Blurred placeholder */}
-                  <div className="h-full opacity-30 blur-sm pointer-events-none" aria-hidden>
+                  <div className="absolute inset-0 opacity-30 blur-sm pointer-events-none" aria-hidden>
                     <div className="flex h-full flex-col bg-white border border-[#D0DDD0]">
                       <div className="flex items-center gap-3 border-b border-[#D0DDD0] bg-[#F4FAF4] px-6 py-4">
                         <div className="h-2 w-2 rounded-full bg-[#2A4A2E]" />

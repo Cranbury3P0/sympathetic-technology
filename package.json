@@ -8,7 +8,8 @@
     "dev:full": "concurrently \"node server.js\" \"vite --open\"",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "node server.js"
+    "server": "node server.js",
+    "pdf:preview": "node scripts/preview-pdf.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

@@ -162,41 +162,96 @@ function extractPracticalNextSteps(aiSummary = '') {
   ]
 }
 
+function cleanMarkdown(text = '') {
+  return String(text)
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^---+$/gm, '')
+    .replace(/^\s*[-*]\s+/gm, '• ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+// Strip the recommendations + red-flags section from the summary body so it
+// isn't rendered twice (once as plain text, once as the styled section below).
+function truncateSummaryBody(text = '') {
+  const lines = text.split('\n')
+  const cutIdx = lines.findIndex((l) =>
+    /^(Three prioritized recommendations|Red flags to watch)/i.test(l.trim())
+  )
+  return cutIdx !== -1 ? lines.slice(0, cutIdx).join('\n').trim() : text
+}
+
 function addPageBackground(doc) {
+  doc.save()
   doc.rect(0, 0, doc.page.width, doc.page.height).fill(PAGE_BACKGROUND)
+  doc.restore()
 }
 
-function addFooter(doc) {
-  doc
-    .font('Helvetica')
-    .fontSize(8)
-    .fillColor(MUTED_TEXT)
-    .text('Sympathetic Technology | AI Readiness Diagnostic', 56, doc.page.height - 44, {
-      width: 300,
-    })
-    .text(TALK_URL, 356, doc.page.height - 44, {
-      width: 200,
-      align: 'right',
-    })
-}
+function addInteriorPageSetup(doc, date) {
+  // Zero out bottom margin so footer text placed near the physical bottom
+  // does not trigger a recursive pageAdded loop. Restored after setup.
+  doc.page.margins.bottom = 0
 
-function ensureSpace(doc, currentY, neededHeight) {
-  if (currentY + neededHeight < doc.page.height - 72) return currentY
-
-  addFooter(doc)
-  doc.addPage()
   addPageBackground(doc)
-  return 64
-}
 
-function sectionTitle(doc, title, x, y) {
+  doc.save()
+  doc.rect(0, 0, doc.page.width, 30).fill(BRAND_DARK)
+  doc.restore()
+  doc.save()
+  doc.rect(0, 0, doc.page.width, 3).fill(ACCENT_GREEN)
+  doc.restore()
+
   doc
     .font('Helvetica-Bold')
-    .fontSize(12)
-    .fillColor(ACCENT_GREEN)
-    .text(title.toUpperCase(), x, y, { characterSpacing: 1.2 })
+    .fontSize(6)
+    .fillColor('#FFFFFF')
+    .text('SYMPATHETIC TECHNOLOGY  |  SEAN CRANBURY  |  HELLO@SYMPATHETICTECHNOLOGY.COM', 56, 11, {
+      characterSpacing: 1.2,
+      width: 500,
+    })
 
-  return y + 22
+  const fy = doc.page.height - 44
+  doc.save()
+  doc
+    .moveTo(56, fy)
+    .lineTo(doc.page.width - 56, fy)
+    .strokeColor(ACCENT_GREEN_MUTED)
+    .lineWidth(0.5)
+    .stroke()
+  doc.restore()
+
+  doc
+    .font('Helvetica')
+    .fontSize(7)
+    .fillColor(MUTED_TEXT)
+    .text('Sympathetic Technology · AI Readiness Assessment Report', 56, fy + 7, { width: 500 })
+
+  // Restore bottom margin: auto-flow now stops at 724 (above footer at 748).
+  doc.page.margins.bottom = 68
+  doc.y = 54
+}
+
+function sectionTitle(doc, title, x, y, width = 500) {
+  doc
+    .font('Helvetica-Bold')
+    .fontSize(10)
+    .fillColor(BRAND_DARK)
+    .text(title.toUpperCase(), x, y, { characterSpacing: 1.5, width })
+
+  const ruleY = y + 16
+  doc.save()
+  doc
+    .moveTo(x, ruleY)
+    .lineTo(x + width, ruleY)
+    .strokeColor(ACCENT_GREEN_MUTED)
+    .lineWidth(0.5)
+    .stroke()
+  doc.restore()
+
+  doc.y = ruleY + 14
+  return ruleY + 14
 }
 
 function paragraph(doc, text, x, y, options = {}) {
@@ -206,150 +261,333 @@ function paragraph(doc, text, x, y, options = {}) {
     .fillColor(options.color || BODY_TEXT)
     .text(String(text || ''), x, y, {
       width: options.width || 500,
-      lineGap: options.lineGap || 4,
-      paragraphGap: options.paragraphGap || 8,
+      lineGap: options.lineGap || 5,
+      paragraphGap: options.paragraphGap || 9,
     })
-
   return doc.y
 }
 
-function writeMetadataLine(doc, label, value, x, y) {
-  if (!value) return y
 
+function drawScoreDots(doc, score, cardX, cardY, cardWidth, cardHeight) {
+  const n = 5
+  const r = 3.5
+  const gap = 12
+  const totalWidth = (n - 1) * gap
+  const startX = cardX + cardWidth - 24 - totalWidth
+  const dotCY = cardY + cardHeight / 2 - 4
+
+  for (let i = 0; i < n; i++) {
+    const cx = startX + i * gap
+    doc.save()
+    if (score !== null && i < score) {
+      doc.circle(cx, dotCY, r).fill(ACCENT_GREEN)
+    } else {
+      doc.circle(cx, dotCY, r).fillAndStroke('#EEF4EE', ACCENT_GREEN_MUTED)
+    }
+    doc.restore()
+  }
+
+  const caption = score !== null ? `${score} of 5` : '—'
   doc
-    .font('Helvetica-Bold')
-    .fontSize(9)
-    .fillColor(MUTED_TEXT)
-    .text(label.toUpperCase(), x, y, { width: 120, characterSpacing: 0.8 })
     .font('Helvetica')
-    .fontSize(10)
-    .fillColor(BODY_TEXT)
-    .text(value, x + 130, y, { width: 260 })
-
-  return y + 18
+    .fontSize(7)
+    .fillColor(MUTED_TEXT)
+    .text(caption, startX - r, dotCY + r + 5, {
+      width: totalWidth + r * 2 + 4,
+      align: 'center',
+    })
 }
 
-function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimensionScores }) {
+export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimensionScores }) {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({ size: 'LETTER', margin: 56 })
+    const doc = new PDFDocument({
+      size: 'LETTER',
+      margins: { top: 56, bottom: 68, left: 56, right: 56 },
+    })
     const chunks = []
     const assessmentDate = formatDate()
     const nextSteps = extractPracticalNextSteps(aiSummary)
+    const cleanedSummary = cleanMarkdown(aiSummary)
+    let coverComplete = false
 
     doc.on('data', (chunk) => chunks.push(chunk))
     doc.on('end', () => resolve(Buffer.concat(chunks)))
     doc.on('error', reject)
 
+    // Interior pages (all pages after the cover) are set up automatically.
+    // pageAdded fires for every doc.addPage() call and for PDFKit auto-flow page breaks.
+    doc.on('pageAdded', () => {
+      if (coverComplete) {
+        addInteriorPageSetup(doc, assessmentDate)
+      } else {
+        addPageBackground(doc)
+      }
+    })
+
+    // ── PAGE 1: COVER ──────────────────────────────────────────────────────────
+    // First page is created in the PDFDocument constructor before our listener
+    // is registered, so we call addPageBackground manually here.
     addPageBackground(doc)
 
+    doc.save()
+    doc.rect(0, 0, doc.page.width, 148).fill(BRAND_DARK)
+    doc.restore()
+    doc.save()
+    doc.rect(0, 0, doc.page.width, 4).fill(ACCENT_GREEN)
+    doc.restore()
+
     doc
-      .rect(0, 0, doc.page.width, 156)
-      .fill(BRAND_DARK)
-      .fillColor('#ffffff')
       .font('Helvetica-Bold')
-      .fontSize(11)
-      .text('SYMPATHETIC TECHNOLOGY', 56, 38, { characterSpacing: 1.8 })
-      .fontSize(30)
-      .text('AI Readiness Diagnostic Report', 56, 70, {
-        width: 420,
-        lineGap: 2,
-      })
+      .fontSize(7.5)
+      .fillColor('#FFFFFF')
+      .text('SYMPATHETIC TECHNOLOGY  |  SEAN CRANBURY  |  HELLO@SYMPATHETICTECHNOLOGY.COM', 56, 24, { characterSpacing: 1.5 })
+
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(24)
+      .fillColor('#FFFFFF')
+      .text('AI Readiness', 56, 50)
+
+    doc
       .font('Helvetica')
-      .fontSize(10)
+      .fontSize(24)
       .fillColor('#D0DDD0')
-      .text('A practical report for planning governed, mission-aligned AI adoption.', 56, 118, {
-        width: 430,
-      })
+      .text('Assessment Report', 56, 78)
 
-    let y = 190
+    doc
+      .font('Helvetica')
+      .fontSize(8)
+      .fillColor('#D0DDD0')
+      .text(assessmentDate, 56, 124, { width: 500, align: 'right' })
+
+    // ── Assessment Details (2-column compact layout) ──────────────────────────
+    let y = 174
     y = sectionTitle(doc, 'Assessment Details', 56, y)
-    y = writeMetadataLine(doc, 'Organization', contactInput.organization_name || 'Not provided', 56, y)
-    y = writeMetadataLine(doc, 'Contact', contactInput.name || 'Not provided', 56, y)
-    y = writeMetadataLine(doc, 'Sector', contactInput.sector, 56, y)
-    y = writeMetadataLine(doc, 'Role', contactInput.role_title, 56, y)
-    y = writeMetadataLine(doc, 'Assessment Date', assessmentDate, 56, y)
-    y += 24
 
-    y = ensureSpace(doc, y, 210)
+    const metaItems = [
+      ['Organization', contactInput.organization_name || 'Not provided'],
+      ['Contact', contactInput.name || 'Not provided'],
+      ['Sector', contactInput.sector],
+      ['Role', contactInput.role_title],
+    ].filter(([, val]) => val)
+
+    let lY = y
+    let rY = y
+    metaItems.forEach(([label, value], i) => {
+      const x = i % 2 === 0 ? 56 : 316
+      const cy = i % 2 === 0 ? lY : rY
+      doc
+        .font('Helvetica')
+        .fontSize(7.5)
+        .fillColor(MUTED_TEXT)
+        .text(label.toUpperCase(), x, cy, { width: 230, characterSpacing: 0.6 })
+      doc
+        .font('Helvetica')
+        .fontSize(10)
+        .fillColor(BODY_TEXT)
+        .text(String(value), x, cy + 14, { width: 230 })
+      if (i % 2 === 0) lY += 38
+      else rY += 38
+    })
+    y = Math.max(lY, rY) + 16
+
+    // ── Readiness Dimensions ──────────────────────────────────────────────────
     y = sectionTitle(doc, 'Readiness Dimensions', 56, y)
+
+    const CARD_H = 66
+    const CARD_GAP = 10
+
     DIMENSIONS.forEach((dimension) => {
       const score = getDimensionScore(dimensionScores, dimension.key, dimension.label)
-      const rowHeight = 54
-      y = ensureSpace(doc, y, rowHeight + 12)
+
+      doc.save()
+      doc.roundedRect(56, y, 500, CARD_H, 3).fillAndStroke('#FFFFFF', RULE)
+      doc.restore()
+      doc.save()
+      doc.rect(56, y, 6, CARD_H).fill(ACCENT_GREEN)
+      doc.restore()
 
       doc
-        .roundedRect(56, y, 500, rowHeight, 2)
-        .fillAndStroke('#ffffff', RULE)
-        .rect(56, y, 5, rowHeight)
-        .fill(ACCENT_GREEN_MUTED)
         .font('Helvetica-Bold')
         .fontSize(11)
         .fillColor(BODY_TEXT)
-        .text(dimension.label, 76, y + 12, { width: 300 })
-        .font('Helvetica')
-        .fontSize(9)
-        .fillColor(MUTED_TEXT)
-        .text(dimension.note, 76, y + 29, { width: 350 })
-        .font('Helvetica-Bold')
-        .fontSize(18)
-        .fillColor(ACCENT_GREEN)
-        .text(score ? `${score}/5` : 'N/A', 464, y + 17, { width: 64, align: 'right' })
+        .text(dimension.label, 76, y + 13, { width: 320 })
 
-      y += rowHeight + 12
-    })
-
-    y += 10
-    y = ensureSpace(doc, y, 220)
-    y = sectionTitle(doc, 'Diagnostic Summary', 56, y)
-    y = paragraph(doc, aiSummary, 56, y, { width: 500, size: 10.5, lineGap: 4 }) + 26
-
-    y = ensureSpace(doc, y, 150)
-    y = sectionTitle(doc, 'Practical Next Steps', 56, y)
-    nextSteps.forEach((step, index) => {
-      y = ensureSpace(doc, y, 44)
       doc
-        .circle(64, y + 7, 8)
-        .fill(ACCENT_GREEN)
-        .font('Helvetica-Bold')
-        .fontSize(8)
-        .fillColor('#ffffff')
-        .text(String(index + 1), 61, y + 2, { width: 6, align: 'center' })
+        .font('Helvetica')
+        .fontSize(8.5)
+        .fillColor(MUTED_TEXT)
+        .text(dimension.note, 76, y + 31, { width: 320 })
 
-      y = paragraph(doc, step, 84, y, { width: 456, size: 10, lineGap: 3 }) + 10
+      drawScoreDots(doc, score, 56, y, 500, CARD_H)
+
+      y += CARD_H + CARD_GAP
     })
 
-    y += 8
-    y = ensureSpace(doc, y, 145)
-    y = sectionTitle(doc, 'About Sympathetic Technology', 56, y)
-    y = paragraph(
-      doc,
-      'Sympathetic Technology helps mission-driven organizations adopt AI with clarity, privacy, and governance. Our work focuses on practical systems, staff confidence, responsible data practices, and technology decisions that can be explained to boards, members, funders, and the communities an organization serves.',
-      56,
-      y,
-      { width: 500, size: 10.5, lineGap: 4 }
-    ) + 22
+    // Cover is done — all new pages from here get the interior layout
+    coverComplete = true
 
-    y = ensureSpace(doc, y, 90)
+    // ── PAGE 2: DIAGNOSTIC SUMMARY ────────────────────────────────────────────
+    doc.addPage()
+    // pageAdded fires → addInteriorPageSetup → background + thin header + footer + doc.y = 54
+
+    y = sectionTitle(doc, 'Diagnostic Summary', 56, doc.y)
     doc
-      .roundedRect(56, y, 500, 74, 2)
-      .fillAndStroke(BRAND_DARK, BRAND_DARK)
+      .font('Helvetica')
+      .fontSize(10.5)
+      .fillColor(BODY_TEXT)
+      .text(truncateSummaryBody(cleanedSummary), 56, y, { width: 500, lineGap: 5, paragraphGap: 10 })
+    // If the summary overflows, PDFKit auto-flows to new pages.
+    // Each new page triggers pageAdded → interior setup → doc.y = 54,
+    // so text continuation starts below the thin header strip.
+
+    // ── Recommended Next Steps ────────────────────────────────────────────────
+    if (doc.y + 170 > doc.page.height - 68) {
+      doc.addPage()
+    } else {
+      doc.y += 24
+    }
+
+    y = sectionTitle(doc, 'Recommended Next Steps', 56, doc.y)
+
+    nextSteps.forEach((step, index) => {
+      if (doc.y + 52 > doc.page.height - 68) {
+        doc.addPage()
+      }
+
+      const stepY = doc.y
+      doc.save()
+      doc.circle(67, stepY + 8, 8).fill(ACCENT_GREEN)
+      doc.restore()
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(7.5)
+        .fillColor('#FFFFFF')
+        .text(String(index + 1), 63.5, stepY + 3.5, { width: 7, align: 'center' })
+
+      doc
+        .font('Helvetica')
+        .fontSize(10.5)
+        .fillColor(BODY_TEXT)
+        .text(step, 88, stepY, { width: 448, lineGap: 4 })
+      doc.y += 12
+    })
+
+    // ── About ─────────────────────────────────────────────────────────────────
+    if (doc.y + 190 > doc.page.height - 68) {
+      doc.addPage()
+    } else {
+      doc.y += 24
+    }
+
+    y = sectionTitle(doc, 'About Sympathetic Technology', 56, doc.y)
+
+    doc
+      .font('Helvetica')
+      .fontSize(10)
+      .fillColor(MUTED_TEXT)
+      .text(
+        "I'm Sean Cranbury. I work with mission-driven organizations including nonprofits, arts and culture organizations, healthcare associations, small businesses, and social enterprises to adopt AI in thoughtful and practical ways.",
+        56,
+        y,
+        { width: 500, lineGap: 4.5 }
+      )
+
+    doc.y += 10
+
+    doc
+      .font('Helvetica')
+      .fontSize(10)
+      .fillColor(MUTED_TEXT)
+      .text(
+        "My focus is on building systems people can actually use, supporting staff confidence, and helping organizations make technology decisions they can explain clearly and honestly to the communities they serve.",
+        56,
+        doc.y,
+        { width: 500, lineGap: 4.5 }
+      )
+
+    doc.y += 14
+
+    doc
       .font('Helvetica-Bold')
-      .fontSize(15)
-      .fillColor('#ffffff')
-      .text('Book a follow-up conversation', 80, y + 18, { width: 320 })
+      .fontSize(10.5)
+      .fillColor(BODY_TEXT)
+      .text("Let's talk about what comes next.", 56, doc.y, { width: 500 })
+
+    doc.y += 10
+
+    doc
+      .font('Helvetica')
+      .fontSize(10)
+      .fillColor(MUTED_TEXT)
+      .text(
+        "If you are thinking about how AI fits into your organization, how it can benefit your members, community, staff, or leadership, I'm happy to have a conversation.",
+        56,
+        doc.y,
+        { width: 500, lineGap: 4.5 }
+      )
+
+    doc.y += 10
+
+    doc
+      .font('Helvetica')
+      .fontSize(10)
+      .fillColor(MUTED_TEXT)
+      .text(
+        "You can email, text, or call me using the information below. I review every assessment so we can talk directly about where you're at and where you're going.",
+        56,
+        doc.y,
+        { width: 500, lineGap: 4.5 }
+      )
+
+    doc.y += 14
+
+    doc
+      .font('Helvetica')
+      .fontSize(10)
+      .fillColor(MUTED_TEXT)
+      .text('Thanks,', 56, doc.y, { width: 500 })
+
+    doc.y += 14
+
+    doc
+      .font('Helvetica-Bold')
+      .fontSize(10)
+      .fillColor(BODY_TEXT)
+      .text('Sean Cranbury', 56, doc.y, { width: 500 })
+
+    doc.y += 2
+
+    doc
       .font('Helvetica')
       .fontSize(9.5)
-      .fillColor('#D0DDD0')
-      .text(TALK_URL, 80, y + 42, { width: 320 })
-      .font('Helvetica')
-      .fontSize(9)
-      .fillColor('#ffffff')
-      .text('Use this diagnostic as the starting point for a clear, governed AI plan.', 368, y + 20, {
-        width: 150,
-        lineGap: 2,
-      })
+      .fillColor(MUTED_TEXT)
+      .text('Principal, CEO', 56, doc.y, { width: 500 })
 
-    addFooter(doc)
+    doc.y += 2
+
+    doc
+      .font('Helvetica')
+      .fontSize(9.5)
+      .fillColor(MUTED_TEXT)
+      .text('Sympathetic Technology', 56, doc.y, { width: 500 })
+
+    doc.y += 2
+
+    doc
+      .font('Helvetica')
+      .fontSize(9.5)
+      .fillColor(MUTED_TEXT)
+      .text('hello@sympathetictechnology.com', 56, doc.y, { width: 500 })
+
+    doc.y += 2
+
+    doc
+      .font('Helvetica')
+      .fontSize(9.5)
+      .fillColor(MUTED_TEXT)
+      .text('778-987-8774', 56, doc.y, { width: 500 })
+
     doc.end()
   })
 }
@@ -377,9 +615,19 @@ async function sendAssessmentEmail({ contactInput, pdfBuffer }) {
     text: [
       `Hi ${contactInput.name || 'there'},`,
       '',
-      'Your AI Readiness Assessment report is attached as a PDF.',
+      'Thank you for requesting an AI Readiness Assessment. Your report is attached as a PDF below.',
       '',
+      'If anything in the assessment raises questions or sparks curiosity for you or your organization, please feel free to reply directly to this email.',
+      '',
+      'I would be happy to set up time by phone or video call to talk through the report, answer questions about what AI adoption might look like in your context, or discuss practical next steps if that would be helpful.',
+      '',
+      'Thanks again for your time,',
+      '',
+      'Sean Cranbury',
+      'Principal and CEO',
       'Sympathetic Technology',
+      'hello@sympathetictechnology.com',
+      '778-987-8774',
     ].join('\n'),
     attachments: [
       {
