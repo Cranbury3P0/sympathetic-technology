@@ -59,7 +59,7 @@ export default function TalkPage() {
                 </p>
                 <a
                   href="mailto:hello@sympathetictechnology.com"
-                  className="mt-8 inline-block bg-[#111111] px-10 py-[18px] text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#333333]"
+                  className="mt-8 inline-block bg-[#111827] px-10 py-[18px] text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#1f2937]"
                 >
                   Email Sympathetic Technology
                 </a>

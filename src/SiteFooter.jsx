@@ -19,7 +19,7 @@ const navLinkClass =
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-white/[0.12] bg-black text-white">
+    <footer className="border-t border-white/[0.12] bg-[#111827] text-white">
       <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="grid grid-cols-1 gap-y-8 md:grid-cols-[2fr_1fr_2fr] md:gap-x-16 md:gap-y-6">
           <h2 className={`${footerTitleRowClass} order-1 md:col-start-1 md:row-start-1`}>

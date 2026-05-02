@@ -1,72 +1,34 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
-const TERRACOTTA = '#C27059'
-/** Sized for ~16px body copy (slightly smaller than earlier 7px). */
-const DOT_SIZE = 5
-const ANIM_DURATION = 0.8
-const PARTICLE_CAP = 100
-const MOVE_SPAWN_MS = 14
-
-function randomInRange(min, max) {
-  return min + Math.random() * (max - min)
-}
-
-function createParticle(x, y, idle = false) {
-  const size = idle ? randomInRange(1.5, 2.8) : randomInRange(2.5, 4.5)
-  const angle = Math.random() * Math.PI * 2
-  const dist = idle ? randomInRange(4, 12) : randomInRange(10, 20)
-  const gravity = idle ? randomInRange(6, 14) : randomInRange(14, 32)
-  const dx = Math.cos(angle) * dist
-  const dy = Math.sin(angle) * dist + gravity
-  return {
-    id: `${performance.now()}-${Math.random().toString(36).slice(2, 11)}`,
-    x,
-    y,
-    size,
-    dx,
-    dy,
-    idle,
-  }
-}
+const CIRCLE_SIZE = 64
+const CIRCLE_BORDER = 'rgba(255, 255, 255, 0.58)'
+const CIRCLE_BORDER_DARK = 'rgba(10, 10, 10, 0.42)'
+const FOLLOW_EASE = 0.16
 
 export default function CursorSparkler() {
-  const [particles, setParticles] = useState([])
-  const [dot, setDot] = useState({ x: -100, y: -100, show: false })
+  const circleRef = useRef(null)
+  const targetRef = useRef({ x: -100, y: -100 })
+  const currentRef = useRef({ x: -100, y: -100 })
+  const frameRef = useRef(null)
   const [skipTouch] = useState(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false
     return window.matchMedia('(pointer: coarse)').matches
   })
 
-  const lastMoveAtRef = useRef(0)
-  const lastSpawnMoveRef = useRef(0)
-  const cursorRef = useRef({ x: 0, y: 0 })
-  const pointerInsideRef = useRef(false)
-
-  const removeParticle = useCallback((id) => {
-    setParticles((prev) => prev.filter((p) => p.id !== id))
-  }, [])
-
-  const pushParticles = useCallback((x, y, count, idle = false) => {
-    const batch = []
-    for (let i = 0; i < count; i += 1) {
-      batch.push(createParticle(x, y, idle))
-    }
-    setParticles((prev) => [...prev, ...batch].slice(-PARTICLE_CAP))
-  }, [])
-
   useEffect(() => {
     if (skipTouch) return undefined
 
     const body = document.body
+    const circle = circleRef.current
+    if (!circle) return undefined
 
     const setPointerInside = (inside) => {
-      pointerInsideRef.current = inside
       if (inside) {
         body.classList.add('cursor-sparkler-active')
+        circle.style.opacity = '1'
       } else {
         body.classList.remove('cursor-sparkler-active')
-        setDot((d) => ({ ...d, show: false }))
+        circle.style.opacity = '0'
       }
     }
 
@@ -78,39 +40,32 @@ export default function CursorSparkler() {
     docEl.addEventListener('mouseleave', onDocLeave)
 
     const onMove = (e) => {
-      if (!pointerInsideRef.current) {
-        setPointerInside(true)
-      }
-      const now = performance.now()
-      lastMoveAtRef.current = Date.now()
-      cursorRef.current = { x: e.clientX, y: e.clientY }
-      setDot({ x: e.clientX, y: e.clientY, show: true })
-
-      if (now - lastSpawnMoveRef.current >= MOVE_SPAWN_MS) {
-        lastSpawnMoveRef.current = now
-        pushParticles(e.clientX, e.clientY, 1, false)
-      }
+      setPointerInside(true)
+      targetRef.current = { x: e.clientX, y: e.clientY }
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })
 
-    const idleId = window.setInterval(() => {
-      if (!pointerInsideRef.current) return
-      const stationary = Date.now() - lastMoveAtRef.current > 60
-      if (!stationary) return
-      const { x, y } = cursorRef.current
-      if (x <= 0 && y <= 0) return
-      const count = Math.random() < 0.5 ? 1 : 2
-      pushParticles(x, y, count, true)
-    }, 200)
+    const animate = () => {
+      const current = currentRef.current
+      const target = targetRef.current
+      current.x += (target.x - current.x) * FOLLOW_EASE
+      current.y += (target.y - current.y) * FOLLOW_EASE
+      circle.style.transform = `translate3d(${current.x - CIRCLE_SIZE / 2}px, ${
+        current.y - CIRCLE_SIZE / 2
+      }px, 0)`
+      frameRef.current = window.requestAnimationFrame(animate)
+    }
+
+    frameRef.current = window.requestAnimationFrame(animate)
 
     return () => {
       docEl.removeEventListener('mouseleave', onDocLeave)
       window.removeEventListener('mousemove', onMove)
-      window.clearInterval(idleId)
+      window.cancelAnimationFrame(frameRef.current)
       body.classList.remove('cursor-sparkler-active')
     }
-  }, [pushParticles, skipTouch])
+  }, [skipTouch])
 
   if (skipTouch) {
     return null
@@ -118,43 +73,17 @@ export default function CursorSparkler() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9998]" aria-hidden>
-      {dot.show && (
-        <div
-          className="pointer-events-none fixed z-[9999] rounded-full"
-          style={{
-            left: dot.x,
-            top: dot.y,
-            width: DOT_SIZE,
-            height: DOT_SIZE,
-            marginLeft: -DOT_SIZE / 2,
-            marginTop: -DOT_SIZE / 2,
-            backgroundColor: TERRACOTTA,
-          }}
-        />
-      )}
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="pointer-events-none fixed rounded-full"
-          style={{
-            left: p.x - p.size / 2,
-            top: p.y - p.size / 2,
-            width: p.size,
-            height: p.size,
-            backgroundColor: TERRACOTTA,
-            zIndex: 9997,
-          }}
-          initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-          animate={{
-            x: p.dx,
-            y: p.dy,
-            opacity: 0,
-            scale: p.idle ? 0.2 : 0.35,
-          }}
-          transition={{ duration: ANIM_DURATION, ease: 'easeOut' }}
-          onAnimationComplete={() => removeParticle(p.id)}
-        />
-      ))}
+      <div
+        ref={circleRef}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full opacity-0 mix-blend-difference transition-[opacity,border-color] duration-200"
+        style={{
+          width: CIRCLE_SIZE,
+          height: CIRCLE_SIZE,
+          border: `3px solid ${CIRCLE_BORDER}`,
+          boxShadow: `inset 0 0 0 1px ${CIRCLE_BORDER_DARK}`,
+          willChange: 'transform',
+        }}
+      />
     </div>
   )
 }

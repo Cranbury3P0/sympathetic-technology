@@ -177,7 +177,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <section className="bg-[#0a0a0a] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
+        <section className="bg-[#111827] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
           <blockquote className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
             An organization that can tell its members, its board, and its regulators
             that AI runs inside its infrastructure and member data never touches a
@@ -208,7 +208,7 @@ export default function ServicesPage() {
                 </Link>
                 <a
                   href="/talk"
-                  className="inline-flex border-b border-[#111111] pb-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#111111] transition-colors hover:text-[#333333]"
+                  className="inline-flex border-b border-[#111111] pb-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#111111] transition-colors hover:text-[#2b2e34]"
                 >
                   Let&apos;s Talk
                 </a>

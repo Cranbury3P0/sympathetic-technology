@@ -194,7 +194,7 @@ function markdownToBlocks(markdown) {
 
 function MarkdownBody({ markdown }) {
   return (
-    <div className="text-[17px] leading-[1.8] text-[#333333] md:text-[18px]">
+    <div className="text-[17px] leading-[1.8] text-[#2b2e34] md:text-[18px]">
       {markdownToBlocks(markdown).map((block, index) => {
         if (block.type === 'h2') {
           return (
@@ -258,7 +258,7 @@ function MarkdownBody({ markdown }) {
 
 function SubscribeBlock() {
   return (
-    <section className="bg-[#0a0a0a] px-6 py-16 text-center md:px-12 md:py-[100px]">
+    <section className="bg-[#111827] px-6 py-16 text-center md:px-12 md:py-[100px]">
       <div className="mx-auto max-w-[600px]">
         <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#555555]">
           The Journal
@@ -495,7 +495,7 @@ export function JournalIndexPage() {
                     </time>
                   </div>
                   <h2 className="mb-4 text-[22px] font-bold leading-[1.2] tracking-[-0.02em] text-[#111111]">
-                    <Link to={post.href} className="transition-colors hover:text-[#333333]">
+                    <Link to={post.href} className="transition-colors hover:text-[#2b2e34]">
                       {post.title}
                     </Link>
                   </h2>

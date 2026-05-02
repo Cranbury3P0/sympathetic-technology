@@ -103,7 +103,7 @@ const eyebrowClass =
   'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
 
 const bodyTextClass =
-  'text-[17px] font-normal leading-[1.75] text-[#333333]'
+  'text-[17px] font-normal leading-[1.75] text-[#2b2e34]'
 
 const sectionHeadlineClass =
   'text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]'
@@ -155,7 +155,7 @@ function ComparisonRows() {
           <h3 className="text-[18px] font-bold leading-snug tracking-[-0.01em] text-[#111111]">
             {row.topic}
           </h3>
-          <p className="text-[14px] leading-[1.75] text-[#333333]">
+          <p className="text-[14px] leading-[1.75] text-[#2b2e34]">
             <span className="mb-1 block text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999] md:hidden">
               Consumer AI
             </span>
@@ -227,7 +227,7 @@ export default function SovereignAIPage() {
           </div>
         </section>
 
-        <section className="bg-[#0a0a0a] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
+        <section className="bg-[#111827] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
           <blockquote className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
             The point is not to make AI feel magical. The point is to make it
             governable.

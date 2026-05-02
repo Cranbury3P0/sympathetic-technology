@@ -33,7 +33,7 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-black px-6 py-6 md:px-16`}
+      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#111827] px-6 py-6 md:px-16`}
       aria-label="Site"
     >
       <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4 md:items-start md:gap-6">

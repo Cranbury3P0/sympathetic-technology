@@ -16,13 +16,13 @@ export const eyebrowClass =
   'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
 
 export const bodyTextClass =
-  'text-[17px] font-normal leading-[1.75] text-[#333333]'
+  'text-[17px] font-normal leading-[1.75] text-[#2b2e34]'
 
 export const sectionHeadlineClass =
   'text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]'
 
 export const ctaClass =
-  'inline-block bg-[#111111] px-10 py-[18px] text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#333333]'
+  'inline-block bg-[#111827] px-10 py-[18px] text-[12px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#1f2937]'
 
 export function FooterCta() {
   return (
@@ -43,7 +43,7 @@ export function FooterCta() {
 // Retained for now, but this default footer component is not currently rendered.
 export default function InteriorFooter() {
   return (
-    <footer className="bg-[#0a0a0a] px-6 py-12 text-[#777777] md:px-12 md:py-16">
+    <footer className="bg-[#111827] px-6 py-12 text-[#777777] md:px-12 md:py-16">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-[2fr_1fr_1.4fr] md:gap-16">
         <section>
           <h2 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">

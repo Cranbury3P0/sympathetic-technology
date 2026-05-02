@@ -49,13 +49,13 @@ export default function CookieBanner() {
         <div className="flex shrink-0 gap-3">
           <Link
             to="/privacy"
-            className="rounded-none border border-neutral-300 bg-white px-5 py-2 font-sans text-xs font-semibold uppercase tracking-widest text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-neutral-50"
+            className="rounded-none border border-neutral-300 bg-white px-5 py-2 font-sans text-xs font-semibold uppercase tracking-widest text-[#2b2e34] transition-colors hover:border-neutral-400 hover:bg-neutral-50"
           >
             Privacy Policy
           </Link>
           <button
             onClick={dismiss}
-            className="rounded-none border border-transparent bg-neutral-900 px-5 py-2 font-sans text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-neutral-700"
+            className="rounded-none border border-transparent bg-[#111827] px-5 py-2 font-sans text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-[#1f2937]"
           >
             OK
           </button>

@@ -7,7 +7,7 @@ function Divider() {
 
 function PolicyList({ items }) {
   return (
-    <ul className="mt-3 space-y-1 pl-5 font-sans text-[17px] leading-relaxed text-neutral-700">
+    <ul className="mt-3 space-y-1 pl-5 font-sans text-[17px] leading-relaxed text-[#2b2e34]">
       {items.map((item, i) => (
         <li key={i} className="list-disc">{item}</li>
       ))}
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           </div>
         </header>
 
-        <div className="space-y-10 font-sans text-[17px] leading-relaxed text-neutral-700">
+        <div className="space-y-10 font-sans text-[17px] leading-relaxed text-[#2b2e34]">
 
           <section className="space-y-4">
             <p>

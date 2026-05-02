@@ -256,7 +256,7 @@ function ReportBlock({ content }) {
         </p>
         <Link
           to="/talk"
-          className="inline-block bg-[#111111] px-8 py-[14px] text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#2A4A2E]"
+          className="inline-block bg-[#111827] px-8 py-[14px] text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#2A4A2E]"
         >
           Book a Debrief with Sympathetic Technology
         </Link>

@@ -153,7 +153,7 @@ const WORK_UNITS = [
 ]
 
 const ctaButtonClass =
-  'rounded-none border border-transparent bg-black px-10 py-4 font-sans text-sm font-bold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#2a2826] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black'
+  'rounded-none border border-transparent bg-[#111827] px-10 py-4 font-sans text-sm font-bold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
 
 function WorkUnit({ unit, idx }) {
   const textRight = unit.textAlign === 'right'
@@ -237,7 +237,7 @@ function HomePage() {
       >
         <SiteHeader overlay />
 
-        <div className="absolute inset-0 z-0 bg-black" aria-hidden />
+        <div className="absolute inset-0 z-0 bg-[#111827]" aria-hidden />
         <video
           className="absolute inset-0 z-[1] h-full min-h-full w-full min-w-full object-cover object-center"
           src="/Sympathetic_Vancouver.mp4"
@@ -269,7 +269,7 @@ function HomePage() {
 
       </section>
 
-      <section className="bg-[#0a0a0a] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+      <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
         <p className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
           We work with nonprofit and mission-based organizations to design secure AI
           environments, align governance with adoption decisions, and implement
@@ -386,7 +386,7 @@ function HomePage() {
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-black/50"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[#111827]/50"
           aria-hidden
         />
         <div className="relative z-10 mx-auto max-w-6xl">
