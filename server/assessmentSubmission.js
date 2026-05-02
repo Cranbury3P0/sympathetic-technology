@@ -6,9 +6,35 @@ import { buildSystemPrompt } from '../src/systemPrompt.js'
 
 const MODEL = 'claude-sonnet-4-6'
 const BRAND_DARK = '#111827'
+const ACCENT_GREEN = '#2A4A2E'
+const ACCENT_GREEN_MUTED = '#D0DDD0'
+const PAGE_BACKGROUND = '#FAFBFA'
 const BODY_TEXT = '#2b2e34'
 const MUTED_TEXT = '#6b7280'
 const RULE = '#e5e7eb'
+const TALK_URL = process.env.ASSESSMENT_TALK_URL || 'https://sympathetictechnology.com/talk'
+const DIMENSIONS = [
+  {
+    key: 'data_infrastructure',
+    label: 'Data & Infrastructure',
+    note: 'How information is collected, governed, stored, connected, and made usable.',
+  },
+  {
+    key: 'leadership_culture',
+    label: 'Leadership & Culture',
+    note: 'How leadership appetite, staff confidence, and change capacity support adoption.',
+  },
+  {
+    key: 'mission_alignment',
+    label: 'Mission Alignment',
+    note: 'How clearly AI use connects to the organization mission and service obligations.',
+  },
+  {
+    key: 'ethics_governance',
+    label: 'Ethics & Governance',
+    note: 'How privacy, risk, accountability, and decision rights are handled.',
+  },
+]
 
 function requireEnv(name) {
   const value = process.env[name]
@@ -85,89 +111,245 @@ async function generateAssessmentSummary({ formData, messages }) {
     .trim()
 }
 
-function formatScoreLabel(key) {
-  return key
-    .split('_')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-    .replace('And', '&')
+function formatDate(date = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date)
 }
 
-function writeWrappedText(doc, text, x, y, options = {}) {
-  doc.text(String(text || ''), x, y, {
-    width: options.width || 480,
-    lineGap: options.lineGap || 4,
-    ...options,
-  })
+function getDimensionScore(dimensionScores = {}, key, label) {
+  const possibleKeys = [
+    key,
+    label,
+    label.toLowerCase(),
+    label.toLowerCase().replace(/\s*&\s*/g, '_').replace(/\s+/g, '_'),
+  ]
+
+  for (const possibleKey of possibleKeys) {
+    const value = dimensionScores[possibleKey]
+    if (Number.isFinite(Number(value))) return Number(value)
+  }
+
+  return null
+}
+
+function extractPracticalNextSteps(aiSummary = '') {
+  const lines = String(aiSummary)
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+
+  const start = lines.findIndex((line) => /^Three prioritized recommendations:?$/i.test(line))
+  if (start !== -1) {
+    const recommendations = []
+
+    for (const line of lines.slice(start + 1)) {
+      if (/^(Red flags|---)/i.test(line)) break
+      const cleaned = line.replace(/^\d+\.\s*/, '').trim()
+      if (cleaned) recommendations.push(cleaned)
+      if (recommendations.length === 3) break
+    }
+
+    if (recommendations.length) return recommendations
+  }
+
+  return [
+    'Review the lowest-scoring readiness dimension and identify the smallest policy, workflow, or data improvement that would reduce risk.',
+    'Choose one high-value AI use case that can be piloted without exposing sensitive information or disrupting frontline work.',
+    'Book a follow-up conversation with Sympathetic Technology to translate the diagnostic into a practical implementation path.',
+  ]
+}
+
+function addPageBackground(doc) {
+  doc.rect(0, 0, doc.page.width, doc.page.height).fill(PAGE_BACKGROUND)
+}
+
+function addFooter(doc) {
+  doc
+    .font('Helvetica')
+    .fontSize(8)
+    .fillColor(MUTED_TEXT)
+    .text('Sympathetic Technology | AI Readiness Diagnostic', 56, doc.page.height - 44, {
+      width: 300,
+    })
+    .text(TALK_URL, 356, doc.page.height - 44, {
+      width: 200,
+      align: 'right',
+    })
+}
+
+function ensureSpace(doc, currentY, neededHeight) {
+  if (currentY + neededHeight < doc.page.height - 72) return currentY
+
+  addFooter(doc)
+  doc.addPage()
+  addPageBackground(doc)
+  return 64
+}
+
+function sectionTitle(doc, title, x, y) {
+  doc
+    .font('Helvetica-Bold')
+    .fontSize(12)
+    .fillColor(ACCENT_GREEN)
+    .text(title.toUpperCase(), x, y, { characterSpacing: 1.2 })
+
+  return y + 22
+}
+
+function paragraph(doc, text, x, y, options = {}) {
+  doc
+    .font(options.font || 'Helvetica')
+    .fontSize(options.size || 10.5)
+    .fillColor(options.color || BODY_TEXT)
+    .text(String(text || ''), x, y, {
+      width: options.width || 500,
+      lineGap: options.lineGap || 4,
+      paragraphGap: options.paragraphGap || 8,
+    })
+
+  return doc.y
+}
+
+function writeMetadataLine(doc, label, value, x, y) {
+  if (!value) return y
+
+  doc
+    .font('Helvetica-Bold')
+    .fontSize(9)
+    .fillColor(MUTED_TEXT)
+    .text(label.toUpperCase(), x, y, { width: 120, characterSpacing: 0.8 })
+    .font('Helvetica')
+    .fontSize(10)
+    .fillColor(BODY_TEXT)
+    .text(value, x + 130, y, { width: 260 })
+
+  return y + 18
 }
 
 function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimensionScores }) {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'LETTER', margin: 56 })
     const chunks = []
+    const assessmentDate = formatDate()
+    const nextSteps = extractPracticalNextSteps(aiSummary)
 
     doc.on('data', (chunk) => chunks.push(chunk))
     doc.on('end', () => resolve(Buffer.concat(chunks)))
     doc.on('error', reject)
 
-    doc.rect(0, 0, doc.page.width, 112).fill(BRAND_DARK)
+    addPageBackground(doc)
+
     doc
+      .rect(0, 0, doc.page.width, 156)
+      .fill(BRAND_DARK)
       .fillColor('#ffffff')
       .font('Helvetica-Bold')
       .fontSize(11)
       .text('SYMPATHETIC TECHNOLOGY', 56, 38, { characterSpacing: 1.8 })
-      .fontSize(24)
-      .text('AI Readiness Assessment', 56, 62)
-
-    doc
-      .fillColor(BODY_TEXT)
-      .font('Helvetica')
-      .fontSize(11)
-      .text(contactInput.name || 'Assessment participant', 56, 140)
-      .fillColor(MUTED_TEXT)
-      .text(contactInput.organization_name || '', 56, 158)
-      .text(contactInput.email || '', 56, 176)
-
-    const scoreEntries = Object.entries(dimensionScores || {})
-    if (scoreEntries.length) {
-      doc
-        .moveTo(56, 214)
-        .lineTo(556, 214)
-        .strokeColor(RULE)
-        .stroke()
-        .fillColor(BODY_TEXT)
-        .font('Helvetica-Bold')
-        .fontSize(13)
-        .text('Pillar Scores', 56, 236)
-
-      let y = 266
-      scoreEntries.forEach(([key, value]) => {
-        doc
-          .font('Helvetica')
-          .fontSize(11)
-          .fillColor(BODY_TEXT)
-          .text(formatScoreLabel(key), 56, y)
-          .font('Helvetica-Bold')
-          .text(`${value}/5`, 470, y, { width: 80, align: 'right' })
-        y += 22
+      .fontSize(30)
+      .text('AI Readiness Diagnostic Report', 56, 70, {
+        width: 420,
+        lineGap: 2,
       })
-    }
-
-    doc
-      .moveTo(56, 360)
-      .lineTo(556, 360)
-      .strokeColor(RULE)
-      .stroke()
-      .fillColor(BODY_TEXT)
-      .font('Helvetica-Bold')
-      .fontSize(13)
-      .text('Assessment Report', 56, 384)
       .font('Helvetica')
-      .fontSize(11)
-      .fillColor(BODY_TEXT)
+      .fontSize(10)
+      .fillColor('#D0DDD0')
+      .text('A practical report for planning governed, mission-aligned AI adoption.', 56, 118, {
+        width: 430,
+      })
 
-    writeWrappedText(doc, aiSummary, 56, 414, { width: 500, lineGap: 5 })
+    let y = 190
+    y = sectionTitle(doc, 'Assessment Details', 56, y)
+    y = writeMetadataLine(doc, 'Organization', contactInput.organization_name || 'Not provided', 56, y)
+    y = writeMetadataLine(doc, 'Contact', contactInput.name || 'Not provided', 56, y)
+    y = writeMetadataLine(doc, 'Sector', contactInput.sector, 56, y)
+    y = writeMetadataLine(doc, 'Role', contactInput.role_title, 56, y)
+    y = writeMetadataLine(doc, 'Assessment Date', assessmentDate, 56, y)
+    y += 24
 
+    y = ensureSpace(doc, y, 210)
+    y = sectionTitle(doc, 'Readiness Dimensions', 56, y)
+    DIMENSIONS.forEach((dimension) => {
+      const score = getDimensionScore(dimensionScores, dimension.key, dimension.label)
+      const rowHeight = 54
+      y = ensureSpace(doc, y, rowHeight + 12)
+
+      doc
+        .roundedRect(56, y, 500, rowHeight, 2)
+        .fillAndStroke('#ffffff', RULE)
+        .rect(56, y, 5, rowHeight)
+        .fill(ACCENT_GREEN_MUTED)
+        .font('Helvetica-Bold')
+        .fontSize(11)
+        .fillColor(BODY_TEXT)
+        .text(dimension.label, 76, y + 12, { width: 300 })
+        .font('Helvetica')
+        .fontSize(9)
+        .fillColor(MUTED_TEXT)
+        .text(dimension.note, 76, y + 29, { width: 350 })
+        .font('Helvetica-Bold')
+        .fontSize(18)
+        .fillColor(ACCENT_GREEN)
+        .text(score ? `${score}/5` : 'N/A', 464, y + 17, { width: 64, align: 'right' })
+
+      y += rowHeight + 12
+    })
+
+    y += 10
+    y = ensureSpace(doc, y, 220)
+    y = sectionTitle(doc, 'Diagnostic Summary', 56, y)
+    y = paragraph(doc, aiSummary, 56, y, { width: 500, size: 10.5, lineGap: 4 }) + 26
+
+    y = ensureSpace(doc, y, 150)
+    y = sectionTitle(doc, 'Practical Next Steps', 56, y)
+    nextSteps.forEach((step, index) => {
+      y = ensureSpace(doc, y, 44)
+      doc
+        .circle(64, y + 7, 8)
+        .fill(ACCENT_GREEN)
+        .font('Helvetica-Bold')
+        .fontSize(8)
+        .fillColor('#ffffff')
+        .text(String(index + 1), 61, y + 2, { width: 6, align: 'center' })
+
+      y = paragraph(doc, step, 84, y, { width: 456, size: 10, lineGap: 3 }) + 10
+    })
+
+    y += 8
+    y = ensureSpace(doc, y, 145)
+    y = sectionTitle(doc, 'About Sympathetic Technology', 56, y)
+    y = paragraph(
+      doc,
+      'Sympathetic Technology helps mission-driven organizations adopt AI with clarity, privacy, and governance. Our work focuses on practical systems, staff confidence, responsible data practices, and technology decisions that can be explained to boards, members, funders, and the communities an organization serves.',
+      56,
+      y,
+      { width: 500, size: 10.5, lineGap: 4 }
+    ) + 22
+
+    y = ensureSpace(doc, y, 90)
+    doc
+      .roundedRect(56, y, 500, 74, 2)
+      .fillAndStroke(BRAND_DARK, BRAND_DARK)
+      .font('Helvetica-Bold')
+      .fontSize(15)
+      .fillColor('#ffffff')
+      .text('Book a follow-up conversation', 80, y + 18, { width: 320 })
+      .font('Helvetica')
+      .fontSize(9.5)
+      .fillColor('#D0DDD0')
+      .text(TALK_URL, 80, y + 42, { width: 320 })
+      .font('Helvetica')
+      .fontSize(9)
+      .fillColor('#ffffff')
+      .text('Use this diagnostic as the starting point for a clear, governed AI plan.', 368, y + 20, {
+        width: 150,
+        lineGap: 2,
+      })
+
+    addFooter(doc)
     doc.end()
   })
 }
@@ -207,6 +389,17 @@ async function sendAssessmentEmail({ contactInput, pdfBuffer }) {
       },
     ],
   })
+}
+
+async function updatePdfStatus(supabase, assessmentId, statusPatch) {
+  const { error } = await supabase
+    .from('assessments')
+    .update(statusPatch)
+    .eq('id', assessmentId)
+
+  if (error) {
+    throw error
+  }
 }
 
 export async function submitAssessment(payload = {}) {
@@ -286,36 +479,37 @@ export async function submitAssessment(payload = {}) {
     throw assessmentError
   }
 
-  const pdfBuffer = await generateAssessmentPdfBuffer({ contactInput, aiSummary, dimensionScores })
+  try {
+    // PDF generation and email delivery happen only after the database row exists.
+    // This keeps credentials server-side and lets Supabase record the delivery state.
+    const pdfBuffer = await generateAssessmentPdfBuffer({ contactInput, aiSummary, dimensionScores })
 
-  const { error: generatedError } = await supabase
-    .from('assessments')
-    .update({ pdf_status: 'generated' })
-    .eq('id', assessment.id)
+    await updatePdfStatus(supabase, assessment.id, { pdf_status: 'generated' })
 
-  if (generatedError) {
-    throw generatedError
-  }
+    // Future storage hook: upload pdfBuffer to Supabase Storage and persist a report URL here.
+    await sendAssessmentEmail({ contactInput, pdfBuffer })
 
-  // Future storage hook: upload pdfBuffer to Supabase Storage and persist a report URL here.
-  await sendAssessmentEmail({ contactInput, pdfBuffer })
+    const pdfSentAt = new Date().toISOString()
+    await updatePdfStatus(supabase, assessment.id, {
+      pdf_status: 'sent',
+      pdf_sent_at: pdfSentAt,
+    })
 
-  const pdfSentAt = new Date().toISOString()
-  const { error: sentError } = await supabase
-    .from('assessments')
-    .update({ pdf_status: 'sent', pdf_sent_at: pdfSentAt })
-    .eq('id', assessment.id)
+    return {
+      ok: true,
+      status: 200,
+      contact_id: contact.id,
+      assessment_id: assessment.id,
+      pdf_status: 'sent',
+      pdf_sent_at: pdfSentAt,
+    }
+  } catch (err) {
+    try {
+      await updatePdfStatus(supabase, assessment.id, { pdf_status: 'failed' })
+    } catch (statusError) {
+      console.error('Unable to mark assessment PDF delivery as failed:', statusError)
+    }
 
-  if (sentError) {
-    throw sentError
-  }
-
-  return {
-    ok: true,
-    status: 200,
-    contact_id: contact.id,
-    assessment_id: assessment.id,
-    pdf_status: 'sent',
-    pdf_sent_at: pdfSentAt,
+    throw err
   }
 }
