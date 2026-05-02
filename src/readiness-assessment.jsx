@@ -736,99 +736,86 @@ export default function ReadinessAssessmentPage() {
               The State of AI in the Sector
             </p>
 
-            {/* Stat blocks */}
-            {[
-              {
-                stat: <><span>92</span><span className="text-[0.55em]">%</span></>,
-                label: 'Staff are already using AI tools in their daily work',
-                body: [
-                  'Across the nonprofit sector, staff adoption of tools such as ChatGPT, Claude, and Gemini has increased rapidly. In many organizations this use is happening informally and without internal guidance.',
-                  'These tools are designed for general consumer use. They are not built to operate inside organizational privacy environments and they are not configured to meet Canadian obligations such as the Personal Information Protection and Electronic Documents Act or sector-specific confidentiality requirements. As a result, staff may be using them in good faith while unintentionally introducing privacy, records management, or governance risks.',
-                  'For leadership teams, the question is no longer whether AI is present in the organization. The question is how visible and coordinated its use has become.',
-                ],
-              },
-              {
-                stat: <><span>74</span><span className="text-[0.55em]">%</span></>,
-                label: 'Organizations identify staff capacity as the primary barrier',
-                body: [
-                  'Sector leaders consistently report that the main constraint on responsible adoption is staff time and organizational capacity. Budget matters, but the larger challenge is having enough internal coordination to evaluate tools carefully and introduce them in ways that support long-term planning.',
-                  'Organizations are often expected to make technology decisions while already working at capacity across multiple priorities.',
-                ],
-              },
-              {
-                stat: <><span>47</span><span className="text-[0.55em]">%</span></>,
-                label: 'Many organizations do not yet have internal guidance in place',
-                body: [
-                  'Nearly half of nonprofits report that they do not yet have internal policies or shared expectations addressing the use of artificial intelligence.',
-                  'Without this guidance, adoption typically happens through individual experimentation rather than through coordinated organizational practice. This makes it difficult for leadership teams to understand where tools are being used, what information is being shared, and what level of oversight is appropriate.',
-                ],
-              },
-              {
-                stat: <><span>3</span><span className="text-[0.55em]">×</span></>,
-                label: 'Preparation significantly improves implementation outcomes',
-                body: [
-                  'Organizations that take time to assess readiness before introducing new tools are much more likely to implement them successfully.',
-                  'Preparation supports stronger alignment between technology decisions, staff confidence, governance expectations, and mission priorities.',
-                ],
-              },
-            ].map(({ stat, label, body }, i, arr) => (
-              <div key={label}>
-                <div className="py-10">
-                  <p className="text-[clamp(42px,5vw,64px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">{stat}</p>
-                  <p className="mt-3 text-[18px] font-bold leading-[1.3] tracking-[-0.01em] text-[#111111]">{label}</p>
-                  <div className="mt-5 space-y-4">
+            {/* 4-column stat grid */}
+            <div className="mt-10 grid grid-cols-1 gap-px border border-[#E0EAE0] bg-[#E0EAE0] sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  stat: '92', unit: '%',
+                  label: 'STAFF ARE ALREADY USING AI TOOLS',
+                  body: [
+                    'Across the nonprofit sector, staff adoption of tools such as ChatGPT, Claude, and Gemini has increased rapidly. In many organizations this use is happening informally and without internal guidance.',
+                    'For leadership teams, the question is no longer whether AI is present in the organization. The question is how visible and coordinated its use has become.',
+                  ],
+                },
+                {
+                  stat: '74', unit: '%',
+                  label: 'CITE CAPACITY AS THE BARRIER',
+                  body: [
+                    'Sector leaders consistently report that the main constraint on responsible adoption is staff time and organizational capacity. Budget matters, but the larger challenge is having enough internal coordination to evaluate tools carefully.',
+                    'Organizations are often expected to make technology decisions while already working at capacity across multiple priorities.',
+                  ],
+                },
+                {
+                  stat: '47', unit: '%',
+                  label: 'LACK A FORMAL AI POLICY',
+                  body: [
+                    'Nearly half of nonprofits do not yet have internal policies or shared expectations addressing the use of artificial intelligence.',
+                    'Without this guidance, adoption typically happens through individual experimentation, making it difficult for leadership to understand where tools are being used and what oversight is appropriate.',
+                  ],
+                },
+                {
+                  stat: '3', unit: '×',
+                  label: 'BETTER IMPLEMENTATION RATE',
+                  body: [
+                    'Organizations that take time to assess readiness before introducing new tools are much more likely to implement them successfully.',
+                    'Preparation supports stronger alignment between technology decisions, staff confidence, governance expectations, and mission priorities.',
+                  ],
+                },
+              ].map(({ stat, unit, label, body }) => (
+                <div key={label} className="bg-white px-6 py-8">
+                  <p className="text-[clamp(48px,5vw,72px)] font-extrabold leading-none tracking-[-0.03em] text-[#2A4A2E]">
+                    {stat}<span className="text-[0.5em]">{unit}</span>
+                  </p>
+                  <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">{label}</p>
+                  <div className="mt-4 space-y-3">
                     {body.map((p) => (
-                      <p key={p.slice(0, 40)} className="text-[16px] leading-[1.75] text-[#555555]">{p}</p>
+                      <p key={p.slice(0, 40)} className="text-[14px] leading-[1.7] text-[#555555]">{p}</p>
                     ))}
                   </div>
                 </div>
-                {i < arr.length - 1 && <hr className="border-[#C8D8C8]" />}
-              </div>
-            ))}
+              ))}
+            </div>
 
-            {/* Why Behind the Numbers */}
-            <hr className="mt-4 border-[#C8D8C8]" />
-            {[
-              {
-                label: 'The Talent Multiplier',
-                body: [
-                  'Organizations without dedicated technology staff are more likely to encounter barriers during adoption. Readiness assessments frequently identify coordination and staffing challenges before technical ones.',
-                  'In most cases, successful implementation depends on people, shared expectations, and decision clarity rather than on selecting the right platform.',
-                ],
-              },
-              {
-                label: 'The Efficiency Plateau',
-                body: [
-                  'Only a small number of nonprofits report that artificial intelligence has expanded their strategic impact in a meaningful way.',
-                  'Most organizations are currently using these tools to support drafting, summarizing, or routine communications rather than to strengthen program delivery or long-term mission work.',
-                ],
-              },
-              {
-                label: 'The Digital Divide',
-                body: [
-                  'Without intentional adoption practices, differences in staffing capacity, infrastructure, and governance support can widen the gap between well-resourced organizations and community-based ones.',
-                  'Structured readiness work helps organizations introduce new tools in ways that strengthen stability, confidence, and equity across the sector.',
-                ],
-              },
-            ].map(({ label, body }, i, arr) => (
-              <div key={label}>
-                <div className="py-10">
-                  <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">{label}</p>
-                  <div className="mt-4 space-y-4">
-                    {body.map((p) => (
-                      <p key={p.slice(0, 40)} className="text-[16px] leading-[1.75] text-[#555555]">{p}</p>
-                    ))}
+            {/* Why Behind the Numbers — 3-column panel */}
+            <div className="mt-10 border border-[#E0EAE0] bg-[#F7FAF7] px-6 py-8 md:px-8">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#888888]">Why Behind the Numbers</p>
+              <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3">
+                {[
+                  {
+                    title: 'The Talent Multiplier',
+                    body: 'Organizations without dedicated technology staff are more likely to encounter barriers during adoption. Readiness assessments frequently identify coordination and staffing challenges before technical ones. Successful implementation depends on people, shared expectations, and decision clarity — not on selecting the right platform.',
+                  },
+                  {
+                    title: 'The Efficiency Plateau',
+                    body: 'Only a small number of nonprofits report that artificial intelligence has expanded their strategic impact in a meaningful way. Most organizations are currently using these tools to support drafting, summarizing, or routine communications rather than to strengthen program delivery or long-term mission work.',
+                  },
+                  {
+                    title: 'The Digital Divide',
+                    body: 'Without intentional adoption practices, differences in staffing capacity, infrastructure, and governance support can widen the gap between well-resourced organizations and community-based ones. Structured readiness work helps organizations introduce new tools in ways that strengthen stability, confidence, and equity across the sector.',
+                  },
+                ].map(({ title, body }) => (
+                  <div key={title}>
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#C27059]">{title}</p>
+                    <p className="mt-3 text-[14px] leading-[1.7] text-[#555555]">{body}</p>
                   </div>
-                </div>
-                {i < arr.length - 1 && <hr className="border-[#C8D8C8]" />}
+                ))}
               </div>
-            ))}
+            </div>
 
             {/* Sources */}
-            <hr className="border-[#C8D8C8]" />
-            <div className="py-8">
+            <div className="mt-6">
               <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#888888]">Sources</p>
-              <ul className="mt-3 space-y-1">
+              <ul className="mt-2 space-y-1">
                 {[
                   '2026 Nonprofit AI Adoption Report (Virtuous and Fundraising.AI)',
                   'State of AI in Nonprofits 2025 (TechSoup)',
