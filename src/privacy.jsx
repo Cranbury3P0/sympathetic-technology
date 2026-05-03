@@ -41,10 +41,14 @@ export default function PrivacyPage() {
           <section className="space-y-4">
             <p>
               Sympathetic Technology is a sole-proprietor consulting practice operated by Sean
-              Cranbury in Vancouver, British Columbia, Canada. This policy explains how information
-              is handled when you visit this website or use services linked from it.
+              Cranbury in Vancouver, British Columbia. This policy explains what information is
+              collected when you use this website and its tools, how it is used, and how long
+              it is kept.
             </p>
-            <p>We collect only what is necessary to respond to inquiries and deliver services. We keep information only as long as it serves a clear purpose. We do not sell or trade personal information.</p>
+            <p>
+              The short version: we collect what is needed to run the assessment and deliver your
+              report. We do not collect more than that, and we do not reuse it for other purposes.
+            </p>
           </section>
 
           <Divider />
@@ -53,26 +57,15 @@ export default function PrivacyPage() {
             <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
               What We Collect and Why
             </h2>
-            <p>When you complete a contact form or submit the AI Readiness Assessment intake, we may collect:</p>
-            <PolicyList items={[
-              'name',
-              'email address',
-              'organization name',
-              'sector',
-              'role or professional context',
-            ]} />
-            <p className="mt-4">
-              This information is used only to respond to your inquiry and support assessment
-              conversations. It is not used for marketing and is not shared with third parties.
+            <p>
+              When you complete the AI Readiness Assessment or submit a contact form, we collect
+              your name, email address, organization name, sector, role or title, and your
+              assessment responses including the full conversational content.
             </p>
             <p className="mt-4">
-              If you use the AI Readiness Assessment tool, conversation content is processed through
-              Anthropic&rsquo;s API to generate responses. This is a third-party service subject to
-              Anthropic&rsquo;s own privacy and data-use policies.
-            </p>
-            <p className="mt-4">
-              Please avoid sharing sensitive personal, financial, clinical, or confidential
-              organizational information in assessment conversations.
+              That information is used to generate your assessment report, deliver a PDF to your
+              email, and provide context for any follow-up conversation. It is not used for
+              advertising, profiling, or resale.
             </p>
           </section>
 
@@ -80,48 +73,83 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
-              Cookies and Local Storage
-            </h2>
-            <p>This site does not use advertising cookies or third-party tracking pixels.</p>
-            <p className="mt-4">
-              The only browser storage used is a single localStorage entry that records whether you
-              have acknowledged the privacy notice banner. This setting remains entirely within your
-              browser and is never transmitted to our servers.
-            </p>
-            <p className="mt-4">
-              If this site is deployed through Vercel, Vercel may set limited infrastructure cookies
-              required for hosting and security purposes. These cookies are outside our direct
-              control. Vercel&rsquo;s privacy practices are described at:{' '}
-              <a
-                href="https://vercel.com/legal/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2 transition-colors hover:text-neutral-900"
-              >
-                vercel.com/legal/privacy-policy
-              </a>
-            </p>
-          </section>
-
-          <Divider />
-
-          <section>
-            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
-              How Information Is Stored
+              How Your Information Is Processed
             </h2>
             <p>
-              Contact form submissions are received by email. Sympathetic Technology does not
-              maintain a standalone marketing database.
+              The assessment uses the Anthropic API to generate a diagnostic summary from your
+              responses. This means your answers, along with contextual information like your
+              organization and role, are sent to Anthropic&rsquo;s systems as part of generating
+              the report. In some cases your email address may be included as part of system-level
+              context.
             </p>
-            <p className="mt-4">Information you provide is retained only as long as necessary for:</p>
+            <p className="mt-4">
+              You should avoid including sensitive personal, financial, or confidential
+              organizational information in your responses.
+            </p>
+          </section>
+
+          <Divider />
+
+          <section>
+            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
+              How Your Information Is Stored
+            </h2>
+            <p>
+              Information you submit is stored in a structured database managed through Supabase.
+              This includes your contact details, assessment responses, generated scores and
+              summaries, and report delivery status.
+            </p>
+            <p className="mt-4">
+              Assessment response content is cleared automatically on a rolling 30-day basis.
+              Basic contact records may be retained beyond that window to support direct
+              follow-up, and will be deleted on request.
+            </p>
+          </section>
+
+          <Divider />
+
+          <section>
+            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
+              Email Delivery
+            </h2>
+            <p>
+              Your report is delivered automatically to the email address you provide. Your name
+              and email are used only for that delivery and for any direct response to your
+              inquiry. We do not add you to a mailing list without your explicit consent.
+            </p>
+          </section>
+
+          <Divider />
+
+          <section>
+            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
+              Third-Party Services
+            </h2>
+            <p>The following services are used to operate this system:</p>
             <PolicyList items={[
-              'responding to your inquiry',
-              'supporting active conversations or projects',
-              'meeting basic professional record-keeping obligations',
+              'Anthropic, for AI-generated assessment summaries',
+              'Supabase, for data storage',
+              'Vercel, for hosting and serverless infrastructure',
+              'An SMTP-based email provider, for report delivery',
             ]} />
             <p className="mt-4">
-              Information is stored using standard business communication and document tools with
-              appropriate access controls.
+              These services may process or store data outside of Canada. Sympathetic Technology
+              monitors the availability of equivalent services that store data within Canada and
+              will transition to them when a reliable option exists.
+            </p>
+          </section>
+
+          <Divider />
+
+          <section>
+            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
+              Data Retention
+            </h2>
+            <p>
+              Assessment response content is cleared automatically on a rolling 30-day basis.
+              Basic contact records may be retained beyond that window to support direct
+              follow-up, and will be deleted on request. You may request deletion of any record
+              at any time.
             </p>
           </section>
 
@@ -131,27 +159,11 @@ export default function PrivacyPage() {
             <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
               Sharing and Disclosure
             </h2>
-            <p>Sympathetic Technology does not sell, rent, or trade personal information.</p>
-            <p className="mt-4">Information may be disclosed only:</p>
-            <PolicyList items={[
-              "to fulfill a service you requested (such as the AI assessment tool's use of Anthropic's API)",
-              'where required by law or valid legal process',
-              'where necessary to protect the rights, property, or safety of clients or the public',
-            ]} />
-          </section>
-
-          <Divider />
-
-          <section>
-            <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
-              Email Communications
-            </h2>
             <p>
-              If you contact Sympathetic Technology through this site, your email address will be
-              used only to respond to your inquiry.
+              We do not sell, rent, or trade personal information. Information is shared only
+              with the services listed above to deliver the assessment, where required by law,
+              or to protect the safety or integrity of users or systems.
             </p>
-            <p className="mt-4">We do not operate a marketing mailing list from this site.</p>
-            <p className="mt-4">Email addresses are not added to distribution lists without explicit consent.</p>
           </section>
 
           <Divider />
@@ -161,27 +173,20 @@ export default function PrivacyPage() {
               Your Rights
             </h2>
             <p>
-              Under PIPEDA (Canada&rsquo;s Personal Information Protection and Electronic Documents
-              Act), you have the right to:
+              Under PIPEDA, you have the right to:
             </p>
             <PolicyList items={[
-              'request access to personal information we hold about you',
+              'request access to your personal information',
               'request corrections',
-              'withdraw consent for its use where applicable',
+              'request deletion',
+              'withdraw consent for use',
             ]} />
             <p className="mt-4">
-              Residents of the European Economic Area and United Kingdom may also have rights under
-              GDPR, including the right to access, correct, erase, or restrict processing of
-              personal data.
+              If you are in the European Economic Area, you may also have rights under GDPR,
+              including access, rectification, erasure, and restriction of processing.
             </p>
             <p className="mt-4">
               Requests can be made using the contact information below. We respond within 30 days.
-            </p>
-            <p className="mt-4">
-              In projects involving Indigenous communities or organizations, Sympathetic Technology
-              supports data governance approaches consistent with OCAP™ (Ownership, Control, Access,
-              and Possession) principles and works with partners to ensure information remains under
-              appropriate community authority.
             </p>
           </section>
 
@@ -189,14 +194,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="mb-4 font-sans text-xl font-semibold text-neutral-900">
-              Data Security
+              Cookies and Local Storage
             </h2>
             <p>
-              Reasonable administrative and technical safeguards are used to protect information
-              submitted through this site.
-            </p>
-            <p className="mt-4">
-              However, no internet transmission method can be guaranteed completely secure.
+              This site does not use advertising cookies or third-party tracking pixels. A minimal
+              local storage flag may be used to remember whether you have acknowledged this privacy
+              notice. Infrastructure providers may set technical cookies required for site operation.
             </p>
           </section>
 
@@ -207,12 +210,8 @@ export default function PrivacyPage() {
               Changes to This Policy
             </h2>
             <p>
-              This policy may be updated from time to time. The effective date at the top of this
-              page reflects the most recent revision.
-            </p>
-            <p className="mt-4">
-              Continued use of the site after changes are posted constitutes acceptance of the
-              updated policy.
+              This policy may be updated as the system evolves. Changes will be reflected in the
+              effective date above.
             </p>
           </section>
 
@@ -232,7 +231,7 @@ export default function PrivacyPage() {
                 href="/talk"
                 className="underline underline-offset-2 transition-colors hover:text-neutral-900"
               >
-                Contact us through this site
+                Contact via this website
               </a>
             </p>
           </section>
