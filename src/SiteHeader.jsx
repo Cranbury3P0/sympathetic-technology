@@ -45,8 +45,8 @@ export default function SiteHeader({ overlay = false }) {
           <p className="max-w-full truncate whitespace-nowrap font-sans text-[17px] font-bold uppercase tracking-[0.16em] text-white sm:text-xl sm:tracking-[0.2em] md:text-2xl">
             SYMPATHETIC TECHNOLOGY
           </p>
-          <p className="mt-1 max-w-[270px] truncate whitespace-nowrap font-sans text-[11px] font-normal tracking-[0.04em] text-white opacity-[0.72] sm:max-w-full sm:text-[13px]">
-            Organizational guidance for nonprofits, associations, and arts institutions
+          <p className="mt-1 max-w-[min(100%,405px)] truncate whitespace-nowrap font-sans text-[16.5px] font-normal tracking-[0.04em] text-white opacity-[0.72] sm:max-w-full sm:text-[19.5px]">
+            A governed AI infrastructure studio
           </p>
         </Link>
 

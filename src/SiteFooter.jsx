@@ -6,6 +6,7 @@ const formatFooterNavLabel = (label) =>
     .toLowerCase()
     .replace(/\b\w/g, (letter) => letter.toUpperCase())
     .replace(/'S\b/g, "'s")
+    .replace(/\bAi\b/g, 'AI')
 
 const footerHeadingClass =
   'm-0 font-sans text-lg font-bold uppercase tracking-widest text-white'

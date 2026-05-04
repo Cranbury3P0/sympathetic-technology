@@ -92,7 +92,7 @@ export default function InteriorFooter() {
             Sympathetic Technology
           </h2>
           <div className="space-y-3 text-[13px] leading-[1.8]">
-            <p>Organizational guidance for nonprofits, associations, and arts institutions</p>
+            <p>A governed AI infrastructure studio</p>
             <p>Sean Cranbury, Principal</p>
             <p>Vancouver, BC</p>
             <p>sympathetictechnology.com</p>
