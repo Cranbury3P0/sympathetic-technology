@@ -1,131 +1,12 @@
-import { useState } from 'react'
-import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import { FooterCta, pageFont } from './InteriorFooter.jsx'
-import SiteHeader, { SITE_HEADER_NAV } from './SiteHeader.jsx'
+import SiteHeader from './SiteHeader.jsx'
 import {
   formatJournalDate,
   formatJournalShortDate,
   getJournalPost,
   journalPosts,
 } from './journalData.js'
-
-const CREAM = '#EDE9DC'
-
-function JournalBadge() {
-  return (
-    <span className="relative inline-flex h-8 items-center">
-      <svg
-        viewBox="0 0 92 32"
-        className="absolute inset-0 h-full w-full"
-        aria-hidden
-        preserveAspectRatio="none"
-      >
-        <polygon
-          fill="#111111"
-          points="0,4 4,0 8,4 12,0 16,4 20,0 24,4 28,0 32,4 36,0 40,4 44,0 48,4 52,0 56,4 60,0 64,4 68,0 72,4 76,0 80,4 84,0 88,4 92,4 92,28 88,32 84,28 80,32 76,28 72,32 68,28 64,32 60,28 56,32 52,28 48,32 44,28 40,32 36,28 32,32 28,28 24,32 20,28 16,32 12,28 8,32 4,28 0,28"
-        />
-      </svg>
-      <span className="relative z-10 px-4 text-[11px] font-bold uppercase tracking-[0.18em] text-white">
-        Journal
-      </span>
-    </span>
-  )
-}
-
-function JournalHeader() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const { pathname } = useLocation()
-
-  const isActive = (to) => {
-    if (to === '/') return pathname === '/'
-    return pathname === to || pathname.startsWith(`${to}/`)
-  }
-
-  return (
-    <nav
-      className="sticky top-0 z-[100] w-full border-b-2 border-[#111111] px-6 py-4 md:px-12"
-      style={{ backgroundColor: CREAM }}
-    >
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-6">
-        <Link to="/" aria-label="Sympathetic Technology home" className="shrink-0">
-          <p className="font-sans text-[14px] font-black uppercase leading-[1.15] tracking-[0.06em] text-[#111111]">
-            Sympathetic<br />Technology
-          </p>
-        </Link>
-
-        {/* Mobile toggle */}
-        <button
-          type="button"
-          className="shrink-0 p-2 text-[#111111] md:hidden"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-expanded={menuOpen}
-          aria-controls="journal-mobile-nav"
-        >
-          <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
-          {menuOpen ? (
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Close</span>
-          ) : (
-            <span className="flex h-5 w-6 flex-col justify-center gap-1.5" aria-hidden>
-              <span className="h-px w-full bg-[#111111]" />
-              <span className="h-px w-full bg-[#111111]" />
-              <span className="h-px w-full bg-[#111111]" />
-            </span>
-          )}
-        </button>
-
-        {/* Desktop nav */}
-        <ul className="hidden items-center md:flex">
-          {SITE_HEADER_NAV.map(([label, to], i) => (
-            <li key={label} className="flex items-center">
-              {i > 0 && (
-                <span className="mx-3 select-none text-[#AAAAAA]" aria-hidden>|</span>
-              )}
-              {label === 'JOURNAL' ? (
-                <Link to={to} aria-label="Journal" aria-current={isActive(to) ? 'page' : undefined}>
-                  <JournalBadge />
-                </Link>
-              ) : (
-                <Link
-                  to={to}
-                  className={`font-sans text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:text-[#111111] ${
-                    isActive(to) ? 'text-[#111111]' : 'text-[#666666]'
-                  }`}
-                >
-                  {label}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Mobile nav */}
-      <div
-        id="journal-mobile-nav"
-        className={`mx-auto mt-5 max-w-[1920px] border-t border-[#CCCCCC] pt-5 md:hidden ${
-          menuOpen ? 'block' : 'hidden'
-        }`}
-        aria-hidden={!menuOpen}
-      >
-        <ul className="space-y-4">
-          {SITE_HEADER_NAV.map(([label, to]) => (
-            <li key={label}>
-              <Link
-                to={to}
-                className={`block font-sans text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:text-[#111111] ${
-                  isActive(to) ? 'text-[#111111]' : 'text-[#666666]'
-                }`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </nav>
-  )
-}
 
 const eyebrowClass =
   'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'
@@ -573,61 +454,54 @@ export function JournalIndexPage() {
       className="min-h-screen bg-white text-[#111111] antialiased"
       style={{ fontFamily: pageFont, WebkitFontSmoothing: 'antialiased' }}
     >
-      <JournalHeader />
-      <main style={{ backgroundColor: CREAM }}>
-        <section
-          className="border-b-2 border-[#111111] px-6 pb-12 pt-10 md:px-12 md:pb-14 md:pt-12"
-          style={{ backgroundColor: CREAM }}
-        >
+      <SiteHeader />
+      <main className="bg-white">
+        <section className="border-b-2 border-[#111111] px-6 pb-12 pt-[100px] md:px-12 md:pb-14 md:pt-[120px]">
           <div className="mx-auto max-w-[1200px]">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-0">
 
               {/* Left: editorial masthead */}
               <div>
-                <p className="text-[13px] font-bold uppercase tracking-[0.14em] text-[#111111]">
+                <p className="text-[14px] font-semibold uppercase tracking-[0.15em] text-[#111111]">
                   Sympathetic Technology
                 </p>
-                <h1
-                  className="mt-1 text-[clamp(80px,10.5vw,124px)] uppercase leading-[0.88] text-[#111111]"
-                  style={{ fontFamily: "'Anton', sans-serif" }}
-                >
+                <h1 className="mt-2 text-[clamp(60px,7vw,76px)] font-extrabold leading-[0.93] tracking-[-0.03em] text-[#111111]">
                   Journal
                 </h1>
 
                 {/* Zigzag accent */}
                 <svg
-                  viewBox="0 0 560 28"
-                  className="mt-4 h-[18px] w-full max-w-[640px]"
+                  viewBox="0 0 480 14"
+                  className="mt-5 h-[9px] w-full max-w-[520px]"
                   aria-hidden
                   preserveAspectRatio="none"
                 >
                   <polyline
-                    points="0,22 35,4 56,16 70,8 112,22 147,4 168,16 182,8 224,22 259,4 280,16 294,8 336,22 371,4 392,16 406,8 448,22 483,4 504,16 518,8 560,22"
+                    points="0,10 24,4 48,10 72,4 96,10 120,4 144,10 168,4 192,10 216,4 240,10 264,4 288,10 312,4 336,10 360,4 384,10 408,4 432,10 456,4 480,10"
                     fill="none"
                     stroke="#111111"
-                    strokeWidth="2"
-                    strokeLinejoin="miter"
+                    strokeWidth="1.5"
                   />
                 </svg>
 
                 {/* Divider + star */}
-                <div className="mt-4 flex items-center gap-3">
+                <div className="mt-5 flex items-center gap-3">
                   <div className="h-px flex-1 bg-[#111111]" />
-                  <span className="text-[13px] leading-none" aria-hidden>★</span>
+                  <span className="text-[11px] leading-none" aria-hidden>★</span>
                   <div className="h-px flex-1 bg-[#111111]" />
                 </div>
 
                 {/* Subtitle */}
-                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.26em] text-[#111111]">
+                <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.24em] text-[#111111]">
                   Writing and thinking about AI in practice
                 </p>
               </div>
 
               {/* Right: blurb panel */}
-              <div className="border-t border-[#BBBBBB] pt-8 md:w-[260px] md:border-l md:border-t-0 md:pl-12 md:pt-0">
+              <div className="border-t border-[#d0d0d0] pt-8 md:w-[256px] md:border-l md:border-t-0 md:pl-12 md:pt-0">
                 <svg
-                  viewBox="0 0 40 44"
-                  className="h-10 w-10"
+                  viewBox="0 0 40 40"
+                  className="h-9 w-9"
                   aria-hidden
                   fill="none"
                   stroke="#111111"
@@ -635,13 +509,10 @@ export function JournalIndexPage() {
                   strokeLinecap="square"
                   strokeLinejoin="miter"
                 >
-                  <rect x="6" y="2" width="28" height="40" />
-                  <line x1="12" y1="14" x2="28" y2="14" />
-                  <line x1="12" y1="21" x2="28" y2="21" />
-                  <line x1="12" y1="28" x2="20" y2="28" />
-                  <line x1="2" y1="10" x2="6" y2="10" />
-                  <line x1="2" y1="18" x2="6" y2="18" />
-                  <line x1="2" y1="26" x2="6" y2="26" />
+                  <rect x="9" y="3" width="22" height="34" />
+                  <line x1="14" y1="13" x2="26" y2="13" />
+                  <line x1="14" y1="19" x2="26" y2="19" />
+                  <line x1="14" y1="25" x2="20" y2="25" />
                 </svg>
                 <p className="mt-4 text-[12px] font-bold uppercase tracking-[0.1em] text-[#111111]">
                   Ideas. Practice. Impact.
