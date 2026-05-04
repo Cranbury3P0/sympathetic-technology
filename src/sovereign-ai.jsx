@@ -227,8 +227,8 @@ export default function SovereignAIPage() {
           </div>
         </section>
 
-        <section className="bg-[#111827] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
-          <blockquote className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
+        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
             The point is not to make AI feel magical. The point is to make it
             governable.
           </blockquote>

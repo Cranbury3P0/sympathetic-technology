@@ -139,8 +139,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-[#111827] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
-          <blockquote className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
+        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
             Organizations already have the competencies to navigate AI. They need
             translation, not new skills.
           </blockquote>

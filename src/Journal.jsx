@@ -258,20 +258,20 @@ function MarkdownBody({ markdown }) {
 
 function SubscribeBlock() {
   return (
-    <section className="bg-[#111827] px-6 py-16 text-center md:px-12 md:py-[100px]">
-      <div className="mx-auto max-w-[600px]">
-        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#555555]">
+    <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+      <div className="mx-auto max-w-[860px] text-left">
+        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/55">
           The Journal
         </p>
-        <h2 className="mx-auto mt-4 max-w-[600px] text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.1] tracking-[-0.02em] text-white">
+        <h2 className="mt-4 max-w-[600px] text-[clamp(28px,3vw,42px)] font-extrabold leading-[1.1] tracking-[-0.02em] text-white">
           This arrives by email when there is something worth saying.
         </h2>
-        <p className="mx-auto mt-4 max-w-[480px] text-[16px] leading-[1.7] text-[#777777]">
+        <p className="mt-4 max-w-[480px] text-[16px] leading-[1.7] text-white/55">
           No frequency promises. No content calendar. Writing that earns its place
           in your inbox.
         </p>
         <form
-          className="mx-auto mt-10 flex max-w-[440px] flex-col sm:flex-row"
+          className="mt-10 flex max-w-[440px] flex-col sm:flex-row"
           onSubmit={(event) => event.preventDefault()}
         >
           <input

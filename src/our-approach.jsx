@@ -433,27 +433,34 @@ export default function OurApproachPage() {
           <div className="mx-auto max-w-[1200px]">
             <p className={eyebrowClass}>Our Approach</p>
             <h1 className="mt-5 max-w-[900px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Controlled Intelligence for organizations that govern what they build.
+              Controlled Intelligence is a framework for organizations that govern what
+              they build.
             </h1>
             <div className={`mt-8 max-w-[760px] space-y-4 ${bodyTextClass}`}>
               <p>
                 Controlled Intelligence does not automate institutional judgment. It
-                strengthens the environments where institutional judgment operates.
+                clarifies where that judgment lives, how it moves, and what it depends
+                on.
               </p>
               <p>
-                The work starts with your organization&apos;s responsibilities, records,
-                people, and governance habits. The technology follows those realities
-                instead of replacing them.
+                It gives organizations a way to work with AI without stepping outside
+                their own responsibilities, records, and governance structures.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="bg-[#111827] px-6 py-16 text-center text-white md:px-12 md:py-[100px]">
-          <blockquote className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-            The point is not to make AI feel magical. The point is to make it
-            governable.
-          </blockquote>
+        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+          <div className="mx-auto max-w-[860px] space-y-6 text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
+            <p>
+              We design AI systems that work inside your organization, not outside it.
+            </p>
+            <p>
+              Your data stays under your control. Your policies still apply. Your team
+              gets a clearer view of what&apos;s happening across the organization, so
+              decisions are faster, better informed, and easier to stand behind.
+            </p>
+          </div>
         </section>
 
         <ArchitectureSection />
@@ -468,17 +475,18 @@ export default function OurApproachPage() {
             </div>
             <div className={`space-y-6 ${bodyTextClass}`}>
               <p>
-                Most organizations experimenting with AI are doing the work before
-                they are ready. Staff test public tools before policies exist. Teams
-                route sensitive information through platforms the organization does not
-                control. Leaders inherit risk without a clear view of how the tools are
-                being used.
+                Most organizations are already using AI before they are ready for it.
+                Staff test ChatGPT, Claude, Gemini, and other public tools before
+                policies exist. Teams paste sensitive information into platforms the
+                organization does not control. Leaders inherit the risk without a clear
+                view of what is being used, where information is going, or who is
+                responsible.
               </p>
               <p>
-                Controlled Intelligence gives the organization a perimeter. People can
-                investigate, draft, compare, monitor, and learn while keeping
-                institutional knowledge inside a system the organization can audit,
-                explain, and improve.
+                Controlled Intelligence gives the organization a secure perimeter for
+                AI adoption. People can investigate, draft, compare, monitor, and learn
+                while keeping institutional knowledge inside systems the organization
+                can govern, audit, explain, and improve.
               </p>
             </div>
           </div>
@@ -489,36 +497,33 @@ export default function OurApproachPage() {
         <section className="border-b border-[#e8e8e8] bg-white px-6 py-12 md:px-12 md:py-20">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-20">
             <div>
-              <p className={eyebrowClass}>A Note On These Systems</p>
+              <p className={eyebrowClass}>A note on these systems</p>
               <h2 className={`mt-4 ${sectionHeadlineClass}`}>
                 Responsible adoption starts with honest accounting.
               </h2>
             </div>
             <div className={`space-y-6 ${bodyTextClass}`}>
               <p>
-                Contemporary AI systems were built on the writing, research, artistic
-                production, and cultural knowledge of many communities. Many of those
-                communities had no say in how their work was used and have not been
-                compensated for it. That is a real harm.
+                Contemporary AI systems are built on writing, research, and cultural
+                knowledge created by many communities. Most of that work was used
+                without consent or compensation. That is a real harm.
               </p>
               <p>
-                These systems also carry environmental costs. Large-scale inference
-                infrastructure consumes energy and water at a scale that is rarely made
-                visible to the organizations adopting the products built on top of it.
+                These systems also carry environmental costs. Large-scale infrastructure
+                consumes energy and water at levels that are rarely visible to the
+                organizations using it.
               </p>
               <p>
-                In the Canadian context, institutional AI use takes place within legal
-                and ethical obligations that carry real weight. Reconciliation
-                commitments, Indigenous data sovereignty principles such as OCAP®,
-                privacy frameworks under PIPEDA and provincial equivalents, and the
-                stewardship responsibilities around health information and member
-                records all shape responsible adoption.
+                In Canada, institutional AI use operates within legal and ethical
+                obligations that carry real weight. Privacy law, Indigenous data
+                sovereignty principles such as OCAP®, and the stewardship of health and
+                member records all shape what responsible use looks like.
               </p>
               <p>
-                Our approach reflects the view that organizations using these systems
-                should do so with clear governance boundaries, honest accounting of
-                what they rely on, and architecture that keeps organizational knowledge
-                within environments they control.
+                Our approach reflects this reality. AI should be used within clear
+                governance boundaries, with an honest understanding of what it depends
+                on, and in systems that keep organizational knowledge inside environments
+                you control.
               </p>
             </div>
           </div>
