@@ -456,73 +456,16 @@ export function JournalIndexPage() {
     >
       <SiteHeader />
       <main className="bg-white">
-        <section className="border-b-2 border-[#111111] px-6 pb-12 pt-[100px] md:px-12 md:pb-14 md:pt-[120px]">
+        <section className="border-b border-[#e8e8e8] px-6 py-16 md:px-12 md:pb-20 md:pt-[120px]">
           <div className="mx-auto max-w-[1200px]">
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-[1fr_auto] md:items-center md:gap-0">
-
-              {/* Left: editorial masthead */}
-              <div>
-                <p className="text-[14px] font-semibold uppercase tracking-[0.15em] text-[#111111]">
-                  Sympathetic Technology
-                </p>
-                <h1 className="mt-2 text-[clamp(60px,7vw,76px)] font-extrabold leading-[0.93] tracking-[-0.03em] text-[#111111]">
-                  Journal
-                </h1>
-
-                {/* Zigzag accent */}
-                <svg
-                  viewBox="0 0 480 14"
-                  className="mt-5 h-[9px] w-full max-w-[520px]"
-                  aria-hidden
-                  preserveAspectRatio="none"
-                >
-                  <polyline
-                    points="0,10 24,4 48,10 72,4 96,10 120,4 144,10 168,4 192,10 216,4 240,10 264,4 288,10 312,4 336,10 360,4 384,10 408,4 432,10 456,4 480,10"
-                    fill="none"
-                    stroke="#111111"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-
-                {/* Divider + star */}
-                <div className="mt-5 flex items-center gap-3">
-                  <div className="h-px flex-1 bg-[#111111]" />
-                  <span className="text-[11px] leading-none" aria-hidden>★</span>
-                  <div className="h-px flex-1 bg-[#111111]" />
-                </div>
-
-                {/* Subtitle */}
-                <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.24em] text-[#111111]">
-                  Writing and thinking about AI in practice
-                </p>
-              </div>
-
-              {/* Right: blurb panel */}
-              <div className="border-t border-[#d0d0d0] pt-8 md:w-[256px] md:border-l md:border-t-0 md:pl-12 md:pt-0">
-                <svg
-                  viewBox="0 0 40 40"
-                  className="h-9 w-9"
-                  aria-hidden
-                  fill="none"
-                  stroke="#111111"
-                  strokeWidth="1.5"
-                  strokeLinecap="square"
-                  strokeLinejoin="miter"
-                >
-                  <rect x="9" y="3" width="22" height="34" />
-                  <line x1="14" y1="13" x2="26" y2="13" />
-                  <line x1="14" y1="19" x2="26" y2="19" />
-                  <line x1="14" y1="25" x2="20" y2="25" />
-                </svg>
-                <p className="mt-4 text-[12px] font-bold uppercase tracking-[0.1em] text-[#111111]">
-                  Ideas. Practice. Impact.
-                </p>
-                <p className="mt-3 max-w-[220px] text-[14px] leading-[1.65] text-[#555555]">
-                  Thoughts on responsible AI adoption, institutional change, and the systems we build together.
-                </p>
-              </div>
-
-            </div>
+            <p className={eyebrowClass}>Journal</p>
+            <h1 className="mt-5 max-w-[860px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
+              On organizations, technology, and the work of careful change.
+            </h1>
+            <p className="mt-6 max-w-[560px] text-[17px] leading-[1.75] text-[#555555]">
+              Writing for people thinking seriously about what AI means for the
+              institutions they lead.
+            </p>
           </div>
         </section>
 
