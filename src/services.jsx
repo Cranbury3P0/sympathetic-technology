@@ -453,8 +453,8 @@ export default function ServicesPage() {
           variant="secure"
         />
 
-        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
-          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
+        <section className="border-b border-[#e8e8e8] bg-white px-6 py-16 text-left text-[#111111] md:px-12 md:py-[100px]">
+          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em] text-[#111111]">
             An organization that can tell its members, its board, and its regulators
             that AI runs inside its infrastructure and member data never touches a
             commercial platform is showing institutional maturity through
