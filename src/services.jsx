@@ -428,19 +428,31 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-[1200px]">
             <p className={eyebrowClass}>Services</p>
             <h1 className="mt-5 max-w-[900px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Built on discovery, delivered with intention.
+              What can AI actually do for an organization like yours?
             </h1>
             <div className={`mt-8 max-w-[760px] space-y-4 ${bodyTextClass}`}>
               <p>
-                Every engagement starts with understanding your organization&apos;s
-                unique needs.
+                &quot;It can do anything&quot; is neither accurate nor helpful. What you
+                need are specifics: what does it look like day-to-day inside an actual
+                governance structure? How does it support staff and members in
+                practical, concrete ways?
               </p>
               <p>
-                No prefabricated packages. No microwaved roadmaps. Here are the types
-                of projects, workflows, and tools that we can help you with.
+                The tools below are examples, not a fixed menu. Most of them can be
+                built or adapted to reflect your industry, your profession, and the
+                problems your organization is actually dealing with.
               </p>
             </div>
           </div>
+        </section>
+
+        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
+          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
+            An organization that can tell its members, its board, and its regulators
+            that AI runs inside its infrastructure and member data never touches a
+            commercial platform is showing institutional maturity through
+            architecture.
+          </blockquote>
         </section>
 
         <ServiceCardSection
@@ -456,15 +468,6 @@ export default function ServicesPage() {
           items={publicTools}
           variant="public"
         />
-
-        <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
-          <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-            An organization that can tell its members, its board, and its regulators
-            that AI runs inside its infrastructure and member data never touches a
-            commercial platform is showing institutional maturity through
-            architecture.
-          </blockquote>
-        </section>
 
         <section className="border-b border-[#e8e8e8] bg-white px-6 py-12 md:px-12 md:py-20">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2 md:gap-20">
