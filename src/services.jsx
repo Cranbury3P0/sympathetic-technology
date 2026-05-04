@@ -446,6 +446,13 @@ export default function ServicesPage() {
           </div>
         </section>
 
+        <ServiceCardSection
+          eyebrow="Secure organizational tools"
+          headline="Secure AI tools that protect your organization"
+          items={secureTools}
+          variant="secure"
+        />
+
         <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
           <blockquote className="mx-auto max-w-[860px] text-left text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
             An organization that can tell its members, its board, and its regulators
@@ -454,13 +461,6 @@ export default function ServicesPage() {
             architecture.
           </blockquote>
         </section>
-
-        <ServiceCardSection
-          eyebrow="Secure organizational tools"
-          headline="Secure AI tools that protect your organization"
-          items={secureTools}
-          variant="secure"
-        />
 
         <ServiceCardSection
           eyebrow="Public and member-facing tools"
