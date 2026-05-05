@@ -1,3 +1,4 @@
+/** New or renamed `content/journal/*.md` files may not show until you restart `npm run dev` (Vite glob + HMR). */
 const markdownFiles = import.meta.glob('../content/journal/*.md', {
   eager: true,
   query: '?raw',

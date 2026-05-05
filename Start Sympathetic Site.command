@@ -17,8 +17,10 @@ npm install || { echo "npm install failed."; read -r -p "Press Enter to close.";
 
 echo ""
 echo "Starting the site. KEEP THIS WINDOW OPEN."
-echo "When you see a line like:  Local:   http://localhost:5173/"
-echo "Hold Command (⌘) and click that link, or copy it into your browser."
+echo "When you see a line like:  Local:   http://localhost:5174/"
+echo "(Vite may pick another port if 5174 is busy—use whatever URL your terminal prints.)"
+echo "Hold Command (⌘) and click that link, or copy it into your system browser."
+echo "If a new Journal post does not appear, stop this (Ctrl+C) and run again to restart the dev server."
 echo ""
 npm run dev
 

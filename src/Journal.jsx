@@ -27,6 +27,9 @@ const colourBySlot = {
 }
 
 function getPostColour(post) {
+  if (post.header_color) {
+    return post.header_color
+  }
   return colourBySlot[post.colourSlot] ?? colourBySlot[1]
 }
 
@@ -346,13 +349,41 @@ function ShareLinks({ post }) {
   )
 }
 
+const footerMetaLabelClass =
+  'shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]'
+
+const footerMetaLinkClass =
+  '[&_a]:border-b [&_a]:border-[#e8e8e8] [&_a]:text-[#111111] [&_a]:no-underline hover:[&_a]:border-[#111111]'
+
+function SidebarSources({ sources }) {
+  if (!Array.isArray(sources) || sources.length === 0) return null
+
+  return (
+    <div className="border-b border-[#e8e8e8] py-4">
+      <span className="text-[13px] text-[#888888]">Sources</span>
+      <div
+        className={`mt-3 space-y-3 text-[11px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
+      >
+        {sources.map((line, index) => (
+          <p key={`sidebar-source-${index}`} className="m-0">
+            {renderInline(line)}
+          </p>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function PostSidebar({ post }) {
+  const sources = Array.isArray(post.sources) ? post.sources : []
+
   return (
     <aside className="border-t-2 border-[#111111] md:sticky md:top-[88px]">
       <SidebarRow label="Author">{post.author}</SidebarRow>
       <SidebarRow label="Published">{formatJournalShortDate(post.date)}</SidebarRow>
       <SidebarRow label="Category">{post.category}</SidebarRow>
       <SidebarRow label="Read Time">{post.read_time}</SidebarRow>
+      <SidebarSources sources={sources} />
       <div className="flex items-baseline justify-between gap-4 border-b border-[#e8e8e8] py-4">
         <span className="shrink-0 text-[13px] text-[#888888]">Share</span>
         <ShareLinks post={post} />
@@ -366,17 +397,37 @@ function PostSidebar({ post }) {
   )
 }
 
+function PostFooterSources({ sources }) {
+  if (!Array.isArray(sources) || sources.length === 0) return null
+
+  return (
+    <div className="flex items-start gap-6 border-t border-[#e8e8e8] py-5">
+      <span className={footerMetaLabelClass}>Sources</span>
+      <div
+        className={`min-w-0 flex-1 space-y-4 text-[12px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
+      >
+        {sources.map((line, index) => (
+          <p key={`source-${index}`} className="m-0">
+            {renderInline(line)}
+          </p>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function PostFooterMeta({ post }) {
   const hasTags = Array.isArray(post.tags) && post.tags.length > 0
   const hasCredits = Boolean(post.credits)
+  const sources = Array.isArray(post.sources) ? post.sources : []
+  const hasSources = sources.length > 0
+  const hasMetaRows = hasSources || hasTags || hasCredits
 
-  if (!hasTags && !hasCredits) {
+  if (!hasMetaRows) {
     return (
       <div className="mt-14">
         <div className="flex items-baseline gap-6 border-t border-b border-[#e8e8e8] py-5">
-          <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
-            Share
-          </span>
+          <span className={footerMetaLabelClass}>Share</span>
           <ShareLinks post={post} />
         </div>
       </div>
@@ -385,27 +436,22 @@ function PostFooterMeta({ post }) {
 
   return (
     <div className="mt-14">
+      <PostFooterSources sources={sources} />
       {hasTags ? (
         <div className="flex items-baseline gap-6 border-t border-[#e8e8e8] py-5">
-          <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
-            Tags
-          </span>
+          <span className={footerMetaLabelClass}>Tags</span>
           <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#111111]">
             {post.tags.map((tag) => `• ${tag}`).join('   ')}
           </span>
         </div>
       ) : null}
       <div className="flex items-baseline gap-6 border-t border-[#e8e8e8] py-5">
-        <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
-          Share
-        </span>
+        <span className={footerMetaLabelClass}>Share</span>
         <ShareLinks post={post} />
       </div>
       {hasCredits ? (
         <div className="flex items-baseline gap-6 border-t border-b border-[#e8e8e8] py-5">
-          <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] text-[#888888]">
-            Credits
-          </span>
+          <span className={footerMetaLabelClass}>Credits</span>
           <span className="text-[12px] font-normal text-[#888888]">{post.credits}</span>
         </div>
       ) : (
