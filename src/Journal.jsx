@@ -362,7 +362,7 @@ function SidebarSources({ sources }) {
     <div className="border-b border-[#e8e8e8] py-4">
       <span className="text-[13px] text-[#888888]">Sources</span>
       <div
-        className={`mt-3 space-y-3 text-[11px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
+        className={`mt-3 space-y-3 text-[13px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
       >
         {sources.map((line, index) => (
           <p key={`sidebar-source-${index}`} className="m-0">
@@ -404,7 +404,7 @@ function PostFooterSources({ sources }) {
     <div className="flex items-start gap-6 border-t border-[#e8e8e8] py-5">
       <span className={footerMetaLabelClass}>Sources</span>
       <div
-        className={`min-w-0 flex-1 space-y-4 text-[12px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
+        className={`min-w-0 flex-1 space-y-4 text-[14px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
       >
         {sources.map((line, index) => (
           <p key={`source-${index}`} className="m-0">
@@ -506,11 +506,11 @@ export function JournalIndexPage() {
           <div className="mx-auto max-w-[1200px]">
             <p className={eyebrowClass}>Journal</p>
             <h1 className="mt-5 max-w-[860px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              On organizations, technology, and the work of careful change.
+              Periodic Observations at the Intersection of AI and Work
             </h1>
             <p className="mt-6 max-w-[560px] text-[17px] leading-[1.75] text-[#555555]">
-              Writing for people thinking seriously about what AI means for the
-              institutions they lead.
+              Twenty years working inside healthcare, arts, and nonprofit organizations. And for a
+              good run of it, the best nerd bar in Vancouver. RIP, Storm Crow Alliance.
             </p>
           </div>
         </section>
