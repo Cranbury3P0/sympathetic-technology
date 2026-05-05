@@ -1,4 +1,12 @@
+import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import {
+  applyDefaultDocumentMeta,
+  applyJournalIndexMeta,
+  applyJournalPostMeta,
+  JOURNAL_INDEX_DESCRIPTION,
+  JOURNAL_INDEX_HEADLINE,
+} from './documentMeta.js'
 import { FooterCta, pageFont } from './InteriorFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 import {
@@ -495,6 +503,13 @@ function RelatedPosts({ currentPost }) {
 }
 
 export function JournalIndexPage() {
+  useEffect(() => {
+    applyJournalIndexMeta()
+    return () => {
+      applyDefaultDocumentMeta()
+    }
+  }, [])
+
   return (
     <div
       className="min-h-screen bg-white text-[#111111] antialiased"
@@ -506,11 +521,10 @@ export function JournalIndexPage() {
           <div className="mx-auto max-w-[1200px]">
             <p className={eyebrowClass}>Journal</p>
             <h1 className="mt-5 max-w-[860px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Periodic Observations at the Intersection of AI and Work
+              {JOURNAL_INDEX_HEADLINE}
             </h1>
             <p className="mt-6 max-w-[560px] text-[17px] leading-[1.75] text-[#555555]">
-              Twenty years working inside healthcare, arts, and nonprofit organizations. And for a
-              good run of it, the best nerd bar in Vancouver. RIP, Storm Crow Alliance.
+              {JOURNAL_INDEX_DESCRIPTION}
             </p>
           </div>
         </section>
@@ -570,6 +584,14 @@ export function JournalIndexPage() {
 export function JournalPostPage() {
   const { slug } = useParams()
   const post = getJournalPost(slug)
+
+  useEffect(() => {
+    if (!post) return undefined
+    applyJournalPostMeta(post)
+    return () => {
+      applyDefaultDocumentMeta()
+    }
+  }, [post, slug])
 
   if (!post) {
     return <Navigate to="/journal" replace />
