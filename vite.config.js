@@ -25,7 +25,8 @@ export default defineConfig({
   plugins: [react()],
   /** Single-page app: client /about is React Router, not a second HTML entry. */
   appType: 'spa',
-  base: './',
+  /** Root-hosted site: absolute /assets/ URLs so deep links like /journal/slug still load JS/CSS. */
+  base: '/',
   /** Avoid stale JS/CSS in the browser while developing (SPA is easy to cache by mistake). */
   server: {
     port: 5174,
