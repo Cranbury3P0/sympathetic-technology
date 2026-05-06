@@ -2,5 +2,6 @@ dist/
 node_modules/
 *.log
 .env
+*.pdf
 
 .claude/worktrees/
