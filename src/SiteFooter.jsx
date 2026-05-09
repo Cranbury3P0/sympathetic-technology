@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { SITE_HEADER_NAV } from './SiteHeader.jsx'
 
 const labelClass =
-  'font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-white'
+  'font-sans text-[12px] font-bold uppercase tracking-[0.22em] text-white'
 
 const bodyClass =
-  'font-sans text-[13px] font-normal leading-relaxed text-white'
+  'font-sans text-[15px] font-normal leading-relaxed text-white'
 
 const navLinkClass =
-  'font-sans text-[13px] font-normal leading-relaxed tracking-normal text-white transition-colors duration-200 hover:text-white/85'
+  'font-sans text-[15px] font-normal leading-relaxed tracking-normal text-white transition-colors duration-200 hover:text-white/85'
 
 /** Title-case labels for footer nav (paths stay in sync with `SITE_HEADER_NAV`). */
 const FOOTER_NAV_TITLE = {
@@ -78,7 +78,7 @@ export default function SiteFooter() {
             <div className="mt-6">
               <Link
                 to="/privacy"
-                className={`${navLinkClass} inline-block font-sans text-[13px] font-normal`}
+                className={`${navLinkClass} inline-block`}
               >
                 Privacy Policy
               </Link>
@@ -89,7 +89,7 @@ export default function SiteFooter() {
 
       <div className="border-t border-white/[0.15]">
         <div className="mx-auto w-full max-w-7xl px-6 py-5">
-          <p className="font-sans text-[13px] font-normal leading-relaxed text-white">
+          <p className="font-sans text-[15px] font-normal leading-relaxed text-white">
             © Sympathetic Technology 2025
           </p>
         </div>
