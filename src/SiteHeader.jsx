@@ -3,8 +3,12 @@ import { Link, useLocation } from 'react-router-dom'
 
 const NAV_LINKS = [
   ['WORK', '/services'],
+  ['APPROACH', '/approach'],
+  ['SOVEREIGN AI', '/sovereign-ai'],
   ['JOURNAL', '/journal'],
   ['ABOUT', '/about'],
+  ['READINESS', '/readiness-assessment'],
+  ['PRIVACY', '/privacy'],
 ]
 
 /** Exported for use in SiteFooter navigation list. */
@@ -26,20 +30,20 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] px-6 py-5 md:px-12`}
+      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] px-6 py-5 md:px-12 md:py-6`}
       aria-label="Site"
     >
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4">
+      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-6">
         {/* Wordmark */}
         <Link
           to="/"
-          className="min-w-0 shrink text-left"
+          className="min-w-0 shrink-0 text-left"
           aria-label="Sympathetic Technology home"
         >
-          <p className="font-sans text-[10px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[11px] md:text-[13px]">
+          <p className="font-sans text-[15px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[17px] md:text-[20px]">
             Sympathetic Technology
           </p>
-          <p className="mt-1 font-sans text-[10px] font-normal leading-tight text-[#A0AEC0] sm:text-[11px] md:text-[12px]">
+          <p className="mt-1 font-sans text-[14px] font-normal leading-tight text-[#A0AEC0] sm:text-[15px] md:text-[18px]">
             A governed AI infrastructure studio
           </p>
         </Link>
@@ -67,8 +71,8 @@ export default function SiteHeader({ overlay = false }) {
         </button>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-x-10 md:flex lg:gap-x-12">
-          <ul className="flex items-center gap-x-10 lg:gap-x-12">
+        <div className="hidden min-w-0 flex-1 items-center justify-end gap-x-5 md:flex lg:gap-x-7">
+          <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 lg:gap-x-7">
             {NAV_LINKS.map(([label, to]) => (
               <li key={label}>
                 <Link to={to} className={navLinkClass(to)}>
