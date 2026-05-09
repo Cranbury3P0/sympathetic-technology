@@ -26,18 +26,21 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#111827] px-6 py-5 md:px-12`}
+      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] px-6 py-5 md:px-12`}
       aria-label="Site"
     >
       <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4">
         {/* Wordmark */}
         <Link
           to="/"
-          className="shrink-0 text-left"
+          className="min-w-0 shrink text-left"
           aria-label="Sympathetic Technology home"
         >
-          <p className="font-sans text-[15px] font-bold leading-tight tracking-[0.06em] text-white sm:text-[17px]">
-            Sympathetic<br />Technology
+          <p className="font-sans text-[10px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[11px] md:text-[13px]">
+            Sympathetic Technology
+          </p>
+          <p className="mt-1 font-sans text-[10px] font-normal leading-tight text-[#A0AEC0] sm:text-[11px] md:text-[12px]">
+            A governed AI infrastructure studio
           </p>
         </Link>
 
