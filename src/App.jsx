@@ -431,18 +431,21 @@ function HomePage() {
               <p className={`${sectionLabelClass} mb-6`}>About the Work</p>
               <div className="space-y-5 font-sans text-lg font-normal leading-relaxed text-neutral-700">
                 <p>
-                  I've been navigating these kinds of organizational transitions from
-                  the inside for twenty years.
+                  I&apos;m Sean Cranbury. For twenty years I&apos;ve worked inside
+                  healthcare associations, nonprofits, and arts organizations. On staff,
+                  in the rooms, serving vital communities, navigating budget limits, and
+                  building culture across diverse teams.
                 </p>
                 <p>
-                  The work isn't about technology adoption. It's about helping
-                  institutions think clearly under pressure and move at a pace they
-                  can sustain.
+                  The work of development and change in the age of AI is less about
+                  technology adoption than it is about organizational clarity. Helping
+                  people think clearly about what they do, why they do it, and what they
+                  actually need to do it better.
                 </p>
                 <p>
                   I work with people who care about their mission, their members, and
-                  their people. My job is to help them make better decisions with
-                  better information and build systems that actually support the work.
+                  their teams. My job is to help them make better decisions with better
+                  information and build systems that actually support their intentions.
                 </p>
               </div>
               <div className="mt-8">
