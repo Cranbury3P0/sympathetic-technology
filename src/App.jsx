@@ -38,8 +38,8 @@ const sectionLabelClass =
 const primaryButtonClass =
   'inline-block rounded-none bg-[#111827] px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
 
-const outlineButtonClass =
-  'inline-block rounded-none border border-[#111827] bg-transparent px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-[#111827] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
+const routingCardCtaClass =
+  'block w-full rounded-none bg-[#5f695c] px-5 py-3.5 text-center font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:bg-[#525d52] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5f695c]'
 
 /* ─── Routing column (home — help tier cards) ─────────────────────── */
 
@@ -58,7 +58,7 @@ function RoutingExampleBullets({ items }) {
   )
 }
 
-function RoutingColumn({ index, headline, description, examples, cta, ctaHref, ctaNote }) {
+function RoutingColumn({ index, headline, description, examples, cta, ctaHref }) {
   const numLabel = String(index).padStart(2, '0')
   const splitAt = Math.ceil(examples.length / 2)
   const examplesLeft = examples.slice(0, splitAt)
@@ -93,17 +93,9 @@ function RoutingColumn({ index, headline, description, examples, cta, ctaHref, c
           </div>
 
           <div className="mt-10">
-            <Link
-              to={ctaHref}
-              className="inline-block font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-900 underline-offset-[5px] decoration-neutral-900/20 transition-colors duration-200 hover:decoration-neutral-900/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-800"
-            >
+            <Link to={ctaHref} className={routingCardCtaClass}>
               {cta}
             </Link>
-            {ctaNote && (
-              <p className="mt-2.5 font-sans text-[11px] font-normal leading-relaxed text-neutral-500">
-                {ctaNote}
-              </p>
-            )}
           </div>
         </div>
       </div>
@@ -220,6 +212,10 @@ function ProofPhoneCluster({ phones }) {
 
 const recentPosts = journalPosts.slice(0, 3)
 
+/** Plain poster so the hero never flashes the old OG artwork (CI / Sovereign tagline baked into og-image.png). */
+const HERO_VIDEO_POSTER =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'%3E%3Crect width='100%25' height='100%25' fill='%23111827'/%3E%3C/svg%3E"
+
 function HomePage() {
   return (
     <main className="min-h-screen bg-white">
@@ -234,11 +230,11 @@ function HomePage() {
         {/* Fallback background */}
         <div className="absolute inset-0 z-0 bg-[#111827]" aria-hidden />
 
-        {/* Video — hidden on mobile, replaced by poster bg */}
+        {/* Video — full bleed (mobile + desktop); baked-in titles in source footage are masked by overlays below */}
         <video
-          className="absolute inset-0 z-[1] hidden h-full min-h-full w-full min-w-full object-cover object-center md:block"
+          className="absolute inset-0 z-[1] h-full min-h-full w-full min-w-full object-cover object-center"
           src="/Sympathetic_Vancouver.mp4"
-          poster="/og-image.png"
+          poster={HERO_VIDEO_POSTER}
           autoPlay
           muted
           loop
@@ -247,16 +243,15 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Mobile poster frame */}
+        {/* Darken mid-frame where legacy titles were burned into stock footage / old composites */}
         <div
-          className="absolute inset-0 z-[1] block bg-cover bg-center md:hidden"
-          style={{ backgroundImage: "url('/og-image.png')" }}
+          className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_100%_75%_at_50%_36%,rgba(17,24,39,0.78),transparent_72%)]"
           aria-hidden
         />
 
-        {/* Gradient overlay */}
+        {/* Readability gradient — bottom-weighted for headline + CTAs */}
         <div
-          className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/30 to-black/10"
+          className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/88 via-black/48 to-black/18"
           aria-hidden
         />
 
@@ -313,7 +308,6 @@ function HomePage() {
               ]}
               cta="Let's Talk →"
               ctaHref="/talk"
-              ctaNote="These engagements start at $500."
             />
             <RoutingColumn
               index={2}
