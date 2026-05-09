@@ -8,9 +8,25 @@ const labelClass =
 const bodyClass =
   'font-sans text-[13px] font-normal leading-relaxed text-white'
 
-const navLinkClass = `${bodyClass} transition-colors duration-200 hover:text-white/85`
+const navLinkClass =
+  'font-sans text-[13px] font-normal leading-relaxed tracking-normal text-white transition-colors duration-200 hover:text-white/85'
 
-const FOOTER_NAV = [...SITE_HEADER_NAV, ['BOOK A CONVERSATION', '/talk']]
+/** Title-case labels for footer nav (paths stay in sync with `SITE_HEADER_NAV`). */
+const FOOTER_NAV_TITLE = {
+  '/services': 'Work',
+  '/approach': 'Approach',
+  '/sovereign-ai': 'Sovereign AI',
+  '/journal': 'Journal',
+  '/about': 'About',
+  '/readiness-assessment': 'Readiness Assessment',
+  '/privacy': 'Privacy',
+  '/talk': 'Book a Conversation',
+}
+
+const FOOTER_NAV_ITEMS = [
+  ...SITE_HEADER_NAV.map(([, to]) => [FOOTER_NAV_TITLE[to] ?? to, to]),
+  ['Book a Conversation', '/talk'],
+]
 
 export default function SiteFooter() {
   return (
@@ -32,8 +48,8 @@ export default function SiteFooter() {
             <h2 className={`${labelClass} mb-5`}>Navigation</h2>
             <nav aria-label="Footer">
               <ul className="flex flex-col gap-2.5">
-                {FOOTER_NAV.map(([label, to]) => (
-                  <li key={`${label}-${to}`}>
+                {FOOTER_NAV_ITEMS.map(([label, to]) => (
+                  <li key={to}>
                     <Link to={to} className={navLinkClass}>
                       {label}
                     </Link>
