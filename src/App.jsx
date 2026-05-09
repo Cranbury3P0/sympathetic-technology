@@ -69,7 +69,7 @@ function RoutingColumn({ index, headline, description, examples, cta, ctaHref })
       {/* Top olive accent — matches mock strip */}
       <div className="h-[3px] w-full shrink-0 bg-[#5f695c]" aria-hidden />
 
-      <div className="relative flex flex-1 flex-col px-7 pb-9 pt-8 md:px-9 md:pb-10 md:pt-9 lg:px-10 lg:pb-11 lg:pt-10">
+      <div className="relative flex min-h-0 flex-1 flex-col px-7 pb-9 pt-8 md:px-9 md:pb-10 md:pt-9 lg:px-10 lg:pb-11 lg:pt-10">
         <span
           className="pointer-events-none absolute left-7 top-[2.85rem] select-none font-sans text-[3rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-[3.15rem] md:text-[3.5rem] lg:left-10 lg:text-[3.65rem]"
           aria-hidden
@@ -77,7 +77,7 @@ function RoutingColumn({ index, headline, description, examples, cta, ctaHref })
           {numLabel}
         </span>
 
-        <div className="mt-[3.35rem] flex flex-1 flex-col md:mt-[3.65rem] lg:mt-[3.85rem]">
+        <div className="mt-[3.35rem] flex min-h-0 flex-1 flex-col md:mt-[3.65rem] lg:mt-[3.85rem]">
           <h3 className="font-sans text-[1.375rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.5rem] lg:text-[1.625rem]">
             {headline}
           </h3>
@@ -92,7 +92,7 @@ function RoutingColumn({ index, headline, description, examples, cta, ctaHref })
             </div>
           </div>
 
-          <div className="mt-10">
+          <div className="mt-auto pt-10">
             <Link to={ctaHref} className={routingCardCtaClass}>
               {cta}
             </Link>
@@ -295,7 +295,7 @@ function HomePage() {
           <h2 className="mb-12 text-center font-sans text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-16 md:text-[2rem] lg:text-[2.125rem]">
             What kind of help are you looking for?
           </h2>
-          <div className="grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-3 md:items-stretch md:gap-6 lg:gap-8">
             <RoutingColumn
               index={1}
               headline="I need clarity before I commit to anything."
