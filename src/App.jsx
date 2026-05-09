@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Link, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import AboutPage from './about.jsx'
 import ServicesPage from './services.jsx'
 import OurApproachPage from './our-approach.jsx'
@@ -11,10 +11,7 @@ import PrivacyPage from './privacy.jsx'
 import CookieBanner from './CookieBanner.jsx'
 import SiteFooter from './SiteFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
-
-function SectionDivider() {
-  return <div className="h-px w-full bg-neutral-200" aria-hidden />
-}
+import { journalPosts } from './journalData.js'
 
 function ScrollToRoutePosition() {
   const { pathname, hash } = useLocation()
@@ -24,223 +21,143 @@ function ScrollToRoutePosition() {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
       return
     }
-
     window.requestAnimationFrame(() => {
       const target = document.getElementById(hash.slice(1))
-      if (target) {
-        target.scrollIntoView({ block: 'start', behavior: 'auto' })
-      }
+      if (target) target.scrollIntoView({ block: 'start', behavior: 'auto' })
     })
   }, [pathname, hash])
 
   return null
 }
 
-const sectionYMobile = 'py-[80px]'
-const sectionYDesktop = 'md:py-[150px] lg:py-[180px]'
-const sectionPad = `px-6 ${sectionYMobile} ${sectionYDesktop}`
+/* ─── Shared style tokens ─────────────────────────────────────────── */
 
-const CRAFT_PLACEHOLDER_CAPTION =
-  'Macro photo of physical craft: architectural paper, ink on vellum, or heavy bookbinding.'
+const sectionLabelClass =
+  'font-sans text-[10px] font-bold uppercase tracking-[0.28em] text-neutral-400'
 
-function CraftPlaceholder({
-  className = '',
-  imageSrc = null,
-  imageObjectPosition,
-  punchyMono = false,
-  punchyContrast125 = false,
-}) {
-  const objectPos = imageObjectPosition ?? 'object-center'
-  const imgTone = punchyContrast125
-    ? 'grayscale contrast-125'
-    : punchyMono
-      ? 'grayscale contrast-[1.1]'
-      : ''
+const primaryButtonClass =
+  'inline-block rounded-none bg-[#111827] px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
+
+const outlineButtonClass =
+  'inline-block rounded-none border border-[#111827] bg-transparent px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-[#111827] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
+
+/* ─── Routing column ─────────────────────────────────────────────── */
+
+function RoutingColumn({ headline, description, examples, cta, ctaHref, ctaNote }) {
   return (
-    <figure className={`w-full ${className}`}>
-      <div className="aspect-[4/5] w-full overflow-hidden bg-gray-100">
-        {imageSrc ? (
+    <div className="flex flex-col">
+      <h3 className="font-sans text-2xl font-bold leading-snug tracking-tight text-neutral-900">
+        {headline}
+      </h3>
+      <p className="mt-4 font-sans text-base font-normal leading-relaxed text-neutral-600">
+        {description}
+      </p>
+      <ul className="mt-5 space-y-1">
+        {examples.map((item) => (
+          <li
+            key={item}
+            className="font-sans text-sm font-normal leading-relaxed text-neutral-500"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto pt-8">
+        <Link
+          to={ctaHref}
+          className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+        >
+          {cta}
+        </Link>
+        {ctaNote && (
+          <p className="mt-2 font-sans text-[11px] text-neutral-400">{ctaNote}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Journal card ───────────────────────────────────────────────── */
+
+function JournalCard({ post }) {
+  return (
+    <article className="flex flex-col">
+      <Link to={post.href} className="group block overflow-hidden">
+        <div className="aspect-[4/3] w-full overflow-hidden bg-neutral-100">
           <img
-            src={imageSrc}
-            alt=""
-            className={`h-full w-full object-cover ${objectPos} ${imgTone}`}
+            src={post.cover_image}
+            alt={post.cover_alt || ''}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             decoding="async"
           />
-        ) : (
-          <div
-            role="img"
-            aria-label={CRAFT_PLACEHOLDER_CAPTION}
-            className="h-full w-full bg-gray-100"
-          />
-        )}
+        </div>
+      </Link>
+      <div className="mt-5 flex flex-col flex-1">
+        <p className={`${sectionLabelClass} text-neutral-400`}>{post.category}</p>
+        <h3 className="mt-3 font-sans text-xl font-bold leading-snug tracking-tight text-neutral-900">
+          <Link
+            to={post.href}
+            className="transition-opacity hover:opacity-70"
+          >
+            {post.title}
+          </Link>
+        </h3>
+        <p className="mt-3 font-sans text-sm font-normal leading-relaxed text-neutral-500 line-clamp-2">
+          {post.excerpt}
+        </p>
+        <div className="mt-5">
+          <Link
+            to={post.href}
+            className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+          >
+            Read →
+          </Link>
+        </div>
       </div>
-      {!imageSrc && (
-        <figcaption className="mt-3 text-left font-sans text-[10px] leading-snug text-neutral-400 md:text-[11px]">
-          {CRAFT_PLACEHOLDER_CAPTION}
-        </figcaption>
-      )}
-    </figure>
+    </article>
   )
 }
 
-const LABEL_SAND = 'text-[#C2B2A3]'
+/* ─── Phone placeholder ──────────────────────────────────────────── */
 
-/** Work case studies use the same body scale as the manifesto sections. */
-const workSectionBodyClass =
-  'font-sans text-lg font-normal leading-relaxed text-neutral-600 antialiased md:text-xl'
-
-const WORK_UNITS = [
-  {
-    label: 'A',
-    title: 'Local, secure infrastructure',
-    textAlign: 'left',
-    imageSrc: '/images/sovereign-infrastructure.png',
-    imageObjectPosition: 'object-top',
-    bodyParagraphs: [
-      <>
-        <span className="font-semibold text-neutral-800">
-          Controlled Intelligence
-        </span>{' '}
-        is designed for nonprofits, professional associations, arts
-        organizations, and mission-driven institutions that need modern AI
-        capability without surrendering governance control.
-      </>,
-      'Private, secure AI environments protect sensitive and copyrighted work while supporting accurate legislative and policy analysis. Model frameworks and workflows stay aligned with your institutional responsibilities rather than external platform defaults.',
-      'Briefings, drafts, and comparisons remain yours to audit, cite, and correct. Model selection, knowledge access, and workflow automation remain accountable to your organization, not to the platforms that built them.',
-    ],
-  },
-  {
-    label: 'B',
-    title: 'Organizational translation',
-    textAlign: 'right',
-    imageSrc: '/images/organizational-translation-orcas.png',
-    imageObjectPosition: 'object-center',
-    punchyContrast125: true,
-    bodyParagraphs: [
-      'We help organizations anchor AI decisions in what their people already do well, rather than following vendor roadmaps or generic best practices. The people who know your workflows, your members, and your institutional culture are the ones who shape how these tools get used.',
-      'This means readiness mapping, workflow observation, pilot selection, governance alignment, and confidence-building at a pace your team sets. Your staff, board, and institutional history are the foundation. Governance habits, communications patterns, and operational rhythms become the basis for AI-supported work rather than being replaced by it.',
-    ],
-  },
-  {
-    label: 'C',
-    title: 'Modest solutions',
-    textAlign: 'left',
-    imageSrc: '/images/modest-solutions-lighthouse.png',
-    imageObjectPosition: 'object-center',
-    punchyMono: true,
-    bodyParagraphs: [
-      'Our work is made to measure. No unnecessary scaling, no inappropriate tools, no fashionable gadgetry. Just what your organization can actually use and sustain.',
-      'We design pilot projects that help organizations learn something about their own workflows as well as the technology itself. Early work focuses on clarity, stability, and confidence rather than speed or scale.',
-      'The goal is steady progress that strengthens what already works, rather than introducing systems that require permanent external support.',
-    ],
-  },
-  {
-    label: 'D',
-    title: 'Strategic communications',
-    textAlign: 'right',
-    /** Keep image/text alternation; body reads left like other blocks. */
-    bodyTextAlign: 'left',
-    imageSrc: '/images/strategic-communications-goodrich.png',
-    imageObjectPosition: 'object-[50%_42%]',
-    punchyContrast125: true,
-    bodyParagraphs: [
-      'The communications environment has changed. Social media platforms have become algorithmically unpredictable and audiences have fragmented across channels in ways that make consistent member engagement genuinely difficult. We help organizations strengthen their communications without surrendering institutional voice or reach.',
-      'This work includes aligning messaging with AI adoption realities, preparing members and leadership for change, reducing internal friction during rollout, and maintaining continuity of tone across AI-assisted workflows.',
-      'Human intent provides the direction. The tools provide the support.',
-    ],
-  },
-]
-
-const ctaButtonClass =
-  'rounded-none border border-transparent bg-[#111827] px-10 py-4 font-sans text-sm font-bold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#1f2937] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
-
-function WorkUnit({ unit, idx }) {
-  const textRight = unit.textAlign === 'right'
-  const bodyLeft = unit.bodyTextAlign === 'left'
-  const textColAlignClass =
-    textRight && !bodyLeft
-      ? 'text-left md:ml-auto md:text-right'
-      : textRight && bodyLeft
-        ? 'text-left md:ml-auto'
-        : 'text-left'
-  const textCol = (
-    <div
-      className={`min-w-0 w-full max-w-[36rem] md:flex-[6] md:self-center ${textColAlignClass}`}
-    >
-      <h3 className="font-sans text-balance text-3xl font-bold leading-tight tracking-tight text-ink">
-        {unit.title}
-      </h3>
-      <div
-        className={`my-8 h-px w-12 bg-neutral-200 ${
-          textRight && !bodyLeft ? 'md:ml-auto' : ''
-        }`}
-        aria-hidden
-      />
-      <div
-        className={`text-pretty space-y-5 md:space-y-6 ${
-          textRight ? 'md:ml-auto' : ''
-        }`}
-      >
-        {unit.bodyParagraphs.map((para, pIdx) => (
-          <p key={pIdx} className={workSectionBodyClass}>
-            {para}
-          </p>
-        ))}
-      </div>
-    </div>
-  )
-  const mediaCol = unit.imageSrc ? (
-    <div className="w-full min-w-0 shrink-0 md:flex-[4]">
-      <CraftPlaceholder
-        imageSrc={unit.imageSrc}
-        imageObjectPosition={unit.imageObjectPosition}
-        punchyMono={unit.punchyMono}
-        punchyContrast125={unit.punchyContrast125}
-      />
-    </div>
-  ) : (
-    <div
-      className="hidden md:block md:flex-[4] md:self-stretch"
-      aria-hidden
-    />
-  )
-
+function PhonePlaceholder({ label }) {
   return (
-    <div
-      className={`flex flex-col gap-8 md:flex-row md:items-center ${
-        idx === 0 ? 'md:gap-12 lg:gap-20' : 'md:gap-10 lg:gap-16'
-      }`}
-    >
-      {textRight ? (
-        <>
-          {mediaCol}
-          {textCol}
-        </>
-      ) : (
-        <>
-          {textCol}
-          {mediaCol}
-        </>
-      )}
+    <div className="flex flex-col items-center">
+      <div className="relative w-full max-w-[160px] overflow-hidden rounded-[24px] border-[6px] border-neutral-800 bg-neutral-100 shadow-xl aspect-[9/19]">
+        <div className="h-full w-full bg-neutral-200 flex items-center justify-center">
+          <span className="text-[9px] font-sans text-neutral-400 text-center px-2">{label}</span>
+        </div>
+        {/* Notch */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-20 bg-neutral-800 rounded-b-xl" aria-hidden />
+      </div>
     </div>
   )
 }
+
+/* ─── Home page ──────────────────────────────────────────────────── */
+
+const recentPosts = journalPosts.slice(0, 3)
 
 function HomePage() {
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero - full-screen video background */}
+
+      {/* ── HERO ─────────────────────────────────────────────────── */}
       <section
         id="hero"
         className="relative min-h-dvh min-h-[100svh] w-full overflow-hidden"
       >
         <SiteHeader overlay />
 
+        {/* Fallback background */}
         <div className="absolute inset-0 z-0 bg-[#111827]" aria-hidden />
+
+        {/* Video — hidden on mobile, replaced by poster bg */}
         <video
-          className="absolute inset-0 z-[1] h-full min-h-full w-full min-w-full object-cover object-center"
+          className="absolute inset-0 z-[1] hidden h-full min-h-full w-full min-w-full object-cover object-center md:block"
           src="/Sympathetic_Vancouver.mp4"
+          poster="/og-image.png"
           autoPlay
           muted
           loop
@@ -249,217 +166,280 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Center headline */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
-          <div className="flex max-w-[95vw] translate-y-[50px] flex-col items-center text-center">
-            <h1 className="text-shadow-hero text-balance text-4xl font-extrabold uppercase leading-[1.02] tracking-[0.14em] text-white sm:text-5xl sm:leading-[1.03] sm:tracking-[0.16em] md:text-6xl md:leading-[1.04] md:tracking-[0.2em] lg:text-9xl lg:leading-[1.05] lg:tracking-[0.24em]">
-              Controlled Intelligence
+        {/* Mobile poster frame */}
+        <div
+          className="absolute inset-0 z-[1] block bg-cover bg-center md:hidden"
+          style={{ backgroundImage: "url('/og-image.png')" }}
+          aria-hidden
+        />
+
+        {/* Gradient overlay */}
+        <div
+          className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/30 to-black/10"
+          aria-hidden
+        />
+
+        {/* Hero text — bottom left */}
+        <div className="absolute bottom-0 left-0 z-10 px-6 pb-14 md:px-12 md:pb-16 lg:px-16 lg:pb-20">
+          <div className="max-w-[680px]">
+            <h1 className="text-shadow-hero font-sans text-3xl font-bold leading-[1.12] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[56px]">
+              Organizational guidance for nonprofits, healthcare associations, and
+              arts organizations navigating AI.
             </h1>
-            <h2 className="text-shadow-hero mt-6 max-w-3xl text-balance font-sans text-xl font-semibold leading-snug text-white sm:text-2xl md:mt-8 md:text-3xl">
-              Sovereign AI for organizations that govern what they build.
-            </h2>
-            <a
-              href="/talk"
-              className="mt-8 inline-flex rounded-none border border-white/90 bg-transparent px-7 py-3 font-sans text-sm font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:border-white/70 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:mt-10"
-            >
-              Let&apos;s Talk
-            </a>
+            <p className="text-shadow-hero mt-5 max-w-[540px] font-sans text-base font-normal leading-relaxed text-white/85 md:text-lg">
+              From a two-hour briefing to a full governance infrastructure, we work
+              at whatever scale actually fits.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 md:gap-4">
+              <Link
+                to="/talk"
+                className="inline-block rounded-none bg-white px-7 py-3.5 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Book a Conversation
+              </Link>
+              <Link
+                to="/readiness-assessment"
+                className="inline-block rounded-none border border-white/80 bg-transparent px-7 py-3.5 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Take the Readiness Assessment
+              </Link>
+            </div>
           </div>
         </div>
-
       </section>
 
-      <section className="bg-[#111827] px-6 py-16 text-left text-white md:px-12 md:py-[100px]">
-        <p className="mx-auto max-w-[860px] text-[clamp(24px,3vw,40px)] font-bold leading-[1.2] tracking-[-0.01em]">
-          We work with nonprofit and mission-based organizations to design secure AI
-          environments, align governance with adoption decisions, and implement
-          practical workflows that keep institutional knowledge inside boundaries they
-          define.
-        </p>
-      </section>
-
-      {/* Section A - Sovereignty (white, left-aligned) */}
-      <section
-        id="manifesto"
-        className="border-t border-neutral-100 bg-[#FFFFFF] px-6 py-[180px]"
-      >
-        <div className="mx-auto max-w-6xl text-left">
-          <h2 className="font-sans flex flex-col gap-0 font-bold text-5xl tracking-tight leading-tight text-ink md:text-6xl">
-            <span className="block">Sovereign AI.</span>
-            <span className="block">Intentional Integration.</span>
+      {/* ── ROUTING SECTION ──────────────────────────────────────── */}
+      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24 lg:py-28">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-12 text-center font-sans text-2xl font-bold tracking-tight text-neutral-900 md:mb-16">
+            What kind of help are you looking for?
           </h2>
-          <p className="mt-8 max-w-2xl text-pretty font-sans text-lg font-normal leading-relaxed text-neutral-800 md:mt-10 md:text-xl">
-            Consumer tools like ChatGPT, Claude, and Gemini are built for speed.
-            We build for sovereignty. Your digital environment stays within secure
-            boundaries that you define and govern. Our strategy delivers the
-            immediacy of modern AI models while keeping your data, workflows, and
-            institutional knowledge inside a private perimeter that meets PIPEDA
-            and sector-specific compliance requirements.
-          </p>
-        </div>
-      </section>
-
-      {/* Section B - Total Context (off-white, right-aligned) */}
-      <section
-        id="total-context"
-        className="border-t border-neutral-100 bg-[#FBFBFB] px-6 py-[180px]"
-      >
-        <div className="mx-auto flex max-w-6xl justify-end">
-          <div className="w-full max-w-2xl text-right">
-            <h2 className="font-sans flex flex-col items-end gap-0 font-bold text-5xl tracking-tight leading-tight text-ink md:text-6xl">
-              <span className="block">Data security.</span>
-              <span className="block">Custom workflows.</span>
-            </h2>
-            <p className="mt-8 text-pretty font-sans text-lg font-normal leading-relaxed text-neutral-800 md:mt-10 md:text-xl">
-              AI is most useful when it operates inside a well-defined local
-              environment built around your work. Properly configured local models
-              are capable of sophisticated investigation and analysis of your
-              current and historical knowledge, surfacing new ideas and
-              perspectives that generic tools simply cannot reach. Whether it is
-              copyrighted IP, private member data, or proprietary organizational
-              knowledge, we build the private infrastructure needed to protect your
-              craft while adopting the tools that serve it.
-            </p>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10 lg:gap-16">
+            <RoutingColumn
+              headline="I need clarity before I commit to anything."
+              description="You're not ready for a project yet. You need straight answers, options, and a plan that makes sense for your organization."
+              examples={[
+                'Advisory calls',
+                'Board briefings',
+                'Staff workshops',
+                'AI literacy sessions',
+              ]}
+              cta="Let's Talk →"
+              ctaHref="/talk"
+              ctaNote="These engagements start at $500."
+            />
+            <RoutingColumn
+              headline="I have a specific project in mind."
+              description="You know what you need to build or improve. You're looking for the right partner to get it done."
+              examples={[
+                'Member platforms',
+                'Communications strategy',
+                'Custom AI tools',
+                'Policy documents',
+              ]}
+              cta="Explore Services →"
+              ctaHref="/services"
+            />
+            <RoutingColumn
+              headline="I need serious AI governance infrastructure."
+              description="Your organization needs secure, governed AI systems with compliance documentation and long-term oversight."
+              examples={[
+                'Controlled Intelligence',
+                'Local model deployment',
+                'Governance framework',
+                'PIPEDA compliance',
+                'Board-ready documentation',
+              ]}
+              cta="Our Approach to Sovereign AI →"
+              ctaHref="/sovereign-ai"
+            />
           </div>
         </div>
       </section>
 
-      {/* The Work - 60/40 split, timeline path, craft placeholders */}
-      <section
-        id="work"
-        className="border-t border-neutral-200 bg-white px-6 py-[180px] antialiased"
-      >
-        <div className="mx-auto max-w-7xl">
-          <header className="max-w-2xl">
-            <p className="font-sans text-xs font-medium uppercase tracking-[0.28em] text-neutral-400">
-              The work
-            </p>
-            <h2 className="mt-3 font-sans text-balance text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-              Sovereign and sympathetic, in theory and practice
-            </h2>
-          </header>
+      {/* ── PROOF OF WORK ────────────────────────────────────────── */}
+      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16 lg:gap-20">
 
-          <div className="relative mt-16 md:mt-24">
-            <div
-              className="pointer-events-none absolute bottom-0 left-[15px] top-0 w-[0.5px] bg-neutral-300 sm:left-[17px]"
-              aria-hidden
-            />
-            <div className="relative space-y-32 md:space-y-40 lg:space-y-48">
-              {WORK_UNITS.map((unit, idx) => (
-                <article
-                  key={unit.label}
-                  className={
-                    idx === 0
-                      ? 'relative pt-2'
-                      : 'relative border-t border-neutral-200 pt-32 md:pt-40'
-                  }
+            {/* Left: text */}
+            <div className="flex flex-col justify-center">
+              <p className={`${sectionLabelClass} mb-5`}>Proof of Work</p>
+              <h2 className="font-sans text-3xl font-bold leading-tight tracking-tight text-neutral-900 md:text-4xl">
+                Physiotherapy Association of BC: Member App
+              </h2>
+              <div className="mt-6 space-y-4 font-sans text-base font-normal leading-relaxed text-neutral-600">
+                <p>
+                  We built a custom mobile communications app for the Physiotherapy
+                  Association of BC to strengthen member engagement, improve retention,
+                  and create a trusted channel for advocacy, updates, and professional
+                  resources.
+                </p>
+                <p>
+                  The app has become a central member benefit and a reliable platform
+                  for timely information that members use and trust.
+                </p>
+              </div>
+              <div className="mt-8">
+                <Link
+                  to="/services"
+                  className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
                 >
-                  <span
-                    className={`absolute left-[15px] z-10 -translate-x-1/2 bg-white px-1 font-sans text-[10px] font-normal uppercase tracking-[0.22em] sm:left-[17px] sm:text-[11px] ${LABEL_SAND} ${
-                      idx === 0 ? 'top-0' : 'top-10 md:top-12'
-                    }`}
-                  >
-                    {unit.label}
-                  </span>
-                  <div className="pl-8 sm:pl-10 md:pl-14">
-                    <WorkUnit unit={unit} idx={idx} />
-                  </div>
-                </article>
+                  View the Full Case Study →
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: phone screenshots */}
+            <div className="flex flex-col items-start">
+              <div className="flex w-full items-end justify-center gap-4 md:gap-6">
+                <PhonePlaceholder label="Welcome screen" />
+                <PhonePlaceholder label="Updates feed" />
+                <PhonePlaceholder label="Resources" />
+              </div>
+              <p className="mt-6 w-full text-center font-sans text-[11px] font-normal text-neutral-400">
+                Built for members. Owned by the association. Designed for trust.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── ABOUT THE WORK ───────────────────────────────────────── */}
+      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16 lg:gap-20">
+
+            {/* Left: portrait */}
+            <div className="flex items-start">
+              <div className="w-full overflow-hidden bg-neutral-100">
+                <img
+                  src="/sean-cranbury-headshot.png"
+                  alt="Sean Cranbury"
+                  className="h-full w-full object-cover grayscale"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            {/* Right: copy */}
+            <div className="flex flex-col justify-center">
+              <p className={`${sectionLabelClass} mb-6`}>About the Work</p>
+              <div className="space-y-5 font-sans text-lg font-normal leading-relaxed text-neutral-700">
+                <p>
+                  I've been navigating these kinds of organizational transitions from
+                  the inside for twenty years.
+                </p>
+                <p>
+                  The work isn't about technology adoption. It's about helping
+                  institutions think clearly under pressure and move at a pace they
+                  can sustain.
+                </p>
+                <p>
+                  I work with people who care about their mission, their members, and
+                  their people. My job is to help them make better decisions with
+                  better information and build systems that actually support the work.
+                </p>
+              </div>
+              <div className="mt-8">
+                <Link
+                  to="/approach"
+                  className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+                >
+                  Read More About My Approach →
+                </Link>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO I WORK WITH ──────────────────────────────────────── */}
+      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-12 font-sans text-2xl font-bold tracking-tight text-neutral-900 md:mb-16 md:text-3xl">
+            Who I work with
+          </h2>
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-8 lg:gap-12">
+            {[
+              {
+                heading: 'Healthcare organizations',
+                body: 'Navigating AI adoption while meeting regulatory obligations and protecting patient and member data.',
+              },
+              {
+                heading: 'Nonprofits and associations',
+                body: 'Strengthening member engagement, streamlining operations, and communicating with clarity in a changing environment.',
+              },
+              {
+                heading: 'Arts and cultural organizations',
+                body: 'Using new tools while protecting creative work, institutional memory, and community relationships.',
+              },
+              {
+                heading: 'Publishers and creative teams',
+                body: 'Building sustainable workflows, exploring AI responsibly, and keeping the human voice at the centre.',
+              },
+            ].map(({ heading, body }) => (
+              <div key={heading}>
+                <h3 className="font-sans text-base font-bold leading-snug tracking-tight text-neutral-900">
+                  {heading}
+                </h3>
+                <p className="mt-3 font-sans text-sm font-normal leading-relaxed text-neutral-500">
+                  {body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FROM THE JOURNAL ─────────────────────────────────────── */}
+      {recentPosts.length > 0 && (
+        <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-10 flex items-baseline justify-between">
+              <p className={sectionLabelClass}>From the Journal</p>
+              <Link
+                to="/journal"
+                className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+              >
+                View All Articles →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:gap-10">
+              {recentPosts.map((post) => (
+                <JournalCard key={post.slug} post={post} />
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <SectionDivider />
-
-      {/* Proof of Concept — full-bleed hero, fixed mountain field */}
-      <section
-        id="proof"
-        className="relative isolate overflow-hidden border-t border-neutral-200 px-6 py-[180px]"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center bg-no-repeat bg-scroll grayscale md:bg-fixed"
-          style={{
-            backgroundImage: "url('/images/proof-mountains.png')",
-          }}
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[#111827]/50"
-          aria-hidden
-        />
-        <div className="relative z-10 mx-auto max-w-6xl">
-          <div className="max-w-xl text-left">
-            <h2 className="font-sans text-4xl font-bold leading-tight tracking-tight text-white">
-              Proof of Concept.
-            </h2>
-            <div
-              className="mt-6 w-12 border-t border-white/30"
-              aria-hidden
-            />
-            <div className="text-shadow-hero mt-8 space-y-6 text-pretty font-sans text-xl font-normal leading-relaxed text-white">
-              <p>
-                My first real job was at an independent bookshop in a small town. The
-                only piece of technology we owned that wasn&apos;t strictly analog was
-                a pocket calculator powered by the sun. Also, there were two shop cats
-                and a turtle who lived in a pond out front.
-              </p>
-              <p>
-                A lot has changed since then, but I still carry a fairly stubborn
-                worldview from those days: that the values and sensibilities that made
-                the world work in the era of paper, ink, and rotary dial phones are
-                just as important today.
-              </p>
-              <p>
-                Books and writing are pronounced dead on a near-weekly basis, yet they
-                continue to survive because they inform and inspire people over time.
-                Why would we even call the black mirrors we keep on silent in our
-                pockets &quot;phones&quot; if it didn&apos;t serve some need to humanize
-                their presence in our daily lives?
-              </p>
-              <p>
-                Technology rolls on and the internet continues to color outside the
-                lines of our expectations and comfort zones. But we can learn it and
-                we can control it. We can&apos;t change how we got here, but we can
-                determine where it is that we&apos;re going.
-              </p>
-              <p>
-                I have long navigated these types of technological and organizational
-                disruptions from the inside. I know what it takes to move a traditional
-                organization toward new tools without breaking what already works.
-              </p>
-              <p className="pt-2 font-semibold">
-                - Sean Cranbury, Founder, Principal
-              </p>
-            </div>
+      {/* ── FOOTER CTA ───────────────────────────────────────────── */}
+      <section className="bg-[#111827] px-6 py-20 text-center md:py-28">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="font-sans text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl lg:text-[42px]">
+            Mission-driven organizations shouldn&apos;t have to choose between
+            progress and privacy.
+          </h2>
+          <div className="mt-10">
+            <Link
+              to="/talk"
+              className="inline-block rounded-none bg-white px-10 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              Book a Conversation
+            </Link>
           </div>
         </div>
       </section>
 
-      <SectionDivider />
-
-      {/* Close */}
-      <section
-        id="contact"
-        className="border-t border-neutral-200 bg-[#FFFFFF] px-6 py-[180px] text-center"
-      >
-        <div className="mx-auto max-w-4xl">
-          <h2 className="font-sans text-balance text-5xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
-            Mission-driven organizations shouldn&apos;t have to choose between
-            progress and privacy.
-          </h2>
-          <a
-            href="/talk"
-            className={`mt-12 inline-block md:mt-14 ${ctaButtonClass}`}
-          >
-            Let&apos;s Talk
-          </a>
-        </div>
-      </section>
     </main>
   )
 }
+
+/* ─── App shell ──────────────────────────────────────────────────── */
 
 export default function App() {
   return (
@@ -483,10 +463,7 @@ export default function App() {
           path="/start-here"
           element={<Navigate to={{ pathname: '/', hash: 'manifesto' }} replace />}
         />
-        <Route
-          path="/contact"
-          element={<Navigate to="/talk" replace />}
-        />
+        <Route path="/contact" element={<Navigate to="/talk" replace />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
