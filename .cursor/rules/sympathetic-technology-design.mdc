@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Sympathetic Technology Design Standards
 
-Use this rule when building or updating interior pages on the Sympathetic Technology website, including About, Services, Our Approach, Sovereign AI, and Let's Talk. Do not apply this rule to the landing page in `src/App.jsx` unless the user explicitly asks to bring the landing page into this system.
+Use this rule when building or updating interior pages on the Sympathetic Technology website, including About, Services, Our Approach, Controlled Intelligence, and Let's Talk. Do not apply this rule to the landing page in `src/App.jsx` unless the user explicitly asks to bring the landing page into this system.
 
 ## Design Philosophy
 - Nordic minimalism: cinematic, editorial, warm, and print-like. Not SaaS dashboard minimalism.

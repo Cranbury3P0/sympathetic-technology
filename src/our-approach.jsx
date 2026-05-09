@@ -46,7 +46,7 @@ const architectureLayers = [
     num: '01',
     variant: 'dark',
     accent: 'foundation',
-    title: 'Sovereign AI',
+    title: 'Controlled Intelligence',
     detail: 'Local inference layer',
     body:
       'Your organization runs open-weight models inside infrastructure it governs. Sensitive work stays inside a controlled environment.',

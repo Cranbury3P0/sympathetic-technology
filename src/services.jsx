@@ -397,8 +397,8 @@ function ServiceCardSection({ eyebrow, headline, items, variant }) {
     variant === 'public' ? 'text-indigo-900/55' : 'text-emerald-900/55'
   const headlineClass =
     variant === 'public'
-      ? 'font-serif text-[clamp(28px,3.2vw,44px)] font-bold leading-[1.12] tracking-[-0.02em] text-[#1e3a5f]'
-      : 'font-serif text-[clamp(28px,3.2vw,44px)] font-bold leading-[1.12] tracking-[-0.02em] text-[#14532d]'
+      ? 'font-sans text-[clamp(28px,3.2vw,44px)] font-bold leading-[1.12] tracking-[-0.02em] text-[#1e3a5f]'
+      : 'font-sans text-[clamp(28px,3.2vw,44px)] font-bold leading-[1.12] tracking-[-0.02em] text-[#14532d]'
 
   return (
     <section className={`border-b border-[#e8e8e8] ${bg}`}>

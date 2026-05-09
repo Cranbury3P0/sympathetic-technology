@@ -15,7 +15,7 @@ const navLinkClass =
 const FOOTER_NAV_TITLE = {
   '/services': 'Work',
   '/approach': 'Approach',
-  '/sovereign-ai': 'Sovereign AI',
+  '/sovereign-ai': 'Controlled Intelligence',
   '/journal': 'Journal',
   '/about': 'About',
   '/readiness-assessment': 'Readiness Assessment',

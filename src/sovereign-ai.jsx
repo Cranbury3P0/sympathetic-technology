@@ -1,3 +1,9 @@
+import { useEffect } from 'react'
+
+import {
+  applyControlledIntelligencePageMeta,
+  applyDefaultDocumentMeta,
+} from './documentMeta.js'
 import { FooterCta, pageFont } from './InteriorFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 
@@ -144,7 +150,7 @@ function ComparisonRows() {
           Consumer AI
         </p>
         <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]">
-          Sovereign AI
+          Controlled Intelligence
         </p>
       </div>
       {comparisonRows.map((row) => (
@@ -163,7 +169,7 @@ function ComparisonRows() {
           </p>
           <p className="text-[14px] leading-[1.75] text-[#888888]">
             <span className="mb-1 block text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999] md:hidden">
-              Sovereign AI
+              Controlled Intelligence
             </span>
             {row.sovereign}
           </p>
@@ -194,6 +200,13 @@ function PrincipleRows() {
 }
 
 export default function SovereignAIPage() {
+  useEffect(() => {
+    applyControlledIntelligencePageMeta()
+    return () => {
+      applyDefaultDocumentMeta()
+    }
+  }, [])
+
   return (
     <div
       className="min-h-screen bg-white text-[#111111] antialiased"
@@ -204,7 +217,7 @@ export default function SovereignAIPage() {
       <main className="bg-white">
         <section className="border-b border-[#e8e8e8] bg-white px-6 py-16 md:px-12 md:pb-20 md:pt-[120px]">
           <div className="mx-auto max-w-[1200px]">
-            <p className={eyebrowClass}>Sovereign AI</p>
+            <p className={eyebrowClass}>Controlled Intelligence</p>
             <h1 className="mt-5 max-w-[900px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
               Your organization runs AI. Who governs it?
             </h1>
@@ -216,7 +229,7 @@ export default function SovereignAIPage() {
                 than yours.
               </p>
               <p>
-                Sovereign AI is a different arrangement. It means your organization
+                Controlled Intelligence is a different arrangement. It means your organization
                 runs its own AI environment inside infrastructure it controls, under
                 policies it writes, with data that never leaves its custody.
               </p>
@@ -259,7 +272,7 @@ export default function SovereignAIPage() {
               </p>
               <p>
                 This is not a hypothetical. It is already happening in your
-                organization. Sovereign AI gives it a boundary.
+                organization. Controlled Intelligence gives it a boundary.
               </p>
             </div>
           </div>
@@ -319,7 +332,7 @@ export default function SovereignAIPage() {
                 What changes when your organization governs the environment.
               </h2>
               <p className={`mt-8 ${bodyTextClass}`}>
-                Consumer AI tools and sovereign AI environments are built on similar
+                Consumer AI tools and Controlled Intelligence environments are built on similar
                 underlying technology. The difference is structural.
               </p>
             </div>
@@ -356,7 +369,7 @@ export default function SovereignAIPage() {
                 being used.
               </p>
               <p>
-                Sovereign AI gives the organization a perimeter. People can
+                Controlled Intelligence gives the organization a perimeter. People can
                 investigate, draft, compare, monitor, and learn while keeping
                 institutional knowledge inside a system the organization can audit,
                 explain, and improve.

@@ -71,14 +71,14 @@ function RoutingColumn({ index, headline, description, examples, cta, ctaHref, c
 
       <div className="relative flex flex-1 flex-col px-7 pb-9 pt-8 md:px-9 md:pb-10 md:pt-9 lg:px-10 lg:pb-11 lg:pt-10">
         <span
-          className="pointer-events-none absolute left-7 top-[2.85rem] select-none font-serif text-[3rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-[3.15rem] md:text-[3.5rem] lg:left-10 lg:text-[3.65rem]"
+          className="pointer-events-none absolute left-7 top-[2.85rem] select-none font-sans text-[3rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-[3.15rem] md:text-[3.5rem] lg:left-10 lg:text-[3.65rem]"
           aria-hidden
         >
           {numLabel}
         </span>
 
         <div className="mt-[3.35rem] flex flex-1 flex-col md:mt-[3.65rem] lg:mt-[3.85rem]">
-          <h3 className="font-serif text-[1.375rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.5rem] lg:text-[1.625rem]">
+          <h3 className="font-sans text-[1.375rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.5rem] lg:text-[1.625rem]">
             {headline}
           </h3>
           <p className="mt-4 font-sans text-[15px] font-normal leading-relaxed text-neutral-900 md:text-base">
@@ -297,7 +297,7 @@ function HomePage() {
       {/* ── ROUTING SECTION ──────────────────────────────────────── */}
       <section className="border-t border-neutral-200/80 bg-[#f4f4f1] px-6 py-20 md:px-12 md:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-center font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-16 md:text-[2rem] lg:text-[2.125rem]">
+          <h2 className="mb-12 text-center font-sans text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-16 md:text-[2rem] lg:text-[2.125rem]">
             What kind of help are you looking for?
           </h2>
           <div className="grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-6 lg:gap-8">
@@ -339,7 +339,7 @@ function HomePage() {
                 'Governance framework',
                 'Board-ready documentation',
               ]}
-              cta="Our Approach to Sovereign AI →"
+              cta="Our Approach to Controlled Intelligence →"
               ctaHref="/sovereign-ai"
             />
           </div>
@@ -354,7 +354,7 @@ function HomePage() {
             {/* Left: editorial text */}
             <div className="mx-auto flex max-w-xl flex-col justify-center md:mx-0 lg:max-w-none lg:pr-4">
               <p className={`${sectionLabelClass} mb-5`}>Proof of Work</p>
-              <h2 className="font-serif text-[1.875rem] font-semibold leading-[1.15] tracking-tight text-neutral-900 md:text-[2.125rem] lg:text-[2.25rem]">
+              <h2 className="font-sans text-[1.875rem] font-semibold leading-[1.15] tracking-tight text-neutral-900 md:text-[2.125rem] lg:text-[2.25rem]">
                 Physiotherapy Association of BC: Member App
               </h2>
               <div className="mt-7 space-y-5 font-sans text-[15px] font-normal leading-relaxed text-neutral-600 md:text-base">
@@ -465,7 +465,7 @@ function HomePage() {
       {/* ── WHO I WORK WITH ──────────────────────────────────────── */}
       <section className="border-t border-neutral-200/80 bg-[#f4f4f1] px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-10 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-14 md:text-[2rem] lg:text-[2.0625rem]">
+          <h2 className="mb-10 font-sans text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-14 md:text-[2rem] lg:text-[2.0625rem]">
             Who I work with
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:gap-8">
@@ -490,7 +490,7 @@ function HomePage() {
               <article key={heading} className="audience-card-v1 flex h-full flex-col overflow-hidden rounded-lg">
                 <div className="h-[3px] w-full shrink-0 bg-[#5f695c]" aria-hidden />
                 <div className="flex flex-1 flex-col p-8 md:p-9 lg:p-10">
-                  <h3 className="font-serif text-[1.25rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.375rem] lg:text-[1.4375rem]">
+                  <h3 className="font-sans text-[1.25rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.375rem] lg:text-[1.4375rem]">
                     {heading}
                   </h3>
                   <p className="mt-4 max-w-[54ch] font-sans text-[15px] font-normal leading-relaxed text-neutral-600 md:text-base">

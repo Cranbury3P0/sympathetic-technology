@@ -74,6 +74,25 @@ export function applyDefaultDocumentMeta() {
   setMetaName('twitter:image', DEFAULT.twitterImage)
 }
 
+export const CONTROLLED_INTELLIGENCE_DESCRIPTION =
+  'Controlled Intelligence means your organization runs AI inside infrastructure it governs—under policies it writes, with institutional knowledge that stays inside a boundary your board can audit.'
+
+export function applyControlledIntelligencePageMeta() {
+  const url = `${SITE_ORIGIN}/sovereign-ai`
+  document.title = 'Controlled Intelligence | Sympathetic Technology'
+  setMetaName('description', CONTROLLED_INTELLIGENCE_DESCRIPTION)
+  setCanonical(url)
+  setMetaProperty('og:type', 'website')
+  setMetaProperty('og:title', 'Controlled Intelligence | Sympathetic Technology')
+  setMetaProperty('og:description', CONTROLLED_INTELLIGENCE_DESCRIPTION)
+  setMetaProperty('og:url', url)
+  setMetaProperty('og:image', DEFAULT.ogImage)
+  setMetaName('twitter:card', 'summary_large_image')
+  setMetaName('twitter:title', 'Controlled Intelligence | Sympathetic Technology')
+  setMetaName('twitter:description', CONTROLLED_INTELLIGENCE_DESCRIPTION)
+  setMetaName('twitter:image', DEFAULT.twitterImage)
+}
+
 export function applyJournalIndexMeta() {
   const url = `${SITE_ORIGIN}/journal`
   document.title = 'Journal | Sympathetic Technology'

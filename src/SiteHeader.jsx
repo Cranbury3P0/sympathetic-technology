@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_LINKS = [
   ['WORK', '/services'],
   ['APPROACH', '/approach'],
-  ['SOVEREIGN AI', '/sovereign-ai'],
+  ['CONTROLLED INTELLIGENCE', '/sovereign-ai'],
   ['JOURNAL', '/journal'],
   ['ABOUT', '/about'],
   ['READINESS', '/readiness-assessment'],
