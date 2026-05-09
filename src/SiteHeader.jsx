@@ -1,30 +1,23 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-/** Black bar nav shared by the header and footer. */
-export const SITE_HEADER_NAV = [
-  ['HOME', '/'],
-  ['ABOUT', '/about'],
-  ['SERVICES', '/services'],
-  ['OUR APPROACH', '/approach'],
-  ['SOVEREIGN AI', '/sovereign-ai'],
+const NAV_LINKS = [
+  ['WORK', '/services'],
   ['JOURNAL', '/journal'],
-  ['AI READINESS', '/readiness-assessment'],
-  ["LET'S TALK", '/talk'],
+  ['ABOUT', '/about'],
 ]
+
+/** Exported for use in SiteFooter navigation list. */
+export const SITE_HEADER_NAV = NAV_LINKS
 
 export default function SiteHeader({ overlay = false }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
 
-  const positionClass = overlay
-    ? 'fixed left-0 right-0 top-0'
-    : 'sticky top-0'
+  const positionClass = overlay ? 'fixed left-0 right-0 top-0' : 'sticky top-0'
 
-  const isActive = (to) => {
-    if (to === '/') return pathname === '/'
-    return pathname === to || pathname.startsWith(`${to}/`)
-  }
+  const isActive = (to) =>
+    to === '/' ? pathname === '/' : pathname === to || pathname.startsWith(`${to}/`)
 
   const navLinkClass = (to, mobile = false) =>
     `${mobile ? 'block ' : ''}font-sans text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-200 hover:text-white ${
@@ -33,23 +26,22 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#111827] px-6 py-6 md:px-16`}
+      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#111827] px-6 py-5 md:px-12`}
       aria-label="Site"
     >
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4 md:items-start md:gap-6">
+      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-4">
+        {/* Wordmark */}
         <Link
           to="/"
-          className="flex min-w-0 shrink flex-col items-start text-left"
+          className="shrink-0 text-left"
           aria-label="Sympathetic Technology home"
         >
-          <p className="max-w-full truncate whitespace-nowrap font-sans text-[17px] font-bold uppercase tracking-[0.16em] text-white sm:text-xl sm:tracking-[0.2em] md:text-2xl">
-            SYMPATHETIC TECHNOLOGY
-          </p>
-          <p className="mt-1 max-w-[min(100%,405px)] truncate whitespace-nowrap font-sans text-[16.5px] font-normal tracking-[0.04em] text-white opacity-[0.72] sm:max-w-full sm:text-[19.5px]">
-            A governed AI infrastructure studio
+          <p className="font-sans text-[15px] font-bold leading-tight tracking-[0.06em] text-white sm:text-[17px]">
+            Sympathetic<br />Technology
           </p>
         </Link>
 
+        {/* Mobile hamburger */}
         <button
           type="button"
           className="-mr-1 shrink-0 p-2 text-white/90 transition-colors hover:text-white md:hidden"
@@ -59,7 +51,7 @@ export default function SiteHeader({ overlay = false }) {
         >
           <span className="sr-only">{menuOpen ? 'Close menu' : 'Open menu'}</span>
           {menuOpen ? (
-            <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-white/90 transition-colors hover:text-white">
+            <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-white/90">
               Close
             </span>
           ) : (
@@ -71,29 +63,27 @@ export default function SiteHeader({ overlay = false }) {
           )}
         </button>
 
-        <ul className="hidden flex-wrap items-center justify-end gap-x-10 md:flex lg:gap-x-12">
-          {SITE_HEADER_NAV.map(([label, to]) => (
-            <li key={label}>
-              {to.startsWith('mailto:') ? (
-                <a
-                  href={to}
-                  className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 hover:text-white"
-                >
-                  {label}
-                </a>
-              ) : (
-                <Link
-                  to={to}
-                  className={navLinkClass(to)}
-                >
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-x-10 md:flex lg:gap-x-12">
+          <ul className="flex items-center gap-x-10 lg:gap-x-12">
+            {NAV_LINKS.map(([label, to]) => (
+              <li key={label}>
+                <Link to={to} className={navLinkClass(to)}>
                   {label}
                 </Link>
-              )}
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/talk"
+            className="rounded-none bg-white px-6 py-3 font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-[#111827] transition-colors duration-200 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            Book a Conversation
+          </Link>
+        </div>
       </div>
 
+      {/* Mobile dropdown */}
       <div
         id="site-mobile-nav"
         className={`mx-auto mt-6 max-w-[1920px] border-t border-white/10 pt-6 md:hidden ${
@@ -102,27 +92,26 @@ export default function SiteHeader({ overlay = false }) {
         aria-hidden={!menuOpen}
       >
         <ul className="space-y-4">
-          {SITE_HEADER_NAV.map(([label, to]) => (
+          {NAV_LINKS.map(([label, to]) => (
             <li key={label}>
-              {to.startsWith('mailto:') ? (
-                <a
-                  href={to}
-                  className="block font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 transition-colors duration-200 hover:text-white"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </a>
-              ) : (
-                <Link
-                  to={to}
-                  className={navLinkClass(to, true)}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </Link>
-              )}
+              <Link
+                to={to}
+                className={navLinkClass(to, true)}
+                onClick={() => setMenuOpen(false)}
+              >
+                {label}
+              </Link>
             </li>
           ))}
+          <li>
+            <Link
+              to="/talk"
+              className="block font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:text-white/80"
+              onClick={() => setMenuOpen(false)}
+            >
+              Book a Conversation
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
