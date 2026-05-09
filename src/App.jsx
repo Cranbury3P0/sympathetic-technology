@@ -45,18 +45,22 @@ const outlineButtonClass =
 
 function RoutingColumn({ headline, description, examples, cta, ctaHref, ctaNote }) {
   return (
-    <div className="flex flex-col">
+    <div className="group flex h-full flex-col rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-8 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] transition-all duration-300 hover:border-neutral-300 hover:shadow-[0_12px_40px_-12px_rgba(15,23,42,0.15)] md:p-9">
+      <span
+        className="mb-5 block h-1 w-10 rounded-full bg-[#0B111E] transition-[width] duration-300 group-hover:w-14"
+        aria-hidden
+      />
       <h3 className="font-sans text-2xl font-bold leading-snug tracking-tight text-neutral-900">
         {headline}
       </h3>
       <p className="mt-4 font-sans text-base font-normal leading-relaxed text-neutral-600">
         {description}
       </p>
-      <ul className="mt-5 space-y-1">
+      <ul className="mt-5 space-y-2 border-t border-neutral-200/80 pt-5">
         {examples.map((item) => (
           <li
             key={item}
-            className="font-sans text-sm font-normal leading-relaxed text-neutral-500"
+            className="relative pl-4 font-sans text-sm font-normal leading-relaxed text-neutral-600 before:absolute before:left-0 before:top-[0.55em] before:h-1 before:w-1 before:rounded-full before:bg-[#0B111E]/40 before:content-['']"
           >
             {item}
           </li>
@@ -65,7 +69,7 @@ function RoutingColumn({ headline, description, examples, cta, ctaHref, ctaNote 
       <div className="mt-auto pt-8">
         <Link
           to={ctaHref}
-          className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+          className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/25 transition-all hover:opacity-80 hover:decoration-neutral-900/50"
         >
           {cta}
         </Link>
@@ -124,12 +128,14 @@ function JournalCard({ post }) {
 function PhonePlaceholder({ label }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-full max-w-[160px] overflow-hidden rounded-[24px] border-[6px] border-neutral-800 bg-neutral-100 shadow-xl aspect-[9/19]">
-        <div className="h-full w-full bg-neutral-200 flex items-center justify-center">
-          <span className="text-[9px] font-sans text-neutral-400 text-center px-2">{label}</span>
+      <div className="relative w-full max-w-[160px] overflow-hidden rounded-[24px] border-[6px] border-neutral-900 bg-neutral-900 shadow-[0_18px_50px_-15px_rgba(15,23,42,0.55)] ring-2 ring-white aspect-[9/19] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_28px_60px_-18px_rgba(15,23,42,0.45)]">
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-300">
+          <span className="px-3 text-center font-sans text-[9px] font-medium uppercase tracking-[0.12em] text-neutral-500">
+            {label}
+          </span>
         </div>
         {/* Notch */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-4 w-20 bg-neutral-800 rounded-b-xl" aria-hidden />
+        <div className="absolute left-1/2 top-0 h-4 w-20 -translate-x-1/2 rounded-b-xl bg-neutral-900" aria-hidden />
       </div>
     </div>
   )
@@ -219,7 +225,7 @@ function HomePage() {
           <h2 className="mb-12 text-center font-sans text-2xl font-bold tracking-tight text-neutral-900 md:mb-16">
             What kind of help are you looking for?
           </h2>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10 lg:gap-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:gap-10">
             <RoutingColumn
               headline="I need clarity before I commit to anything."
               description="You're not ready for a project yet. You need straight answers, options, and a plan that makes sense for your organization."
@@ -268,7 +274,7 @@ function HomePage() {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16 lg:gap-20">
 
             {/* Left: text */}
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-8 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] md:p-10">
               <p className={`${sectionLabelClass} mb-5`}>Proof of Work</p>
               <h2 className="font-sans text-3xl font-bold leading-tight tracking-tight text-neutral-900 md:text-4xl">
                 Physiotherapy Association of BC: Member App
@@ -288,7 +294,7 @@ function HomePage() {
               <div className="mt-8">
                 <Link
                   to="/services"
-                  className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-4 transition-opacity hover:opacity-60"
+                  className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/25 transition-all hover:opacity-80 hover:decoration-neutral-900/50"
                 >
                   View the Full Case Study →
                 </Link>
@@ -296,15 +302,17 @@ function HomePage() {
             </div>
 
             {/* Right: phone screenshots */}
-            <div className="flex flex-col items-start">
-              <div className="flex w-full items-end justify-center gap-4 md:gap-6">
-                <PhonePlaceholder label="Welcome screen" />
-                <PhonePlaceholder label="Updates feed" />
-                <PhonePlaceholder label="Resources" />
+            <div className="flex flex-col items-stretch">
+              <div className="rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white p-8 shadow-inner shadow-neutral-900/[0.03] ring-1 ring-neutral-900/[0.04] md:p-10">
+                <div className="flex w-full items-end justify-center gap-3 sm:gap-5 md:gap-6">
+                  <PhonePlaceholder label="Welcome screen" />
+                  <PhonePlaceholder label="Updates feed" />
+                  <PhonePlaceholder label="Resources" />
+                </div>
+                <p className="mt-8 w-full text-center font-sans text-[11px] font-normal tracking-wide text-neutral-500">
+                  Built for members. Owned by the association. Designed for trust.
+                </p>
               </div>
-              <p className="mt-6 w-full text-center font-sans text-[11px] font-normal text-neutral-400">
-                Built for members. Owned by the association. Designed for trust.
-              </p>
             </div>
 
           </div>
@@ -387,11 +395,18 @@ function HomePage() {
                 body: 'Workflows are changing faster than most teams can absorb. We help you find the tools that actually serve the work rather than the ones that just look like progress.',
               },
             ].map(({ heading, body }) => (
-              <div key={heading}>
+              <div
+                key={heading}
+                className="group flex h-full flex-col rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] transition-all duration-300 hover:border-neutral-300 hover:shadow-[0_12px_40px_-12px_rgba(15,23,42,0.12)] md:p-8"
+              >
+                <span
+                  className="mb-4 block h-1 w-8 rounded-full bg-[#0B111E]/85 transition-[width] duration-300 group-hover:w-11"
+                  aria-hidden
+                />
                 <h3 className="font-sans text-base font-bold leading-snug tracking-tight text-neutral-900">
                   {heading}
                 </h3>
-                <p className="mt-3 font-sans text-sm font-normal leading-relaxed text-neutral-500">
+                <p className="mt-3 font-sans text-sm font-normal leading-relaxed text-neutral-600">
                   {body}
                 </p>
               </div>
