@@ -1,44 +1,40 @@
 import { Link } from 'react-router-dom'
 
+import { SITE_HEADER_NAV } from './SiteHeader.jsx'
+
 const labelClass =
-  'font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-white/50'
+  'font-sans text-[10px] font-bold uppercase tracking-[0.22em] text-white'
 
-const bodyClass = 'font-sans text-[13px] font-normal leading-relaxed'
+const bodyClass =
+  'font-sans text-[13px] font-normal leading-relaxed text-white'
 
-const linkClass = `${bodyClass} text-white/70 transition-colors duration-200 hover:text-white`
+const navLinkClass = `${bodyClass} transition-colors duration-200 hover:text-white/85`
 
-const FOOTER_NAV = [
-  ['Work', '/services'],
-  ['Journal', '/journal'],
-  ['About', '/about'],
-  ['Book a Conversation', '/talk'],
-]
+const FOOTER_NAV = [...SITE_HEADER_NAV, ['BOOK A CONVERSATION', '/talk']]
 
 export default function SiteFooter() {
   return (
     <footer className="border-t border-white/[0.12] bg-[#111827] text-white">
       <div className="mx-auto w-full max-w-7xl px-6 py-20">
-        <div className="grid grid-cols-1 gap-y-12 md:grid-cols-3 md:gap-x-16 md:gap-y-0">
-          {/* Left: On the Land */}
+        <div className="grid grid-cols-1 gap-y-14 md:grid-cols-3 md:gap-x-14 lg:gap-x-16 md:gap-y-0">
+          {/* Left: Land acknowledgement */}
           <div>
-            <h2 className={`${labelClass} mb-5`}>On the Land</h2>
-            <div className={`${bodyClass} space-y-3 text-white/60`}>
-              <p>Vancouver, BC</p>
-              <p>
-                On the unceded territories of the xʷməθkʷəy̓əm (Musqueam),
-                Sḵwx̱wú7mesh (Squamish), and səl̓ilwətaɬ (Tsleil-Waututh) Nations.
-              </p>
-            </div>
+            <h2 className={`${labelClass} mb-5`}>Land acknowledgement</h2>
+            <p className={`${bodyClass}`}>
+              We honour and respect the lands, governance systems, and enduring stewardship
+              of Indigenous Nations, and we are grateful to count friends, colleagues, and
+              partners from these communities among our collaborators.
+            </p>
           </div>
 
-          {/* Centre: Navigation */}
+          {/* Centre: Navigation — mirrors header */}
           <div>
             <h2 className={`${labelClass} mb-5`}>Navigation</h2>
             <nav aria-label="Footer">
-              <ul className="flex flex-col gap-2">
+              <ul className="flex flex-col gap-2.5">
                 {FOOTER_NAV.map(([label, to]) => (
-                  <li key={label}>
-                    <Link to={to} className={linkClass}>
+                  <li key={`${label}-${to}`}>
+                    <Link to={to} className={navLinkClass}>
                       {label}
                     </Link>
                   </li>
@@ -47,20 +43,28 @@ export default function SiteFooter() {
             </nav>
           </div>
 
-          {/* Right: Sympathetic Technology */}
+          {/* Right: Data & governance */}
           <div>
-            <h2 className={`${labelClass} mb-5`}>Sympathetic Technology</h2>
-            <p className={`${bodyClass} mb-6 text-white/60`}>
-              Organizational guidance for AI adoption, governance, and communications.
-              We design systems that protect your data, support your people, and
-              strengthen the work that matters.
-            </p>
-            <div className="flex gap-5">
-              <Link to="/privacy" className={linkClass}>
-                Privacy
-              </Link>
-              <Link to="/privacy" className={linkClass}>
-                Terms
+            <h2 className={`${labelClass} mb-5`}>Data &amp; governance</h2>
+            <div className={`${bodyClass} space-y-5`}>
+              <p>
+                Sympathetic Technology operates within Canada&apos;s privacy framework,
+                including the Personal Information Protection and Electronic Documents Act
+                (PIPEDA).
+              </p>
+              <p>
+                In projects involving Indigenous organizations or communities, we support
+                data stewardship approaches consistent with OCAP™ (Ownership, Control,
+                Access, and Possession) principles and community authority over
+                information.
+              </p>
+            </div>
+            <div className="mt-6">
+              <Link
+                to="/privacy"
+                className={`${navLinkClass} inline-block font-sans text-[13px] font-normal`}
+              >
+                Privacy Policy
               </Link>
             </div>
           </div>
@@ -69,7 +73,7 @@ export default function SiteFooter() {
 
       <div className="border-t border-white/[0.15]">
         <div className="mx-auto w-full max-w-7xl px-6 py-5">
-          <p className={`${bodyClass} text-white/40`}>
+          <p className="font-sans text-[13px] font-normal leading-relaxed text-white">
             © Sympathetic Technology 2025
           </p>
         </div>
