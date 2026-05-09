@@ -181,12 +181,17 @@ function HomePage() {
 
         {/* Hero text — bottom left */}
         <div className="absolute bottom-10 left-0 z-10 pb-14 pl-[calc(1.5rem+25px)] pr-6 md:pb-16 md:pl-[calc(3rem+25px)] md:pr-12 lg:pb-20 lg:pl-[calc(4rem+25px)] lg:pr-16">
-          <div className="max-w-[680px]">
-            <h1 className="text-shadow-hero font-sans text-[45px] font-bold leading-[1.12] tracking-tight text-white sm:text-[51px] md:text-[63px] lg:text-[71px]">
-              Organizational guidance for nonprofits, healthcare associations, and
-              arts organizations navigating AI.
+          <div className="max-w-[960px]">
+            <h1 className="text-shadow-hero font-sans text-[36px] font-bold leading-[1.18] tracking-tight text-white sm:text-[40px] md:text-[46px] lg:text-[52px]">
+              Organizational guidance for
+              <br />
+              nonprofits, healthcare
+              <br />
+              associations and arts
+              <br />
+              organizations navigating AI.
             </h1>
-            <p className="text-shadow-hero mt-5 max-w-[540px] font-sans text-base font-normal leading-relaxed text-white/85 md:text-lg">
+            <p className="text-shadow-hero mt-5 max-w-[620px] font-sans text-base font-normal leading-relaxed text-white/85 md:text-lg">
               From a two-hour briefing to a full governance infrastructure, we work
               at whatever scale actually fits.
             </p>
