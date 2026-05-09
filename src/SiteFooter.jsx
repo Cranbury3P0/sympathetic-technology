@@ -11,20 +11,9 @@ const bodyClass =
 const navLinkClass =
   'font-sans text-[15px] font-normal leading-relaxed tracking-normal text-white transition-colors duration-200 hover:text-white/85'
 
-/** Title-case labels for footer nav (paths stay in sync with `SITE_HEADER_NAV`). */
-const FOOTER_NAV_TITLE = {
-  '/services': 'Work',
-  '/approach': 'Approach',
-  '/sovereign-ai': 'Controlled Intelligence',
-  '/journal': 'Journal',
-  '/about': 'About',
-  '/readiness-assessment': 'Readiness Assessment',
-  '/privacy': 'Privacy',
-  '/talk': 'Book a Conversation',
-}
-
+/** Same order and labels as `SITE_HEADER_NAV`, then primary CTA (matches header left-to-right). */
 const FOOTER_NAV_ITEMS = [
-  ...SITE_HEADER_NAV.map(([, to]) => [FOOTER_NAV_TITLE[to] ?? to, to]),
+  ...SITE_HEADER_NAV.map(([label, to]) => [label, to]),
   ['Book a Conversation', '/talk'],
 ]
 
@@ -33,17 +22,7 @@ export default function SiteFooter() {
     <footer className="border-t border-white/[0.12] bg-[#111827] text-white">
       <div className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="grid grid-cols-1 gap-y-14 md:grid-cols-3 md:gap-x-14 lg:gap-x-16 md:gap-y-0">
-          {/* Left: Land acknowledgement */}
-          <div>
-            <h2 className={`${labelClass} mb-5`}>Land acknowledgement</h2>
-            <p className={`${bodyClass}`}>
-              We honour and respect the lands, governance systems, and enduring stewardship
-              of Indigenous Nations, and we are grateful to count friends, colleagues, and
-              partners from these communities among our collaborators.
-            </p>
-          </div>
-
-          {/* Centre: Navigation — mirrors header */}
+          {/* Navigation first — top-down on mobile matches header order */}
           <div>
             <h2 className={`${labelClass} mb-5`}>Navigation</h2>
             <nav aria-label="Footer">
@@ -59,7 +38,17 @@ export default function SiteFooter() {
             </nav>
           </div>
 
-          {/* Right: Data & governance */}
+          {/* Land acknowledgement */}
+          <div>
+            <h2 className={`${labelClass} mb-5`}>Land acknowledgement</h2>
+            <p className={`${bodyClass}`}>
+              We honour and respect the lands, governance systems, and enduring stewardship
+              of Indigenous Nations, and we are grateful to count friends, colleagues, and
+              partners from these communities among our collaborators.
+            </p>
+          </div>
+
+          {/* Data & governance */}
           <div>
             <h2 className={`${labelClass} mb-5`}>Data &amp; governance</h2>
             <div className={`${bodyClass} space-y-5`}>
@@ -75,23 +64,21 @@ export default function SiteFooter() {
                 information.
               </p>
             </div>
-            <div className="mt-6">
-              <Link
-                to="/privacy"
-                className={`${navLinkClass} inline-block`}
-              >
-                Privacy Policy
-              </Link>
-            </div>
           </div>
         </div>
       </div>
 
       <div className="border-t border-white/[0.15]">
-        <div className="mx-auto w-full max-w-7xl px-6 py-5">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-sans text-[15px] font-normal leading-relaxed text-white">
             © Sympathetic Technology 2025
           </p>
+          <Link
+            to="/privacy"
+            className={`${navLinkClass} shrink-0 text-[14px] sm:text-[15px]`}
+          >
+            Privacy
+          </Link>
         </div>
       </div>
     </footer>

@@ -2,13 +2,11 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const NAV_LINKS = [
-  ['WORK', '/services'],
-  ['APPROACH', '/approach'],
-  ['CONTROLLED INTELLIGENCE', '/sovereign-ai'],
-  ['JOURNAL', '/journal'],
-  ['ABOUT', '/about'],
-  ['READINESS', '/readiness-assessment'],
-  ['PRIVACY', '/privacy'],
+  ['About', '/about'],
+  ['Approach', '/approach'],
+  ['Services', '/services'],
+  ['Readiness Assessment', '/readiness-assessment'],
+  ['Controlled Intelligence', '/sovereign-ai'],
 ]
 
 /** Exported for use in SiteFooter navigation list. */
