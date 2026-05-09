@@ -91,7 +91,7 @@ function JournalCard({ post }) {
           <img
             src={post.cover_image}
             alt={post.cover_alt || ''}
-            className="h-full w-full object-cover grayscale transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             decoding="async"
           />
@@ -330,7 +330,7 @@ function HomePage() {
                 <img
                   src="/sean-cranbury-headshot.png"
                   alt="Sean Cranbury"
-                  className="h-full w-full object-cover grayscale"
+                  className="h-full w-full object-cover"
                   loading="lazy"
                   decoding="async"
                 />
