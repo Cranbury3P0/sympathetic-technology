@@ -87,7 +87,7 @@ function JournalCard({ post }) {
           <img
             src={post.cover_image}
             alt={post.cover_alt || ''}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover grayscale transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             decoding="async"
           />
@@ -146,7 +146,7 @@ function HomePage() {
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section
         id="hero"
-        className="relative min-h-dvh min-h-[100svh] w-full overflow-hidden"
+        className="relative min-h-[100vh] w-full overflow-hidden"
       >
         <SiteHeader overlay />
 
@@ -367,19 +367,19 @@ function HomePage() {
             {[
               {
                 heading: 'Healthcare organizations',
-                body: 'Navigating AI adoption while meeting regulatory obligations and protecting patient and member data.',
+                body: "Your staff are already using consumer AI tools. Your board doesn't have a policy. Your member data is moving through platforms your organization doesn't control. We help you get ahead of that before it becomes a governance problem.",
               },
               {
                 heading: 'Nonprofits and associations',
-                body: 'Strengthening member engagement, streamlining operations, and communicating with clarity in a changing environment.',
+                body: "Small teams, limited budgets, and board expectations that don't always match organizational capacity. We work at the scale you can actually sustain, not the scale a vendor wants to sell you.",
               },
               {
                 heading: 'Arts and cultural organizations',
-                body: 'Using new tools while protecting creative work, institutional memory, and community relationships.',
+                body: "The tension between adopting new tools and protecting the creative and institutional work that defines you is real. We help you navigate it without pretending it isn't complicated.",
               },
               {
                 heading: 'Publishers and creative teams',
-                body: 'Building sustainable workflows, exploring AI responsibly, and keeping the human voice at the centre.',
+                body: 'Workflows are changing faster than most teams can absorb. We help you find the tools that actually serve the work rather than the ones that just look like progress.',
               },
             ].map(({ heading, body }) => (
               <div key={heading}>
