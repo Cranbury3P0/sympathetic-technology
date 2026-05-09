@@ -485,7 +485,7 @@ function RelatedPosts({ currentPost }) {
             <img
               src={post.cover_image}
               alt={post.cover_alt}
-              className="aspect-[3/2] w-full object-cover grayscale transition-opacity duration-200 group-hover:opacity-85"
+              className="aspect-[3/2] w-full object-cover transition-opacity duration-200 group-hover:opacity-85"
               loading="lazy"
               decoding="async"
             />
@@ -542,7 +542,7 @@ export function JournalIndexPage() {
                   <img
                     src={post.cover_image}
                     alt={post.cover_alt}
-                    className="aspect-[3/2] w-full object-cover grayscale transition-opacity duration-200 group-hover:opacity-85"
+                    className="aspect-[3/2] w-full object-cover transition-opacity duration-200 group-hover:opacity-85"
                     loading="lazy"
                     decoding="async"
                   />
@@ -624,7 +624,7 @@ export function JournalPostPage() {
               <img
                 src={post.cover_image}
                 alt={post.cover_alt}
-                className="mx-auto mt-8 aspect-video w-full max-w-[760px] object-cover grayscale"
+                className="mx-auto mt-8 aspect-video w-full max-w-[760px] object-cover"
                 decoding="async"
               />
               <h1 className="mx-auto mt-10 max-w-[760px] pb-12 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:pb-20 md:text-[clamp(32px,4vw,60px)]">

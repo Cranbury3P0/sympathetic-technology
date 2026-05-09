@@ -133,7 +133,7 @@ export default function AboutPage() {
               <img
                 src="/sean-cranbury-headshot.png"
                 alt="Sean Cranbury"
-                className="aspect-[4/5] w-full object-cover grayscale"
+                className="aspect-[4/5] w-full object-cover"
               />
             </div>
           </div>
