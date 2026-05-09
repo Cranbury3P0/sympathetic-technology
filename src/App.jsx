@@ -132,19 +132,24 @@ function JournalCard({ post }) {
   )
 }
 
-/* ─── Phone placeholder ──────────────────────────────────────────── */
+/* ─── Phone mockups (Proof of Work) ──────────────────────────────── */
 
 function PhonePlaceholder({ label, src, alt }) {
   const imgAlt = alt ?? label
+  const resolvedSrc =
+    src && src.startsWith('/') ? `${import.meta.env.BASE_URL}${src.slice(1)}` : src
+
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-full max-w-[160px] overflow-hidden rounded-[24px] border-[6px] border-neutral-900 bg-neutral-900 shadow-[0_18px_50px_-15px_rgba(15,23,42,0.55)] ring-2 ring-white aspect-[9/19] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_28px_60px_-18px_rgba(15,23,42,0.45)]">
+    <div className="flex shrink-0 flex-col items-center">
+      <div
+        className="relative h-[300px] w-[142px] shrink-0 overflow-hidden rounded-[22px] border-[5px] border-neutral-900 bg-neutral-900 shadow-[0_18px_50px_-15px_rgba(15,23,42,0.55)] ring-2 ring-white transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_28px_60px_-18px_rgba(15,23,42,0.45)] sm:h-[329px] sm:w-[156px] sm:rounded-[24px] sm:border-[6px] md:h-[359px] md:w-[170px] lg:h-[380px] lg:w-[180px]"
+      >
         {src ? (
           <img
-            src={src}
+            src={resolvedSrc}
             alt={imgAlt}
-            className="absolute inset-0 h-full w-full object-cover object-top"
-            loading="lazy"
+            className="pointer-events-none absolute inset-0 block h-full w-full object-cover object-top"
+            loading="eager"
             decoding="async"
           />
         ) : (
@@ -328,9 +333,9 @@ function HomePage() {
             </div>
 
             {/* Right: phone screenshots */}
-            <div className="flex flex-col items-stretch">
+            <div className="flex w-full flex-col items-stretch md:min-w-[min(100%,360px)]">
               <div className="rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white p-8 shadow-inner shadow-neutral-900/[0.03] ring-1 ring-neutral-900/[0.04] md:p-10">
-                <div className="flex w-full items-end justify-center gap-3 sm:gap-5 md:gap-6">
+                <div className="flex w-full max-w-full flex-nowrap items-end justify-center gap-4 overflow-x-auto overflow-y-visible py-4 [scrollbar-width:thin] sm:gap-5 md:gap-6">
                   <PhonePlaceholder
                     src="/images/proof/pabc-screen-welcome.png"
                     alt="PABC member app screenshot: Indigenous Education article"
