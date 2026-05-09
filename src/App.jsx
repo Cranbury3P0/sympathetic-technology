@@ -186,7 +186,7 @@ function HomePage() {
         />
 
         {/* Hero text — bottom left */}
-        <div className="absolute bottom-[105px] left-[60px] right-6 z-10 pb-14 md:right-12 md:pb-16 lg:right-16 lg:pb-20">
+        <div className="absolute bottom-[105px] left-[110px] right-6 z-10 pb-14 md:right-12 md:pb-16 lg:right-16 lg:pb-20">
           <div className="max-w-[960px]">
             <h1 className="text-shadow-hero font-sans text-[36px] font-bold leading-[1.18] tracking-tight text-white sm:text-[40px] md:text-[46px] lg:text-[52px]">
               Organizational guidance for
