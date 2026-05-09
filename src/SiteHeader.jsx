@@ -30,22 +30,37 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] px-6 py-5 md:px-12 md:py-6`}
+      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] py-5 pl-[calc(1.5rem+25px)] pr-6 md:py-6 md:pl-[calc(3rem+25px)] md:pr-12`}
       aria-label="Site"
     >
       <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-6">
-        {/* Wordmark */}
+        {/* Logomark + wordmark */}
         <Link
           to="/"
-          className="min-w-0 shrink-0 text-left"
+          className="flex min-w-0 shrink-0 items-start gap-3 text-left sm:gap-3.5 md:gap-4"
           aria-label="Sympathetic Technology home"
         >
-          <p className="font-sans text-[15px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[17px] md:text-[20px]">
-            Sympathetic Technology
-          </p>
-          <p className="mt-1 font-sans text-[14px] font-normal leading-tight text-[#A0AEC0] sm:text-[15px] md:text-[18px]">
-            A governed AI infrastructure studio
-          </p>
+          <span className="mt-0.5 shrink-0 text-white md:mt-1" aria-hidden>
+            <svg
+              width={36}
+              height={36}
+              viewBox="0 0 40 40"
+              className="h-[30px] w-[30px] sm:h-8 sm:w-8 md:h-9 md:w-9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="20" cy="20" r="15.5" stroke="currentColor" strokeWidth="1.25" />
+              <circle cx="20" cy="20" r="6" stroke="currentColor" strokeWidth="1.25" opacity="0.85" />
+            </svg>
+          </span>
+          <span className="min-w-0">
+            <p className="font-sans text-[15px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[17px] md:text-[20px]">
+              Sympathetic Technology
+            </p>
+            <p className="mt-1 font-sans text-[14px] font-normal leading-tight text-[#A0AEC0] sm:text-[15px] md:text-[18px]">
+              A West Coast AI Infrastructure Studio
+            </p>
+          </span>
         </Link>
 
         {/* Mobile hamburger */}
