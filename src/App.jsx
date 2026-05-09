@@ -460,12 +460,12 @@ function HomePage() {
       </section>
 
       {/* ── WHO I WORK WITH ──────────────────────────────────────── */}
-      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+      <section className="border-t border-neutral-200/80 bg-[#f4f4f1] px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 font-sans text-2xl font-bold tracking-tight text-neutral-900 md:mb-16 md:text-3xl">
+          <h2 className="mb-10 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-14 md:text-[2rem] lg:text-[2.0625rem]">
             Who I work with
           </h2>
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:gap-8">
             {[
               {
                 heading: 'Healthcare organizations',
@@ -484,21 +484,17 @@ function HomePage() {
                 body: 'Workflows are changing faster than most teams can absorb. We help you find the tools that actually serve the work rather than the ones that just look like progress.',
               },
             ].map(({ heading, body }) => (
-              <div
-                key={heading}
-                className="group flex h-full flex-col rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] transition-all duration-300 hover:border-neutral-300 hover:shadow-[0_12px_40px_-12px_rgba(15,23,42,0.12)] md:p-8"
-              >
-                <span
-                  className="mb-4 block h-1 w-8 rounded-full bg-[#0B111E]/85 transition-[width] duration-300 group-hover:w-11"
-                  aria-hidden
-                />
-                <h3 className="font-sans text-base font-bold leading-snug tracking-tight text-neutral-900">
-                  {heading}
-                </h3>
-                <p className="mt-3 font-sans text-sm font-normal leading-relaxed text-neutral-600">
-                  {body}
-                </p>
-              </div>
+              <article key={heading} className="audience-card-v1 flex h-full flex-col overflow-hidden rounded-lg">
+                <div className="h-[3px] w-full shrink-0 bg-[#5f695c]" aria-hidden />
+                <div className="flex flex-1 flex-col p-8 md:p-9 lg:p-10">
+                  <h3 className="font-serif text-[1.25rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.375rem] lg:text-[1.4375rem]">
+                    {heading}
+                  </h3>
+                  <p className="mt-4 max-w-[54ch] font-sans text-[15px] font-normal leading-relaxed text-neutral-600 md:text-base">
+                    {body}
+                  </p>
+                </div>
+              </article>
             ))}
           </div>
         </div>
