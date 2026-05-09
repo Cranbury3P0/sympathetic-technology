@@ -41,43 +41,52 @@ const primaryButtonClass =
 const outlineButtonClass =
   'inline-block rounded-none border border-[#111827] bg-transparent px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-[#111827] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
 
-/* ─── Routing column ─────────────────────────────────────────────── */
+/* ─── Routing column (home — Variant 1 editorial cards) ───────────── */
 
-function RoutingColumn({ headline, description, examples, cta, ctaHref, ctaNote }) {
+function RoutingColumn({ index, headline, description, examples, cta, ctaHref, ctaNote }) {
+  const numLabel = String(index).padStart(2, '0')
+
   return (
-    <div className="group flex h-full flex-col rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-8 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] transition-all duration-300 hover:border-neutral-300 hover:shadow-[0_12px_40px_-12px_rgba(15,23,42,0.15)] md:p-9">
+    <article className="routing-card-v1 relative flex h-full flex-col rounded-md p-8 md:p-10 lg:p-11">
       <span
-        className="mb-5 block h-1 w-10 rounded-full bg-[#0B111E] transition-[width] duration-300 group-hover:w-14"
+        className="pointer-events-none absolute left-7 top-5 select-none font-serif text-[3.25rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-6 md:text-[4rem] lg:text-[4.25rem]"
         aria-hidden
-      />
-      <h3 className="font-sans text-2xl font-bold leading-snug tracking-tight text-neutral-900">
-        {headline}
-      </h3>
-      <p className="mt-4 font-sans text-base font-normal leading-relaxed text-neutral-600">
-        {description}
-      </p>
-      <ul className="mt-5 space-y-2 border-t border-neutral-200/80 pt-5">
-        {examples.map((item) => (
-          <li
-            key={item}
-            className="relative pl-4 font-sans text-sm font-normal leading-relaxed text-neutral-600 before:absolute before:left-0 before:top-[0.55em] before:h-1 before:w-1 before:rounded-full before:bg-[#0B111E]/40 before:content-['']"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto pt-8">
-        <Link
-          to={ctaHref}
-          className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/25 transition-all hover:opacity-80 hover:decoration-neutral-900/50"
-        >
-          {cta}
-        </Link>
-        {ctaNote && (
-          <p className="mt-2 font-sans text-[11px] text-neutral-400">{ctaNote}</p>
-        )}
+      >
+        {numLabel}
+      </span>
+
+      <div className="mt-12 flex flex-col gap-8 md:mt-14 md:grid md:flex-1 md:grid-cols-[minmax(0,1fr)_auto] md:items-stretch md:gap-8 lg:gap-10">
+        <div className="flex min-h-0 flex-col pt-1 md:min-h-full">
+          <h3 className="font-serif text-[1.375rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.5rem] lg:text-[1.625rem]">
+            {headline}
+          </h3>
+          <p className="mt-4 font-sans text-base font-normal leading-relaxed text-neutral-700">
+            {description}
+          </p>
+          <div className="mt-8 md:mt-auto md:pt-10">
+            <Link
+              to={ctaHref}
+              className="inline-block font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/20 transition-colors duration-200 hover:decoration-neutral-900/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-800"
+            >
+              {cta}
+            </Link>
+            {ctaNote && (
+              <p className="mt-2 font-sans text-[11px] font-normal leading-relaxed text-neutral-500">
+                {ctaNote}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-6 border-t border-neutral-200 pt-8 md:flex-row md:gap-8 md:border-l md:border-t-0 md:pl-8 md:pt-0 lg:pl-10">
+          <ul className="space-y-2.5 font-sans text-sm font-normal leading-relaxed text-neutral-600 md:min-w-[10rem] lg:min-w-[11rem]">
+            {examples.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -236,11 +245,12 @@ function HomePage() {
       {/* ── ROUTING SECTION ──────────────────────────────────────── */}
       <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-center font-sans text-2xl font-bold tracking-tight text-neutral-900 md:mb-16">
+          <h2 className="mb-12 text-center font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-16 md:text-[2rem] lg:text-[2.125rem]">
             What kind of help are you looking for?
           </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6 lg:gap-8">
             <RoutingColumn
+              index={1}
               headline="I need clarity before I commit to anything."
               description="You're not ready for a project yet. You need straight answers, options, and a plan that makes sense for your organization."
               examples={[
@@ -254,6 +264,7 @@ function HomePage() {
               ctaNote="These engagements start at $500."
             />
             <RoutingColumn
+              index={2}
               headline="I have a specific project in mind."
               description="You know what you need to build or improve. You're looking for the right partner to get it done."
               examples={[
@@ -266,6 +277,7 @@ function HomePage() {
               ctaHref="/services"
             />
             <RoutingColumn
+              index={3}
               headline="I need serious AI governance infrastructure."
               description="Your organization needs secure, governed AI systems with compliance documentation and long-term oversight."
               examples={[

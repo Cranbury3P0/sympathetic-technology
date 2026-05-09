@@ -19,6 +19,38 @@
 }
 
 @layer utilities {
+  /* Home routing cards — Variant 1; hover only when hover is meaningful */
+  .routing-card-v1 {
+    transition:
+      transform 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e5e5e5;
+    background-color: #fdfdfd;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .routing-card-v1:hover {
+      transform: translateY(-6px);
+      background-color: #eef5ef;
+      border-color: #b8c8ba;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .routing-card-v1 {
+      transition-duration: 0.001ms;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .routing-card-v1:hover {
+        transform: none;
+      }
+    }
+  }
+
   .text-shadow-hero {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   }
