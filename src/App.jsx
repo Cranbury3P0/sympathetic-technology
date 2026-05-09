@@ -41,49 +41,70 @@ const primaryButtonClass =
 const outlineButtonClass =
   'inline-block rounded-none border border-[#111827] bg-transparent px-8 py-4 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-[#111827] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111827]'
 
-/* ─── Routing column (home — Variant 1 editorial cards) ───────────── */
+/* ─── Routing column (home — help tier cards) ─────────────────────── */
+
+function RoutingExampleBullets({ items }) {
+  return (
+    <ul className="space-y-2 font-sans text-[13px] font-normal leading-relaxed text-neutral-700">
+      {items.map((item) => (
+        <li
+          key={item}
+          className="relative pl-3.5 before:absolute before:left-0 before:top-[0.55em] before:h-[3px] before:w-[3px] before:rounded-full before:bg-neutral-400 before:content-['']"
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 function RoutingColumn({ index, headline, description, examples, cta, ctaHref, ctaNote }) {
   const numLabel = String(index).padStart(2, '0')
+  const splitAt = Math.ceil(examples.length / 2)
+  const examplesLeft = examples.slice(0, splitAt)
+  const examplesRight = examples.slice(splitAt)
 
   return (
-    <article className="routing-card-v1 relative flex h-full flex-col rounded-md p-8 md:p-10 lg:p-11">
-      <span
-        className="pointer-events-none absolute left-7 top-5 select-none font-serif text-[3.25rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-6 md:text-[4rem] lg:text-[4.25rem]"
-        aria-hidden
-      >
-        {numLabel}
-      </span>
+    <article className="routing-card-v1 relative flex h-full flex-col overflow-hidden rounded-lg">
+      {/* Top olive accent — matches mock strip */}
+      <div className="h-[3px] w-full shrink-0 bg-[#5f695c]" aria-hidden />
 
-      <div className="mt-12 flex flex-col gap-8 md:mt-14 md:grid md:flex-1 md:grid-cols-[minmax(0,1fr)_auto] md:items-stretch md:gap-8 lg:gap-10">
-        <div className="flex min-h-0 flex-col pt-1 md:min-h-full">
+      <div className="relative flex flex-1 flex-col px-7 pb-9 pt-8 md:px-9 md:pb-10 md:pt-9 lg:px-10 lg:pb-11 lg:pt-10">
+        <span
+          className="pointer-events-none absolute left-7 top-[2.85rem] select-none font-serif text-[3rem] font-light leading-none tracking-tight text-neutral-200 md:left-9 md:top-[3.15rem] md:text-[3.5rem] lg:left-10 lg:text-[3.65rem]"
+          aria-hidden
+        >
+          {numLabel}
+        </span>
+
+        <div className="mt-[3.35rem] flex flex-1 flex-col md:mt-[3.65rem] lg:mt-[3.85rem]">
           <h3 className="font-serif text-[1.375rem] font-semibold leading-snug tracking-tight text-neutral-900 md:text-[1.5rem] lg:text-[1.625rem]">
             {headline}
           </h3>
-          <p className="mt-4 font-sans text-base font-normal leading-relaxed text-neutral-700">
+          <p className="mt-4 font-sans text-[15px] font-normal leading-relaxed text-neutral-900 md:text-base">
             {description}
           </p>
-          <div className="mt-8 md:mt-auto md:pt-10">
+
+          <div className="mt-8 border-t border-neutral-200 pt-8">
+            <div className="grid grid-cols-2 gap-x-5 gap-y-1 sm:gap-x-8">
+              <RoutingExampleBullets items={examplesLeft} />
+              <RoutingExampleBullets items={examplesRight} />
+            </div>
+          </div>
+
+          <div className="mt-10">
             <Link
               to={ctaHref}
-              className="inline-block font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/20 transition-colors duration-200 hover:decoration-neutral-900/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-800"
+              className="inline-block font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-900 underline-offset-[5px] decoration-neutral-900/20 transition-colors duration-200 hover:decoration-neutral-900/45 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-800"
             >
               {cta}
             </Link>
             {ctaNote && (
-              <p className="mt-2 font-sans text-[11px] font-normal leading-relaxed text-neutral-500">
+              <p className="mt-2.5 font-sans text-[11px] font-normal leading-relaxed text-neutral-500">
                 {ctaNote}
               </p>
             )}
           </div>
-        </div>
-
-        <div className="flex flex-col gap-6 border-t border-neutral-200 pt-8 md:flex-row md:gap-8 md:border-l md:border-t-0 md:pl-8 md:pt-0 lg:pl-10">
-          <ul className="space-y-2.5 font-sans text-sm font-normal leading-relaxed text-neutral-600 md:min-w-[10rem] lg:min-w-[11rem]">
-            {examples.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
         </div>
       </div>
     </article>
@@ -132,37 +153,63 @@ function JournalCard({ post }) {
   )
 }
 
-/* ─── Phone mockups (Proof of Work) ──────────────────────────────── */
+/* ─── Proof of Work phone frames ──────────────────────────────────── */
 
-function PhonePlaceholder({ label, src, alt }) {
+function ProofPhoneFrame({ label, src, alt, className }) {
   const imgAlt = alt ?? label
   const resolvedSrc =
     src && src.startsWith('/') ? `${import.meta.env.BASE_URL}${src.slice(1)}` : src
 
   return (
-    <div className="flex shrink-0 flex-col items-center">
+    <div
+      className={`relative shrink-0 overflow-hidden rounded-[22px] border-[5px] border-neutral-900 bg-neutral-900 shadow-[0_22px_45px_-12px_rgba(15,23,42,0.42)] ring-[3px] ring-white sm:rounded-[24px] sm:border-[6px] ${className}`}
+    >
+      {src ? (
+        <img
+          src={resolvedSrc}
+          alt={imgAlt}
+          className="pointer-events-none absolute inset-0 block h-full w-full object-cover object-top"
+          loading="eager"
+          decoding="async"
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-300">
+          <span className="px-3 text-center font-sans text-[9px] font-medium uppercase tracking-[0.12em] text-neutral-500">
+            {label}
+          </span>
+        </div>
+      )}
       <div
-        className="relative h-[300px] w-[142px] shrink-0 overflow-hidden rounded-[22px] border-[5px] border-neutral-900 bg-neutral-900 shadow-[0_18px_50px_-15px_rgba(15,23,42,0.55)] ring-2 ring-white transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_28px_60px_-18px_rgba(15,23,42,0.45)] sm:h-[329px] sm:w-[156px] sm:rounded-[24px] sm:border-[6px] md:h-[359px] md:w-[170px] lg:h-[380px] lg:w-[180px]"
-      >
-        {src ? (
-          <img
-            src={resolvedSrc}
-            alt={imgAlt}
-            className="pointer-events-none absolute inset-0 block h-full w-full object-cover object-top"
-            loading="eager"
-            decoding="async"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-300">
-            <span className="px-3 text-center font-sans text-[9px] font-medium uppercase tracking-[0.12em] text-neutral-500">
-              {label}
-            </span>
-          </div>
-        )}
-        {/* Notch */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-0 z-10 h-4 w-20 -translate-x-1/2 rounded-b-xl bg-neutral-900"
-          aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 z-10 h-4 w-20 -translate-x-1/2 rounded-b-xl bg-neutral-900"
+        aria-hidden
+      />
+    </div>
+  )
+}
+
+function ProofPhoneCluster({ phones }) {
+  const [left, center, right] = phones
+
+  return (
+    <div className="relative mx-auto aspect-[16/11] w-full max-w-[540px] sm:aspect-[18/11] md:max-w-[560px]">
+      {/* Side phones sit slightly behind the hero */}
+      <div className="absolute bottom-[8%] left-[0%] z-[2] sm:left-[4%] md:bottom-[10%] md:left-[6%]">
+        <ProofPhoneFrame
+          {...left}
+          className="h-[248px] w-[118px] origin-bottom -rotate-[10deg] scale-[0.92] sm:h-[268px] sm:w-[126px] md:h-[286px] md:w-[134px] md:-rotate-[8deg]"
+        />
+      </div>
+      <div className="absolute bottom-[8%] right-[0%] z-[2] sm:right-[4%] md:bottom-[10%] md:right-[6%]">
+        <ProofPhoneFrame
+          {...right}
+          className="h-[248px] w-[118px] origin-bottom rotate-[10deg] scale-[0.92] sm:h-[268px] sm:w-[126px] md:h-[286px] md:w-[134px] md:rotate-[8deg]"
+        />
+      </div>
+      {/* Center phone — largest, forward */}
+      <div className="absolute bottom-[4%] left-1/2 z-[8] -translate-x-1/2 sm:bottom-[6%] md:bottom-[7%]">
+        <ProofPhoneFrame
+          {...center}
+          className="!shadow-[0_32px_70px_-14px_rgba(15,23,42,0.48)] h-[292px] w-[138px] sm:h-[322px] sm:w-[152px] md:h-[352px] md:w-[166px]"
         />
       </div>
     </div>
@@ -248,12 +295,12 @@ function HomePage() {
       </section>
 
       {/* ── ROUTING SECTION ──────────────────────────────────────── */}
-      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24 lg:py-28">
+      <section className="border-t border-neutral-200/80 bg-[#f4f4f1] px-6 py-20 md:px-12 md:py-24 lg:py-28">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-12 text-center font-serif text-[1.75rem] font-semibold leading-tight tracking-tight text-neutral-900 md:mb-16 md:text-[2rem] lg:text-[2.125rem]">
             What kind of help are you looking for?
           </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-6 lg:gap-8">
             <RoutingColumn
               index={1}
               headline="I need clarity before I commit to anything."
@@ -288,8 +335,8 @@ function HomePage() {
               examples={[
                 'Controlled Intelligence',
                 'Local model deployment',
-                'Governance framework',
                 'PIPEDA compliance',
+                'Governance framework',
                 'Board-ready documentation',
               ]}
               cta="Our Approach to Sovereign AI →"
@@ -300,17 +347,17 @@ function HomePage() {
       </section>
 
       {/* ── PROOF OF WORK ────────────────────────────────────────── */}
-      <section className="border-t border-neutral-200 bg-white px-6 py-20 md:px-12 md:py-24">
+      <section className="border-t border-neutral-200/70 bg-[#f9f9f9] px-6 py-20 md:px-12 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16 lg:gap-20">
+          <div className="grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-16 lg:gap-20">
 
-            {/* Left: text */}
-            <div className="flex flex-col justify-center rounded-xl border border-neutral-200/90 bg-gradient-to-b from-neutral-50 to-white p-8 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-neutral-900/[0.04] md:p-10">
+            {/* Left: editorial text */}
+            <div className="mx-auto flex max-w-xl flex-col justify-center md:mx-0 lg:max-w-none lg:pr-4">
               <p className={`${sectionLabelClass} mb-5`}>Proof of Work</p>
-              <h2 className="font-sans text-3xl font-bold leading-tight tracking-tight text-neutral-900 md:text-4xl">
+              <h2 className="font-serif text-[1.875rem] font-semibold leading-[1.15] tracking-tight text-neutral-900 md:text-[2.125rem] lg:text-[2.25rem]">
                 Physiotherapy Association of BC: Member App
               </h2>
-              <div className="mt-6 space-y-4 font-sans text-base font-normal leading-relaxed text-neutral-600">
+              <div className="mt-7 space-y-5 font-sans text-[15px] font-normal leading-relaxed text-neutral-600 md:text-base">
                 <p>
                   We built a custom mobile communications app for the Physiotherapy
                   Association of BC to strengthen member engagement, improve retention,
@@ -322,42 +369,41 @@ function HomePage() {
                   for timely information that members use and trust.
                 </p>
               </div>
-              <div className="mt-8">
+              <div className="mt-10">
                 <Link
                   to="/services"
-                  className="font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 underline-offset-[6px] decoration-neutral-900/25 transition-all hover:opacity-80 hover:decoration-neutral-900/50"
+                  className="inline-block border-b border-neutral-900 pb-2 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-neutral-900 transition-opacity duration-200 hover:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-800"
                 >
                   View the Full Case Study →
                 </Link>
               </div>
             </div>
 
-            {/* Right: phone screenshots */}
-            <div className="flex w-full flex-col items-stretch md:min-w-[min(100%,360px)]">
-              <div className="rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white p-8 shadow-inner shadow-neutral-900/[0.03] ring-1 ring-neutral-900/[0.04] md:p-10">
-                <div className="flex w-full max-w-full flex-nowrap items-end justify-center gap-4 overflow-x-auto overflow-y-visible py-4 [scrollbar-width:thin] sm:gap-5 md:gap-6">
-                  <PhonePlaceholder
-                    src="/images/proof/pabc-screen-welcome.png"
-                    alt="PABC member app screenshot: Indigenous Education article"
-                    label="Welcome screen"
-                  />
-                  <PhonePlaceholder
-                    src="/images/proof/pabc-screen-updates.png"
-                    alt="PABC member app screenshot: ICBC Recovery Network article"
-                    label="Updates feed"
-                  />
-                  <PhonePlaceholder
-                    src="/images/proof/pabc-screen-resources.png"
-                    alt="PABC member app screenshot: Advocacy hot topics"
-                    label="Resources"
-                  />
-                </div>
-                <p className="mt-8 w-full text-center font-sans text-[11px] font-normal tracking-wide text-neutral-500">
-                  Built for members. Owned by the association. Designed for trust.
-                </p>
-              </div>
+            {/* Right: overlapping phones */}
+            <div className="flex w-full flex-col items-center md:items-center">
+              <ProofPhoneCluster
+                phones={[
+                  {
+                    src: '/images/proof/pabc-screen-welcome.png',
+                    alt: 'PABC member app screenshot: Indigenous Education article',
+                    label: 'Welcome screen',
+                  },
+                  {
+                    src: '/images/proof/pabc-screen-updates.png',
+                    alt: 'PABC member app screenshot: ICBC Recovery Network article',
+                    label: 'Updates feed',
+                  },
+                  {
+                    src: '/images/proof/pabc-screen-resources.png',
+                    alt: 'PABC member app screenshot: Advocacy hot topics',
+                    label: 'Resources',
+                  },
+                ]}
+              />
+              <p className="mt-10 max-w-md text-center font-sans text-[11px] font-normal tracking-wide text-neutral-500 md:mt-12">
+                Built for members. Owned by the association. Designed for trust.
+              </p>
             </div>
-
           </div>
         </div>
       </section>
