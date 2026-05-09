@@ -125,17 +125,31 @@ function JournalCard({ post }) {
 
 /* ─── Phone placeholder ──────────────────────────────────────────── */
 
-function PhonePlaceholder({ label }) {
+function PhonePlaceholder({ label, src, alt }) {
+  const imgAlt = alt ?? label
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-full max-w-[160px] overflow-hidden rounded-[24px] border-[6px] border-neutral-900 bg-neutral-900 shadow-[0_18px_50px_-15px_rgba(15,23,42,0.55)] ring-2 ring-white aspect-[9/19] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_28px_60px_-18px_rgba(15,23,42,0.45)]">
-        <div className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-300">
-          <span className="px-3 text-center font-sans text-[9px] font-medium uppercase tracking-[0.12em] text-neutral-500">
-            {label}
-          </span>
-        </div>
+        {src ? (
+          <img
+            src={src}
+            alt={imgAlt}
+            className="absolute inset-0 h-full w-full object-cover object-top"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-b from-neutral-100 via-neutral-200 to-neutral-300">
+            <span className="px-3 text-center font-sans text-[9px] font-medium uppercase tracking-[0.12em] text-neutral-500">
+              {label}
+            </span>
+          </div>
+        )}
         {/* Notch */}
-        <div className="absolute left-1/2 top-0 h-4 w-20 -translate-x-1/2 rounded-b-xl bg-neutral-900" aria-hidden />
+        <div
+          className="pointer-events-none absolute left-1/2 top-0 z-10 h-4 w-20 -translate-x-1/2 rounded-b-xl bg-neutral-900"
+          aria-hidden
+        />
       </div>
     </div>
   )
@@ -305,9 +319,21 @@ function HomePage() {
             <div className="flex flex-col items-stretch">
               <div className="rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-100 via-neutral-50 to-white p-8 shadow-inner shadow-neutral-900/[0.03] ring-1 ring-neutral-900/[0.04] md:p-10">
                 <div className="flex w-full items-end justify-center gap-3 sm:gap-5 md:gap-6">
-                  <PhonePlaceholder label="Welcome screen" />
-                  <PhonePlaceholder label="Updates feed" />
-                  <PhonePlaceholder label="Resources" />
+                  <PhonePlaceholder
+                    src="/images/proof/pabc-screen-welcome.png"
+                    alt="PABC member app screenshot: Indigenous Education article"
+                    label="Welcome screen"
+                  />
+                  <PhonePlaceholder
+                    src="/images/proof/pabc-screen-updates.png"
+                    alt="PABC member app screenshot: ICBC Recovery Network article"
+                    label="Updates feed"
+                  />
+                  <PhonePlaceholder
+                    src="/images/proof/pabc-screen-resources.png"
+                    alt="PABC member app screenshot: Advocacy hot topics"
+                    label="Resources"
+                  />
                 </div>
                 <p className="mt-8 w-full text-center font-sans text-[11px] font-normal tracking-wide text-neutral-500">
                   Built for members. Owned by the association. Designed for trust.
