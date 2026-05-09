@@ -433,18 +433,16 @@ export default function OurApproachPage() {
           <div className="mx-auto max-w-[1200px]">
             <p className={eyebrowClass}>Our Approach</p>
             <h1 className="mt-5 max-w-[900px] text-[clamp(40px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Controlled Intelligence is a framework for organizations that govern what
-              they build.
+              Your organization already has the answers to most of these questions
             </h1>
-            <div className={`mt-8 max-w-[760px] space-y-4 ${bodyTextClass}`}>
+            <div className={`mt-8 max-w-[760px] ${bodyTextClass}`}>
               <p>
-                Controlled Intelligence does not automate institutional judgment. It
-                clarifies where that judgment lives, how it moves, and what it depends
-                on.
-              </p>
-              <p>
-                It gives organizations a way to work with AI without stepping outside
-                their own responsibilities, records, and governance structures.
+                Most of the organizations I work with have spent years developing exactly
+                the capacities that responsible AI adoption requires: structured
+                decision-making, stakeholder consultation, risk assessment, policy
+                development, change management. It&apos;s not new skills so much as
+                collaboration on blending workflow and strategy to integrate new tools and
+                sensibilities.
               </p>
             </div>
           </div>
