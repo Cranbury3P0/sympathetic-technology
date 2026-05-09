@@ -10,7 +10,7 @@ const navItems = [
   { label: "Let's Talk", to: '/talk' },
 ]
 
-export const pageFont = "-apple-system, 'Helvetica Neue', Arial, sans-serif"
+export const pageFont = "'Satoshi', system-ui, sans-serif"
 
 export const eyebrowClass =
   'text-[11px] font-medium uppercase tracking-[0.12em] text-[#999999]'

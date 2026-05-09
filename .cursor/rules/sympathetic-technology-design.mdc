@@ -14,7 +14,7 @@ Use this rule when building or updating interior pages on the Sympathetic Techno
 - No gradients, drop shadows, or border radius on structural elements.
 
 ## Typography
-- Font stack: `-apple-system, 'Helvetica Neue', Arial, sans-serif`.
+- Font stack: `'Satoshi', system-ui, sans-serif` (match Tailwind `font-sans`; Satoshi loads from Fontshare in `index.html`).
 - Body: `17px`, `line-height: 1.75`, color `#333`, with `-webkit-font-smoothing: antialiased`.
 - Headings: `font-weight: 800`, `letter-spacing: -0.02em`, `line-height: 1.05`.
 - Hero headlines: `clamp(40px, 5vw, 68px)`.

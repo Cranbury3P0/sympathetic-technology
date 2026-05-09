@@ -1,8 +1,24 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import Anthropic from '@anthropic-ai/sdk'
 import PDFDocument from 'pdfkit'
 import nodemailer from 'nodemailer'
 import { createClient } from '@supabase/supabase-js'
 import { buildSystemPrompt } from '../src/systemPrompt.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const SATOSHI_TTF_REGULAR = path.join(__dirname, 'fonts', 'Satoshi-Regular.ttf')
+const SATOSHI_TTF_BOLD = path.join(__dirname, 'fonts', 'Satoshi-Bold.ttf')
+
+/** Registered PDFKit font names — paired with TTF files in `server/fonts/`. */
+const PDF_FONT = 'Satoshi'
+const PDF_FONT_BOLD = 'Satoshi-Bold'
+
+function registerAssessmentPdfFonts(doc) {
+  doc.registerFont(PDF_FONT, SATOSHI_TTF_REGULAR)
+  doc.registerFont(PDF_FONT_BOLD, SATOSHI_TTF_BOLD)
+}
 
 const MODEL = 'claude-sonnet-4-6'
 const BRAND_DARK = '#111827'
@@ -204,7 +220,7 @@ function addInteriorPageSetup(doc, date) {
   doc.restore()
 
   doc
-    .font('Helvetica-Bold')
+    .font(PDF_FONT_BOLD)
     .fontSize(6)
     .fillColor('#FFFFFF')
     .text('SYMPATHETIC TECHNOLOGY  |  SEAN CRANBURY  |  HELLO@SYMPATHETICTECHNOLOGY.COM', 56, 11, {
@@ -223,7 +239,7 @@ function addInteriorPageSetup(doc, date) {
   doc.restore()
 
   doc
-    .font('Helvetica')
+    .font(PDF_FONT)
     .fontSize(7)
     .fillColor(MUTED_TEXT)
     .text('Sympathetic Technology · AI Readiness Assessment Report', 56, fy + 7, { width: 500 })
@@ -235,7 +251,7 @@ function addInteriorPageSetup(doc, date) {
 
 function sectionTitle(doc, title, x, y, width = 500) {
   doc
-    .font('Helvetica-Bold')
+    .font(PDF_FONT_BOLD)
     .fontSize(10)
     .fillColor(BRAND_DARK)
     .text(title.toUpperCase(), x, y, { characterSpacing: 1.5, width })
@@ -256,7 +272,7 @@ function sectionTitle(doc, title, x, y, width = 500) {
 
 function paragraph(doc, text, x, y, options = {}) {
   doc
-    .font(options.font || 'Helvetica')
+    .font(options.font || PDF_FONT)
     .fontSize(options.size || 10.5)
     .fillColor(options.color || BODY_TEXT)
     .text(String(text || ''), x, y, {
@@ -289,7 +305,7 @@ function drawScoreDots(doc, score, cardX, cardY, cardWidth, cardHeight) {
 
   const caption = score !== null ? `${score} of 5` : '—'
   doc
-    .font('Helvetica')
+    .font(PDF_FONT)
     .fontSize(7)
     .fillColor(MUTED_TEXT)
     .text(caption, startX - r, dotCY + r + 5, {
@@ -304,6 +320,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
       size: 'LETTER',
       margins: { top: 56, bottom: 68, left: 56, right: 56 },
     })
+    registerAssessmentPdfFonts(doc)
     const chunks = []
     const assessmentDate = formatDate()
     const nextSteps = extractPracticalNextSteps(aiSummary)
@@ -337,25 +354,25 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.restore()
 
     doc
-      .font('Helvetica-Bold')
+      .font(PDF_FONT_BOLD)
       .fontSize(7.5)
       .fillColor('#FFFFFF')
       .text('SYMPATHETIC TECHNOLOGY  |  SEAN CRANBURY  |  HELLO@SYMPATHETICTECHNOLOGY.COM', 56, 24, { characterSpacing: 1.5 })
 
     doc
-      .font('Helvetica-Bold')
+      .font(PDF_FONT_BOLD)
       .fontSize(24)
       .fillColor('#FFFFFF')
       .text('AI Readiness', 56, 50)
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(24)
       .fillColor('#D0DDD0')
       .text('Assessment Report', 56, 78)
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(8)
       .fillColor('#D0DDD0')
       .text(assessmentDate, 56, 124, { width: 500, align: 'right' })
@@ -377,12 +394,12 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
       const x = i % 2 === 0 ? 56 : 316
       const cy = i % 2 === 0 ? lY : rY
       doc
-        .font('Helvetica')
+        .font(PDF_FONT)
         .fontSize(7.5)
         .fillColor(MUTED_TEXT)
         .text(label.toUpperCase(), x, cy, { width: 230, characterSpacing: 0.6 })
       doc
-        .font('Helvetica')
+        .font(PDF_FONT)
         .fontSize(10)
         .fillColor(BODY_TEXT)
         .text(String(value), x, cy + 14, { width: 230 })
@@ -408,13 +425,13 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
       doc.restore()
 
       doc
-        .font('Helvetica-Bold')
+        .font(PDF_FONT_BOLD)
         .fontSize(11)
         .fillColor(BODY_TEXT)
         .text(dimension.label, 76, y + 13, { width: 320 })
 
       doc
-        .font('Helvetica')
+        .font(PDF_FONT)
         .fontSize(8.5)
         .fillColor(MUTED_TEXT)
         .text(dimension.note, 76, y + 31, { width: 320 })
@@ -433,7 +450,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
 
     y = sectionTitle(doc, 'Diagnostic Summary', 56, doc.y)
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10.5)
       .fillColor(BODY_TEXT)
       .text(truncateSummaryBody(cleanedSummary), 56, y, { width: 500, lineGap: 5, paragraphGap: 10 })
@@ -460,13 +477,13 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
       doc.circle(67, stepY + 8, 8).fill(ACCENT_GREEN)
       doc.restore()
       doc
-        .font('Helvetica-Bold')
+        .font(PDF_FONT_BOLD)
         .fontSize(7.5)
         .fillColor('#FFFFFF')
         .text(String(index + 1), 63.5, stepY + 3.5, { width: 7, align: 'center' })
 
       doc
-        .font('Helvetica')
+        .font(PDF_FONT)
         .fontSize(10.5)
         .fillColor(BODY_TEXT)
         .text(step, 88, stepY, { width: 448, lineGap: 4 })
@@ -483,7 +500,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     y = sectionTitle(doc, 'About Sympathetic Technology', 56, doc.y)
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10)
       .fillColor(MUTED_TEXT)
       .text(
@@ -496,7 +513,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 10
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10)
       .fillColor(MUTED_TEXT)
       .text(
@@ -509,7 +526,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 14
 
     doc
-      .font('Helvetica-Bold')
+      .font(PDF_FONT_BOLD)
       .fontSize(10.5)
       .fillColor(BODY_TEXT)
       .text("Let's talk about what comes next.", 56, doc.y, { width: 500 })
@@ -517,7 +534,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 10
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10)
       .fillColor(MUTED_TEXT)
       .text(
@@ -530,7 +547,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 10
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10)
       .fillColor(MUTED_TEXT)
       .text(
@@ -543,7 +560,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 14
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(10)
       .fillColor(MUTED_TEXT)
       .text('Thanks,', 56, doc.y, { width: 500 })
@@ -551,7 +568,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 14
 
     doc
-      .font('Helvetica-Bold')
+      .font(PDF_FONT_BOLD)
       .fontSize(10)
       .fillColor(BODY_TEXT)
       .text('Sean Cranbury', 56, doc.y, { width: 500 })
@@ -559,7 +576,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 2
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(9.5)
       .fillColor(MUTED_TEXT)
       .text('Principal, CEO', 56, doc.y, { width: 500 })
@@ -567,7 +584,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 2
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(9.5)
       .fillColor(MUTED_TEXT)
       .text('Sympathetic Technology', 56, doc.y, { width: 500 })
@@ -575,7 +592,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 2
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(9.5)
       .fillColor(MUTED_TEXT)
       .text('hello@sympathetictechnology.com', 56, doc.y, { width: 500 })
@@ -583,7 +600,7 @@ export function generateAssessmentPdfBuffer({ contactInput, aiSummary, dimension
     doc.y += 2
 
     doc
-      .font('Helvetica')
+      .font(PDF_FONT)
       .fontSize(9.5)
       .fillColor(MUTED_TEXT)
       .text('778-987-8774', 56, doc.y, { width: 500 })

@@ -17,7 +17,10 @@ function PolicyList({ items }) {
 
 export default function PrivacyPage() {
   return (
-    <div className={`min-h-screen bg-white ${pageFont}`}>
+    <div
+      className="min-h-screen bg-white"
+      style={{ fontFamily: pageFont, WebkitFontSmoothing: 'antialiased' }}
+    >
       <SiteHeader />
 
       <main className="mx-auto max-w-3xl px-6 pb-32 pt-36 md:pt-44">
