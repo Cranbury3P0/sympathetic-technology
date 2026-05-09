@@ -180,9 +180,9 @@ function HomePage() {
         />
 
         {/* Hero text — bottom left */}
-        <div className="absolute bottom-0 left-0 z-10 px-6 pb-14 md:px-12 md:pb-16 lg:px-16 lg:pb-20">
+        <div className="absolute bottom-10 left-0 z-10 pb-14 pl-[calc(1.5rem+25px)] pr-6 md:pb-16 md:pl-[calc(3rem+25px)] md:pr-12 lg:pb-20 lg:pl-[calc(4rem+25px)] lg:pr-16">
           <div className="max-w-[680px]">
-            <h1 className="text-shadow-hero font-sans text-3xl font-bold leading-[1.12] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[56px]">
+            <h1 className="text-shadow-hero font-sans text-[45px] font-bold leading-[1.12] tracking-tight text-white sm:text-[51px] md:text-[63px] lg:text-[71px]">
               Organizational guidance for nonprofits, healthcare associations, and
               arts organizations navigating AI.
             </h1>
