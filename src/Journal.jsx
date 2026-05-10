@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import {
   applyDefaultDocumentMeta,
@@ -8,6 +8,7 @@ import {
   JOURNAL_INDEX_HEADLINE,
 } from './documentMeta.js'
 import { FooterCta, pageFont } from './InteriorFooter.jsx'
+import Lightbox from './components/Lightbox.jsx'
 import SiteHeader from './SiteHeader.jsx'
 import {
   formatJournalDate,
@@ -256,83 +257,95 @@ function markdownToBlocks(markdown) {
 }
 
 function MarkdownBody({ markdown }) {
+  const [lightbox, setLightbox] = useState(null)
+
   return (
-    <div className="text-[17px] leading-[1.8] text-[#2b2e34] md:text-[18px]">
-      {markdownToBlocks(markdown).map((block, index) => {
-        if (block.type === 'h2') {
+    <>
+      <div className="text-[17px] leading-[1.8] text-[#2b2e34] md:text-[18px]">
+        {markdownToBlocks(markdown).map((block, index) => {
+          if (block.type === 'h2') {
+            return (
+              <h2
+                key={index}
+                className="mb-5 mt-14 text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#111111]"
+              >
+                {renderInline(block.text)}
+              </h2>
+            )
+          }
+
+          if (block.type === 'h3') {
+            return (
+              <h3
+                key={index}
+                className="mb-4 mt-10 text-[20px] font-bold leading-snug tracking-[-0.01em] text-[#111111]"
+              >
+                {renderInline(block.text)}
+              </h3>
+            )
+          }
+
+          if (block.type === 'blockquote') {
+            const paragraphs = block.paragraphs ?? []
+            return (
+              <blockquote
+                key={index}
+                className="my-12 space-y-5 border-l-[3px] border-[#111111] bg-[#f8f8f8] px-8 py-8 text-[20px] font-semibold leading-[1.4] tracking-[-0.01em] text-[#111111] md:px-10 [&>p]:m-0"
+              >
+                {paragraphs.map((para, pIndex) => (
+                  <p key={pIndex}>{renderInline(para)}</p>
+                ))}
+              </blockquote>
+            )
+          }
+
+          if (block.type === 'ul' || block.type === 'ol') {
+            const ListTag = block.type
+            return (
+              <ListTag key={index} className="mb-7 list-outside pl-6">
+                {block.items.map((item) => (
+                  <li key={item} className="mb-2.5 leading-[1.7]">
+                    {renderInline(item)}
+                  </li>
+                ))}
+              </ListTag>
+            )
+          }
+
+          if (block.type === 'hr') {
+            return <hr key={index} className="my-14 border-0 border-t border-[#e8e8e8]" />
+          }
+
+          if (block.type === 'img') {
+            return (
+              <figure key={index} className="my-10">
+                <img
+                  src={block.src}
+                  alt={block.alt}
+                  className="w-full cursor-zoom-in rounded-sm border border-[#e8e8e8]"
+                  decoding="async"
+                  loading="lazy"
+                  onClick={() => setLightbox({ src: block.src, alt: block.alt })}
+                />
+              </figure>
+            )
+          }
+
           return (
-            <h2
-              key={index}
-              className="mb-5 mt-14 text-[26px] font-extrabold leading-[1.1] tracking-[-0.02em] text-[#111111]"
-            >
+            <p key={index} className="mb-7 [&_a]:border-b [&_a]:border-[#e8e8e8] [&_a]:text-[#111111] [&_a]:no-underline hover:[&_a]:border-[#111111]">
               {renderInline(block.text)}
-            </h2>
+            </p>
           )
-        }
-
-        if (block.type === 'h3') {
-          return (
-            <h3
-              key={index}
-              className="mb-4 mt-10 text-[20px] font-bold leading-snug tracking-[-0.01em] text-[#111111]"
-            >
-              {renderInline(block.text)}
-            </h3>
-          )
-        }
-
-        if (block.type === 'blockquote') {
-          const paragraphs = block.paragraphs ?? []
-          return (
-            <blockquote
-              key={index}
-              className="my-12 space-y-5 border-l-[3px] border-[#111111] bg-[#f8f8f8] px-8 py-8 text-[20px] font-semibold leading-[1.4] tracking-[-0.01em] text-[#111111] md:px-10 [&>p]:m-0"
-            >
-              {paragraphs.map((para, pIndex) => (
-                <p key={pIndex}>{renderInline(para)}</p>
-              ))}
-            </blockquote>
-          )
-        }
-
-        if (block.type === 'ul' || block.type === 'ol') {
-          const ListTag = block.type
-          return (
-            <ListTag key={index} className="mb-7 list-outside pl-6">
-              {block.items.map((item) => (
-                <li key={item} className="mb-2.5 leading-[1.7]">
-                  {renderInline(item)}
-                </li>
-              ))}
-            </ListTag>
-          )
-        }
-
-        if (block.type === 'hr') {
-          return <hr key={index} className="my-14 border-0 border-t border-[#e8e8e8]" />
-        }
-
-        if (block.type === 'img') {
-          return (
-            <figure key={index} className="my-10">
-              <img
-                src={block.src}
-                alt={block.alt}
-                className="w-full rounded-sm border border-[#e8e8e8]"
-                decoding="async"
-                loading="lazy"
-              />
-            </figure>
-          )
-        }
-
-        return (
-          <p key={index} className="mb-7 [&_a]:border-b [&_a]:border-[#e8e8e8] [&_a]:text-[#111111] [&_a]:no-underline hover:[&_a]:border-[#111111]">
-            {renderInline(block.text)}
-          </p>
-        )
-      })}
-    </div>
+        })}
+      </div>
+      {lightbox ? (
+        <Lightbox
+          src={lightbox.src}
+          alt={lightbox.alt}
+          onClose={() => setLightbox(null)}
+        />
+      ) : null}
+    </>
   )
 }
 
