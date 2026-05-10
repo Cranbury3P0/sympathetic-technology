@@ -1,6 +1,6 @@
 ---
 description: Sympathetic Technology interior page design and copy standards
-globs: src/about.jsx,src/services.jsx,src/our-approach.jsx,src/sovereign-ai.jsx,src/talk.jsx
+globs: src/about.jsx,src/services.jsx,src/our-approach.jsx,src/controlled-intelligence.jsx,src/talk.jsx
 alwaysApply: false
 ---
 

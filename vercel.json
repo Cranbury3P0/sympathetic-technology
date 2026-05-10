@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/sovereign-ai",
+      "destination": "/controlled-intelligence",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!api/|images/|assets/).*)",

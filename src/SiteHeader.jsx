@@ -5,8 +5,9 @@ const NAV_LINKS = [
   ['About', '/about'],
   ['Approach', '/approach'],
   ['Services', '/services'],
-  ['Readiness Assessment', '/readiness-assessment'],
-  ['Controlled Intelligence', '/sovereign-ai'],
+  ['Journal', '/journal'],
+  ['Assessment', '/readiness-assessment'],
+  ['Controlled Intelligence', '/controlled-intelligence'],
 ]
 
 /** Exported for use in SiteFooter navigation list. */

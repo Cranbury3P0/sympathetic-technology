@@ -3,7 +3,7 @@ import { Link, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import AboutPage from './about.jsx'
 import ServicesPage from './services.jsx'
 import OurApproachPage from './our-approach.jsx'
-import SovereignAIPage from './sovereign-ai.jsx'
+import ControlledIntelligencePage from './controlled-intelligence.jsx'
 import { JournalIndexPage, JournalPostPage } from './Journal.jsx'
 import TalkPage from './talk.jsx'
 import ReadinessAssessmentPage from './readiness-assessment.jsx'
@@ -334,7 +334,7 @@ function HomePage() {
                 'Board-ready documentation',
               ]}
               cta="Our Approach to Controlled Intelligence →"
-              ctaHref="/sovereign-ai"
+              ctaHref="/controlled-intelligence"
             />
           </div>
         </div>
@@ -551,7 +551,14 @@ export default function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/approach" element={<OurApproachPage />} />
-        <Route path="/sovereign-ai" element={<SovereignAIPage />} />
+        <Route
+          path="/controlled-intelligence"
+          element={<ControlledIntelligencePage />}
+        />
+        <Route
+          path="/sovereign-ai"
+          element={<Navigate to="/controlled-intelligence" replace />}
+        />
         <Route path="/journal" element={<JournalIndexPage />} />
         <Route path="/journal/:slug" element={<JournalPostPage />} />
         <Route path="/talk" element={<TalkPage />} />

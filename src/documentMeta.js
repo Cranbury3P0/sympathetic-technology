@@ -78,7 +78,7 @@ export const CONTROLLED_INTELLIGENCE_DESCRIPTION =
   'Controlled Intelligence means your organization runs AI inside infrastructure it governs—under policies it writes, with institutional knowledge that stays inside a boundary your board can audit.'
 
 export function applyControlledIntelligencePageMeta() {
-  const url = `${SITE_ORIGIN}/sovereign-ai`
+  const url = `${SITE_ORIGIN}/controlled-intelligence`
   document.title = 'Controlled Intelligence | Sympathetic Technology'
   setMetaName('description', CONTROLLED_INTELLIGENCE_DESCRIPTION)
   setCanonical(url)

@@ -9,9 +9,9 @@ tags:
   - Local Models
 author: "Sean Cranbury"
 read_time: "6 min read"
-cover_image: "/images/journal/local-ai-bear-salmon-cover.jpg"
-cover_alt: "Bear carrying a salmon through water"
-credits: "Photo: Jacques Morel"
+cover_image: "/images/journal/local-vs-browser-ai-cover.png"
+cover_alt: "Building facade covered in autumn ivy in shades of red and orange, with rows of windows"
+credits: "Photo: Alexander von Schultz"
 status: published
 ---
 

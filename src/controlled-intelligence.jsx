@@ -199,7 +199,7 @@ function PrincipleRows() {
   )
 }
 
-export default function SovereignAIPage() {
+export default function ControlledIntelligencePage() {
   useEffect(() => {
     applyControlledIntelligencePageMeta()
     return () => {
