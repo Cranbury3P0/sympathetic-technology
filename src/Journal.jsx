@@ -41,6 +41,14 @@ function getPostColour(post) {
   return colourBySlot[post.colourSlot] ?? colourBySlot[1]
 }
 
+function journalPostUsesDarkHeaderFg(post) {
+  return post.header_dark_fg === true || post.header_dark_fg === 'true'
+}
+
+function journalPostUsesCoverObjectContain(post) {
+  return post.cover_object_contain === true || post.cover_object_contain === 'true'
+}
+
 function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] fill-current">
@@ -77,7 +85,7 @@ function LinkIcon() {
 
 function renderInline(text) {
   const parts = []
-  const pattern = /(\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*)/g
+  const pattern = /(\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*)/g
   let lastIndex = 0
   let match
 
@@ -92,11 +100,17 @@ function renderInline(text) {
           {match[2]}
         </a>,
       )
-    } else {
+    } else if (match[4]) {
       parts.push(
         <strong key={`strong-${match.index}`} className="font-semibold text-[#111111]">
           {match[4]}
         </strong>,
+      )
+    } else if (match[5]) {
+      parts.push(
+        <em key={`em-${match.index}`} className="italic">
+          {match[5]}
+        </em>,
       )
     }
 
@@ -597,6 +611,10 @@ export function JournalPostPage() {
     return <Navigate to="/journal" replace />
   }
 
+  const darkHeaderFg = journalPostUsesDarkHeaderFg(post)
+  const coverContain = journalPostUsesCoverObjectContain(post)
+  const bandColor = getPostColour(post)
+
   return (
     <div
       className="min-h-screen bg-white text-[#111111] antialiased"
@@ -606,28 +624,54 @@ export function JournalPostPage() {
       <main className="bg-white">
         <article>
           <header
-            className="border-b border-white/15 px-6 pt-12 md:px-12 md:pt-20"
-            style={{ backgroundColor: getPostColour(post) }}
+            className={`border-b px-6 pt-12 md:px-12 md:pt-20 ${
+              darkHeaderFg ? 'border-black/12' : 'border-white/15'
+            }`}
+            style={{ backgroundColor: bandColor }}
           >
             <div className="mx-auto max-w-[1200px]">
               <div className="flex items-baseline justify-between gap-6">
-                <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-white/60">
+                <p
+                  className={`text-[11px] font-medium uppercase tracking-[0.1em] ${
+                    darkHeaderFg ? 'text-black/50' : 'text-white/60'
+                  }`}
+                >
                   {post.category}
                 </p>
                 <time
-                  className="shrink-0 text-[12px] uppercase tracking-[0.06em] text-white/60"
+                  className={`shrink-0 text-[12px] uppercase tracking-[0.06em] ${
+                    darkHeaderFg ? 'text-black/50' : 'text-white/60'
+                  }`}
                   dateTime={post.date}
                 >
                   {formatJournalDate(post.date)}
                 </time>
               </div>
-              <img
-                src={post.cover_image}
-                alt={post.cover_alt}
-                className="mx-auto mt-8 aspect-video w-full max-w-[760px] object-cover"
-                decoding="async"
-              />
-              <h1 className="mx-auto mt-10 max-w-[760px] pb-12 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:pb-20 md:text-[clamp(32px,4vw,60px)]">
+              {coverContain ? (
+                <div
+                  className="mx-auto mt-8 aspect-video w-full max-w-[760px] overflow-hidden"
+                  style={{ backgroundColor: bandColor }}
+                >
+                  <img
+                    src={post.cover_image}
+                    alt={post.cover_alt}
+                    className="h-full w-full object-contain object-center"
+                    decoding="async"
+                  />
+                </div>
+              ) : (
+                <img
+                  src={post.cover_image}
+                  alt={post.cover_alt}
+                  className="mx-auto mt-8 aspect-video w-full max-w-[760px] object-cover"
+                  decoding="async"
+                />
+              )}
+              <h1
+                className={`mx-auto mt-10 max-w-[760px] pb-12 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.02] tracking-[-0.03em] md:pb-20 md:text-[clamp(32px,4vw,60px)] ${
+                  darkHeaderFg ? 'text-[#111111]' : 'text-white'
+                }`}
+              >
                 {post.title}
               </h1>
             </div>

@@ -71,7 +71,7 @@ export default function SiteFooter() {
       <div className="border-t border-white/[0.15]">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-sans text-[15px] font-normal leading-relaxed text-white">
-            © Sympathetic Technology 2025
+            © Sympathetic Technology 2026
           </p>
           <Link
             to="/privacy"
