@@ -29,14 +29,14 @@ export default function SiteHeader({ overlay = false }) {
 
   return (
     <nav
-      className={`${positionClass} z-[100] w-full border-b border-white/5 bg-[#0B111E] py-5 pl-[calc(1.5rem+25px)] pr-6 md:py-6 md:pl-[calc(3rem+25px)] md:pr-12`}
+      className={`${positionClass} z-[100] w-full max-w-full overflow-x-hidden border-b border-white/5 bg-[#0B111E] py-5 pl-[calc(1.5rem+25px)] pr-6 md:py-6 md:pl-[calc(3rem+25px)] md:pr-12`}
       aria-label="Site"
     >
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between gap-6">
+      <div className="mx-auto flex min-w-0 max-w-[1920px] items-center justify-between gap-4 md:gap-6">
         {/* Logomark + wordmark */}
         <Link
           to="/"
-          className="flex min-w-0 shrink-0 items-start gap-3 text-left sm:gap-3.5 md:gap-4"
+          className="flex min-w-0 flex-1 items-start gap-3 text-left sm:gap-3.5 md:gap-4"
           aria-label="Sympathetic Technology home"
         >
           <span className="mt-0.5 shrink-0 text-white md:mt-1" aria-hidden>
@@ -53,10 +53,10 @@ export default function SiteHeader({ overlay = false }) {
             </svg>
           </span>
           <span className="min-w-0">
-            <p className="font-sans text-[15px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[17px] md:text-[20px]">
+            <p className="break-words font-sans text-[15px] font-bold uppercase leading-tight tracking-[0.15em] text-white sm:text-[17px] md:text-[20px]">
               Sympathetic Technology
             </p>
-            <p className="mt-1 font-sans text-[14px] font-normal leading-tight text-[#A0AEC0] sm:text-[15px] md:text-[18px]">
+            <p className="mt-1 break-words font-sans text-[14px] font-normal leading-tight text-[#A0AEC0] sm:text-[15px] md:text-[18px]">
               A West Coast AI Infrastructure Studio
             </p>
           </span>

@@ -322,7 +322,7 @@ function MarkdownBody({ markdown }) {
                 <img
                   src={block.src}
                   alt={block.alt}
-                  className="w-full cursor-zoom-in rounded-sm border border-[#e8e8e8]"
+                  className="w-full max-w-full cursor-zoom-in rounded-sm border border-[#e8e8e8]"
                   decoding="async"
                   loading="lazy"
                   onClick={() => setLightbox({ src: block.src, alt: block.alt })}
@@ -387,9 +387,11 @@ function SubscribeBlock() {
 
 function SidebarRow({ label, children, valueClassName = '' }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-[#e8e8e8] py-4">
+    <div className="flex min-w-0 items-baseline justify-between gap-4 border-b border-[#e8e8e8] py-4">
       <span className="shrink-0 text-[13px] text-[#888888]">{label}</span>
-      <span className={`text-right text-[13px] font-semibold text-[#111111] ${valueClassName}`}>
+      <span
+        className={`min-w-0 break-words text-right text-[13px] font-semibold text-[#111111] ${valueClassName}`}
+      >
         {children}
       </span>
     </div>
@@ -408,7 +410,7 @@ function ShareLinks({ post }) {
   }
 
   return (
-    <div className="flex items-center gap-3.5">
+    <div className="flex min-w-0 flex-wrap items-center gap-3.5">
       <a
         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
         target="_blank"
@@ -468,13 +470,13 @@ function PostSidebar({ post }) {
   const sources = Array.isArray(post.sources) ? post.sources : []
 
   return (
-    <aside className="border-t-2 border-[#111111] md:sticky md:top-[88px]">
+    <aside className="min-w-0 border-t-2 border-[#111111] md:sticky md:top-[88px]">
       <SidebarRow label="Author">{post.author}</SidebarRow>
       <SidebarRow label="Published">{formatJournalShortDate(post.date)}</SidebarRow>
       <SidebarRow label="Category">{post.category}</SidebarRow>
       <SidebarRow label="Read Time">{post.read_time}</SidebarRow>
       <SidebarSources sources={sources} />
-      <div className="flex items-baseline justify-between gap-4 border-b border-[#e8e8e8] py-4">
+      <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-4 border-b border-[#e8e8e8] py-4">
         <span className="shrink-0 text-[13px] text-[#888888]">Share</span>
         <ShareLinks post={post} />
       </div>
@@ -491,7 +493,7 @@ function PostFooterSources({ sources }) {
   if (!Array.isArray(sources) || sources.length === 0) return null
 
   return (
-    <div className="flex items-start gap-6 border-t border-[#e8e8e8] py-5">
+    <div className="flex min-w-0 flex-wrap items-start gap-x-6 gap-y-2 border-t border-[#e8e8e8] py-5">
       <span className={footerMetaLabelClass}>Sources</span>
       <div
         className={`min-w-0 flex-1 space-y-4 text-[14px] font-normal leading-[1.55] text-[#888888] ${footerMetaLinkClass}`}
@@ -516,7 +518,7 @@ function PostFooterMeta({ post }) {
   if (!hasMetaRows) {
     return (
       <div className="mt-14">
-        <div className="flex items-baseline gap-6 border-t border-b border-[#e8e8e8] py-5">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-b border-[#e8e8e8] py-5">
           <span className={footerMetaLabelClass}>Share</span>
           <ShareLinks post={post} />
         </div>
@@ -528,21 +530,23 @@ function PostFooterMeta({ post }) {
     <div className="mt-14">
       <PostFooterSources sources={sources} />
       {hasTags ? (
-        <div className="flex items-baseline gap-6 border-t border-[#e8e8e8] py-5">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-[#e8e8e8] py-5">
           <span className={footerMetaLabelClass}>Tags</span>
-          <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#111111]">
+          <span className="min-w-0 flex-1 break-words text-[11px] font-medium uppercase tracking-[0.08em] text-[#111111]">
             {post.tags.map((tag) => `• ${tag}`).join('   ')}
           </span>
         </div>
       ) : null}
-      <div className="flex items-baseline gap-6 border-t border-[#e8e8e8] py-5">
+      <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-[#e8e8e8] py-5">
         <span className={footerMetaLabelClass}>Share</span>
         <ShareLinks post={post} />
       </div>
       {hasCredits ? (
-        <div className="flex items-baseline gap-6 border-t border-b border-[#e8e8e8] py-5">
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-b border-[#e8e8e8] py-5">
           <span className={footerMetaLabelClass}>Credits</span>
-          <span className="text-[12px] font-normal text-[#888888]">{post.credits}</span>
+          <span className="min-w-0 flex-1 break-words text-[12px] font-normal text-[#888888]">
+            {post.credits}
+          </span>
         </div>
       ) : (
         <div className="border-b border-[#e8e8e8]" aria-hidden />
@@ -630,8 +634,8 @@ export function JournalIndexPage() {
                   />
                 </Link>
                 <div>
-                  <div className="mb-5 flex items-baseline justify-between gap-6">
-                    <p className={categoryClass}>{post.category}</p>
+                  <div className="mb-5 flex min-w-0 flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+                    <p className={`${categoryClass} min-w-0 max-w-full break-words`}>{post.category}</p>
                     <time className={`${dateClass} shrink-0`} dateTime={post.date}>
                       {formatJournalDate(post.date)}
                     </time>
@@ -697,10 +701,10 @@ export function JournalPostPage() {
             }`}
             style={{ backgroundColor: bandColor }}
           >
-            <div className="mx-auto max-w-[1200px]">
-              <div className="flex items-baseline justify-between gap-6">
+            <div className="mx-auto min-w-0 max-w-[1200px]">
+              <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-2 md:gap-x-6">
                 <p
-                  className={`text-[11px] font-medium uppercase tracking-[0.1em] ${
+                  className={`min-w-0 max-w-full break-words text-[11px] font-medium uppercase tracking-[0.1em] ${
                     darkHeaderFg ? 'text-black/50' : 'text-white/60'
                   }`}
                 >
@@ -736,7 +740,7 @@ export function JournalPostPage() {
                 />
               )}
               <h1
-                className={`mx-auto mt-10 max-w-[760px] pb-12 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.02] tracking-[-0.03em] md:pb-20 md:text-[clamp(32px,4vw,60px)] ${
+                className={`mx-auto mt-10 max-w-[760px] break-words pb-12 text-[clamp(28px,6vw,44px)] font-extrabold leading-[1.02] tracking-[-0.03em] md:pb-20 md:text-[clamp(32px,4vw,60px)] ${
                   darkHeaderFg ? 'text-[#111111]' : 'text-white'
                 }`}
               >
@@ -745,8 +749,8 @@ export function JournalPostPage() {
             </div>
           </header>
 
-          <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-12 px-6 py-12 md:grid-cols-[1fr_280px] md:gap-20 md:px-12 md:py-[72px]">
-            <div className="max-w-[640px]">
+          <div className="mx-auto grid min-w-0 max-w-[1100px] grid-cols-1 gap-12 px-6 py-12 md:grid-cols-[1fr_280px] md:gap-20 md:px-12 md:py-[72px]">
+            <div className="min-w-0 max-w-[640px]">
               <MarkdownBody markdown={post.body} />
               <PostFooterMeta post={post} />
             </div>

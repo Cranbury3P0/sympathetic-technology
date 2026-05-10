@@ -232,7 +232,7 @@ function HomePage() {
 
         {/* Video — full bleed (mobile + desktop); baked-in titles in source footage are masked by overlays below */}
         <video
-          className="absolute inset-0 z-[1] h-full min-h-full w-full min-w-full object-cover object-center"
+          className="absolute inset-0 z-[1] h-full w-full object-cover object-center brightness-[1.08] contrast-[1.02]"
           src="/Sympathetic_Vancouver.mp4"
           poster={HERO_VIDEO_POSTER}
           autoPlay
@@ -243,20 +243,20 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Darken mid-frame where legacy titles were burned into stock footage / old composites */}
+        {/* Subtle mid-frame darkening (legacy titles in source footage) — kept light so the city stays visible */}
         <div
-          className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_100%_75%_at_50%_36%,rgba(17,24,39,0.78),transparent_72%)]"
+          className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_100%_75%_at_50%_36%,rgba(17,24,39,0.42),transparent_70%)]"
           aria-hidden
         />
 
         {/* Readability gradient — bottom-weighted for headline + CTAs */}
         <div
-          className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/88 via-black/48 to-black/18"
+          className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/58 via-black/22 to-black/5"
           aria-hidden
         />
 
-        {/* Hero text — bottom left */}
-        <div className="absolute bottom-[105px] left-[210px] right-6 z-10 pb-14 md:right-12 md:pb-16 lg:right-16 lg:pb-20">
+        {/* Hero text — bottom left (responsive inset; desktop keeps wide left offset) */}
+        <div className="absolute bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-5 right-5 z-10 pb-8 sm:bottom-[calc(5rem+env(safe-area-inset-bottom))] sm:left-6 sm:right-6 md:bottom-[105px] md:left-20 md:right-12 md:pb-16 lg:left-[210px] lg:right-16 lg:pb-20">
           <div className="max-w-[960px]">
             <h1 className="text-shadow-hero font-sans text-[36px] font-bold leading-[1.18] tracking-tight text-white sm:text-[40px] md:text-[46px] lg:text-[52px]">
               Organizational guidance for
@@ -271,16 +271,16 @@ function HomePage() {
               From a two-hour briefing to a full governance infrastructure, we work
               at whatever scale actually fits.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3 md:gap-4">
+            <div className="mt-8 flex max-w-full flex-col gap-3 sm:flex-row sm:flex-wrap md:gap-4">
               <Link
                 to="/talk"
-                className="inline-block rounded-none bg-white px-7 py-3.5 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="inline-block w-full max-w-full rounded-none bg-white px-7 py-3.5 text-center font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:text-left"
               >
                 Book a Conversation
               </Link>
               <Link
                 to="/readiness-assessment"
-                className="inline-block rounded-none border border-white/80 bg-transparent px-7 py-3.5 font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                className="inline-block w-full max-w-full rounded-none border border-white/80 bg-transparent px-7 py-3.5 text-center font-sans text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:text-left"
               >
                 Take the Readiness Assessment
               </Link>

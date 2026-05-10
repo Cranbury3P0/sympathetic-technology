@@ -5,12 +5,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   /* Light baseline only: no body background #000 or prefers-color-scheme: dark lock. */
 
   body {
     @apply bg-white font-sans antialiased;
+    overflow-x: hidden;
     color: #2b2e34;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
