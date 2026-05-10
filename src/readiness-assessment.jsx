@@ -663,8 +663,8 @@ export default function ReadinessAssessmentPage() {
 
             <div className="relative overflow-hidden rounded-md lg:col-start-2 lg:row-start-2 lg:-mt-2">
               <img
-                src="/images/readiness/hero-west-coast.png"
-                alt="Misty evergreen forest and coastline"
+                src="/images/journal/uncertainty-cover.jpg"
+                alt="Sunlit Pacific Northwest forest with moss-covered trees"
                 className="max-h-[min(42vw,260px)] w-full object-cover object-center sm:max-h-[300px] lg:max-h-none lg:min-h-[min(360px,42vh)]"
                 decoding="async"
               />
