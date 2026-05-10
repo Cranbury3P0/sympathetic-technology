@@ -230,10 +230,10 @@ function HomePage() {
         {/* Fallback background */}
         <div className="absolute inset-0 z-0 bg-[#111827]" aria-hidden />
 
-        {/* Video — full bleed (mobile + desktop); baked-in titles in source footage are masked by overlays below */}
+        {/* Video — full bleed (mobile + desktop) */}
         <video
           className="absolute inset-0 z-[1] h-full w-full object-cover object-center brightness-[1.08] contrast-[1.02]"
-          src="/Sympathetic_Vancouver.mp4"
+          src="/stanley-park.mp4"
           poster={HERO_VIDEO_POSTER}
           autoPlay
           muted
@@ -243,7 +243,7 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Subtle mid-frame darkening (legacy titles in source footage) — kept light so the city stays visible */}
+        {/* Gentle vignette so hero stays cohesive behind overlays */}
         <div
           className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_100%_75%_at_50%_36%,rgba(17,24,39,0.42),transparent_70%)]"
           aria-hidden
