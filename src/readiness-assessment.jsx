@@ -619,31 +619,77 @@ export default function ReadinessAssessmentPage() {
 
         {/* ── Hero ── */}
         <section className="px-6 py-16 md:px-12 md:pb-24 md:pt-[100px]" style={{ backgroundColor: SAGE }}>
-          <div className="mx-auto max-w-[1200px]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: FIR }}>
-              AI Organizational Readiness Assessment
-            </p>
-            <h1 className="mt-6 max-w-[860px] text-[clamp(36px,4.5vw,62px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
-              Understand where your organization stands before taking the next step.
-            </h1>
-            <p className="mt-8 max-w-[640px] text-[17px] font-normal leading-[1.75] text-[#445544]">
-              This assessment is a structured conversation that helps you understand your organization&apos;s
-              current relationship to artificial intelligence. It highlights areas of confidence, surfaces
-              possible risks, and identifies practical opportunities where thoughtful technology could
-              support your mission and your staff.
-            </p>
-            <hr className="mt-10 max-w-[640px] border-[#C8D8C8]" />
-            <div className="mt-6 flex flex-col gap-3">
-              {[
-                { emoji: '⏱', label: 'Takes about 10–12 minutes' },
-                { emoji: '💬', label: 'No technical background required' },
-                { emoji: '✓',  label: 'Free to complete and receive your own assessment by email' },
-              ].map(({ emoji, label }) => (
-                <div key={label} className="flex items-center gap-3 text-[15px] text-[#445544]">
-                  <span className="shrink-0 text-[16px]" aria-hidden>{emoji}</span>
-                  <span>{label}</span>
-                </div>
-              ))}
+          <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-y-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-10 lg:items-start">
+            <div className="lg:col-start-1 lg:row-start-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: FIR }}>
+                AI Organizational Readiness Assessment
+              </p>
+              <h1 className="mt-6 max-w-[860px] text-[clamp(36px,4.5vw,62px)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[#111111]">
+                Understand where your organization stands before taking the next step.
+              </h1>
+              <p className="mt-8 max-w-[640px] text-[17px] font-normal leading-[1.75] text-[#445544]">
+                This assessment is a structured conversation that helps you understand your organization&apos;s
+                current relationship to artificial intelligence. It highlights areas of confidence, surfaces
+                possible risks, and identifies practical opportunities where thoughtful technology could
+                support your mission and your staff.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 lg:col-start-2 lg:row-start-1 lg:w-full">
+              <a
+                href="#assessment-form"
+                className="inline-flex w-full items-center justify-center rounded-md bg-[#2A4A2E] px-8 py-4 text-center font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-[transform,background-color] duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#355c3a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2A4A2E] motion-reduce:hover:translate-y-0 sm:w-auto sm:self-start"
+              >
+                Take the assessment now →
+              </a>
+              <div className="flex flex-col items-center gap-2 sm:items-start">
+                <p className="text-center text-[13px] leading-snug text-[#667766] sm:text-left">
+                  Scroll down to begin the assessment
+                </p>
+                <svg
+                  className="h-4 w-4 shrink-0 text-[#889988]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M12 5v14M19 12l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded-md lg:col-start-2 lg:row-start-2 lg:-mt-2">
+              <img
+                src="/images/readiness/hero-west-coast.png"
+                alt="Misty evergreen forest and coastline"
+                className="max-h-[min(42vw,260px)] w-full object-cover object-center sm:max-h-[300px] lg:max-h-none lg:min-h-[min(360px,42vh)]"
+                decoding="async"
+              />
+              <div
+                className="pointer-events-none absolute inset-y-0 left-0 hidden w-[42%] bg-gradient-to-r from-[#EFF5EF] via-[#EFF5EF]/75 to-transparent lg:block"
+                aria-hidden
+              />
+            </div>
+
+            <div className="lg:col-start-1 lg:row-start-2">
+              <hr className="max-w-[640px] border-[#C8D8C8]" />
+              <div className="mt-6 flex max-w-[640px] flex-col gap-3">
+                {[
+                  { Icon: IconClock, label: 'Takes about 10–12 minutes' },
+                  { Icon: IconChat, label: 'No technical background required' },
+                  { Icon: IconCheck, label: 'Free to complete and receive your own assessment by email' },
+                ].map(({ Icon, label }) => (
+                  <div key={label} className="flex items-center gap-3 text-[15px] text-[#445544]">
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-[#2A4A2E]" aria-hidden>
+                      <Icon />
+                    </span>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -870,7 +916,7 @@ export default function ReadinessAssessmentPage() {
         </section>
 
         {/* ── Gated Assessment ── */}
-        <section className="bg-white px-6 py-16 md:px-12 md:py-20">
+        <section id="assessment-form" className="scroll-mt-28 bg-white px-6 py-16 md:scroll-mt-32 md:px-12 md:py-20">
           <div className="mx-auto max-w-[1200px]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: FIR }}>
               The Assessment

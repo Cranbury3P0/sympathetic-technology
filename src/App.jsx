@@ -268,8 +268,8 @@ function HomePage() {
               organizations navigating AI.
             </h1>
             <p className="text-shadow-hero mt-5 max-w-[620px] font-sans text-base font-normal leading-relaxed text-white/85 md:text-lg">
-              From a two-hour briefing to a full governance infrastructure, we work
-              at whatever scale actually fits.
+              From AI adoption strategy to custom tools to a full governance infrastructure,
+              we work at whatever scale actually fits.
             </p>
             <div className="mt-8 flex max-w-full flex-col gap-3 sm:flex-row sm:flex-wrap md:gap-4">
               <Link
