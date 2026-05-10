@@ -1,15 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
 
-const CIRCLE_SIZE = 64
-const CIRCLE_BORDER = 'rgba(255, 255, 255, 0.58)'
-const CIRCLE_BORDER_DARK = 'rgba(10, 10, 10, 0.42)'
-const FOLLOW_EASE = 0.16
+const OUTER_SIZE = 32
+const FOLLOW_EASE = 0.14
+
+const INTERACTIVE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  '[role="button"]:not([disabled])',
+  'input[type="submit"]:not([disabled])',
+  'input[type="button"]:not([disabled])',
+  'input[type="reset"]:not([disabled])',
+  'label[for]',
+  'summary',
+].join(',')
+
+function pickInteractiveTarget(el) {
+  if (!el || !(el instanceof Element)) return null
+  const hit = el.closest(INTERACTIVE_SELECTOR)
+  if (!hit) return null
+  if (hit.closest('[data-no-custom-cursor]')) return null
+  return hit
+}
 
 export default function CursorSparkler() {
-  const circleRef = useRef(null)
+  const rootRef = useRef(null)
   const targetRef = useRef({ x: -100, y: -100 })
   const currentRef = useRef({ x: -100, y: -100 })
   const frameRef = useRef(null)
+  const interactiveRef = useRef(false)
+
   const [skipTouch] = useState(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false
     return window.matchMedia('(pointer: coarse)').matches
@@ -19,51 +38,57 @@ export default function CursorSparkler() {
     if (skipTouch) return undefined
 
     const body = document.body
-    const circle = circleRef.current
-    if (!circle) return undefined
+    const root = rootRef.current
+    if (!root) return undefined
 
-    const setPointerInside = (inside) => {
-      if (inside) {
-        body.classList.add('cursor-sparkler-active')
-        circle.style.opacity = '1'
-      } else {
-        body.classList.remove('cursor-sparkler-active')
-        circle.style.opacity = '0'
-      }
+    const centerOffset = OUTER_SIZE / 2
+
+    const setVisible = (visible) => {
+      root.classList.toggle('st-cursor-root--visible', visible)
+      body.classList.toggle('cursor-sparkler-active', visible)
+    }
+
+    const setInteractive = (next) => {
+      if (interactiveRef.current === next) return
+      interactiveRef.current = next
+      root.classList.toggle('st-cursor-root--interactive', next)
     }
 
     const onDocLeave = () => {
-      setPointerInside(false)
+      setVisible(false)
+      setInteractive(false)
     }
 
     const docEl = document.documentElement
     docEl.addEventListener('mouseleave', onDocLeave)
 
-    const onMove = (e) => {
-      setPointerInside(true)
-      targetRef.current = { x: e.clientX, y: e.clientY }
+    const onMove = (event) => {
+      setVisible(true)
+      targetRef.current = { x: event.clientX, y: event.clientY }
+      const under = document.elementFromPoint(event.clientX, event.clientY)
+      setInteractive(Boolean(pickInteractiveTarget(under)))
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })
 
-    const animate = () => {
+    const tick = () => {
       const current = currentRef.current
       const target = targetRef.current
       current.x += (target.x - current.x) * FOLLOW_EASE
       current.y += (target.y - current.y) * FOLLOW_EASE
-      circle.style.transform = `translate3d(${current.x - CIRCLE_SIZE / 2}px, ${
-        current.y - CIRCLE_SIZE / 2
-      }px, 0)`
-      frameRef.current = window.requestAnimationFrame(animate)
+      root.style.transform = `translate3d(${current.x - centerOffset}px, ${current.y - centerOffset}px, 0)`
+      frameRef.current = window.requestAnimationFrame(tick)
     }
 
-    frameRef.current = window.requestAnimationFrame(animate)
+    frameRef.current = window.requestAnimationFrame(tick)
 
     return () => {
       docEl.removeEventListener('mouseleave', onDocLeave)
       window.removeEventListener('mousemove', onMove)
       window.cancelAnimationFrame(frameRef.current)
       body.classList.remove('cursor-sparkler-active')
+      interactiveRef.current = false
+      root.classList.remove('st-cursor-root--visible', 'st-cursor-root--interactive')
     }
   }, [skipTouch])
 
@@ -72,18 +97,10 @@ export default function CursorSparkler() {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9998]" aria-hidden>
-      <div
-        ref={circleRef}
-        className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full opacity-0 mix-blend-difference transition-[opacity,border-color] duration-200"
-        style={{
-          width: CIRCLE_SIZE,
-          height: CIRCLE_SIZE,
-          border: `3px solid ${CIRCLE_BORDER}`,
-          boxShadow: `inset 0 0 0 1px ${CIRCLE_BORDER_DARK}`,
-          willChange: 'transform',
-        }}
-      />
+    <div ref={rootRef} className="st-cursor-root" aria-hidden>
+      <div className="st-cursor">
+        <div className="st-cursor-inner" />
+      </div>
     </div>
   )
 }
