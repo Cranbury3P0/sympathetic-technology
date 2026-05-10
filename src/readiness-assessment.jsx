@@ -635,7 +635,7 @@ export default function ReadinessAssessmentPage() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 lg:col-start-2 lg:row-start-1 lg:w-full">
+            <div className="flex flex-col gap-3 lg:col-start-2 lg:row-start-1 lg:w-full lg:ml-[75px] lg:mt-[40px]">
               <a
                 href="#assessment-form"
                 className="inline-flex w-full items-center justify-center rounded-md bg-[#2A4A2E] px-8 py-4 text-center font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-[transform,background-color] duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#355c3a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2A4A2E] motion-reduce:hover:translate-y-0 sm:w-auto sm:self-start"
@@ -659,19 +659,6 @@ export default function ReadinessAssessmentPage() {
                   <path d="M12 5v14M19 12l-7 7-7-7" />
                 </svg>
               </div>
-            </div>
-
-            <div className="relative overflow-hidden rounded-md lg:col-start-2 lg:row-start-2 lg:-mt-2">
-              <img
-                src="/images/journal/uncertainty-cover.jpg"
-                alt="Sunlit Pacific Northwest forest with moss-covered trees"
-                className="max-h-[min(42vw,260px)] w-full object-cover object-center sm:max-h-[300px] lg:max-h-none lg:min-h-[min(360px,42vh)]"
-                decoding="async"
-              />
-              <div
-                className="pointer-events-none absolute inset-y-0 left-0 hidden w-[42%] bg-gradient-to-r from-[#EFF5EF] via-[#EFF5EF]/75 to-transparent lg:block"
-                aria-hidden
-              />
             </div>
 
             <div className="lg:col-start-1 lg:row-start-2">
