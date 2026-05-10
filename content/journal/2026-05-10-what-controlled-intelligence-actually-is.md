@@ -20,7 +20,9 @@ status: published
 
 > **con·trolled in·tel·li·gence** /kənˌtroʊld ɪnˈtɛlɪdʒəns/ *n.* A governance framework in which artificial intelligence systems operate within an organization's own infrastructure, under policies the organization sets and enforces, with data that does not leave its custody. Distinguished from general AI deployment by the presence of defined boundaries, auditable usage, and institutional accountability at every layer. The attributive form, *controlled-intelligence*, modifies related compounds: *controlled-intelligence architecture*, *controlled-intelligence framework*.
 
-> *Etymology:* controlled, from Fr. *contrôler*, orig. *contre-rôle*, a counter-register kept to verify an official record; + intelligence, from L. *intelligentia*, the capacity to discern, understand, and choose. The compound preserves both senses: a system that understands, kept accountable by a record it cannot alter. *cf.* data sovereignty, governance framework.
+> *Etymology:* controlled, from Fr. *contrôler*, orig. *contre-rôle*, a counter-register kept to verify an official record; + intelligence, from L. *intelligentia*, the capacity to discern, understand, and choose. The compound preserves both senses: a system that understands, kept accountable by a record it cannot alter.
+
+> *cf.* data sovereignty, governance framework.
 
 ---
 
@@ -31,6 +33,8 @@ They're likely using it for communications drafts, policy summaries, member corr
 This is something to clearly consider for healthcare associations and professional bodies more so than in some commercial sectors. The information traveling through browser-based AI tools is often the same information members trust the organization to protect: regulatory submissions, internal advocacy positions, member correspondence, clinical guidance. PIPEDA and PIPA set the legal floor. The reputational exposure sits above that, and it doesn't require a breach to land poorly.
 
 We developed a strategy and framework to address these gaps. It's called Controlled Intelligence and its core layer, which we're focusing on in this post, is described below.
+
+![Two Paths for AI-Assisted Work: side-by-side infographic contrasting consumer browser AI (data leaves the organization, external policies, limited accountability) with Controlled Intelligence (data stays on your infrastructure, your policies, auditable usage and quarterly reviews).](/images/journal/two-paths-ai-assisted-work.png)
 
 Controlled Intelligence is a governance-first AI framework built specifically for this operating context. Here's how it works.
 
@@ -51,5 +55,7 @@ Controlled Intelligence is a governance-first AI framework built specifically fo
 8. The local engine is the core layer and everything else fans out from it: the staff-facing interface, the governance documents, the onboarding, the quarterly reviews. The reason to start there is that it changes what's possible in the rest of the framework. An organization running a local model can make real commitments about data custody because those commitments are architecturally true. An organization relying on commercial tools with a policy document is relying on the document to do work the architecture can't support.
 
 9. Discovery is the entry point for most engagements and can be engaged independently. It produces a written organizational assessment and a board-ready implementation pathway that has value regardless of whether the organization proceeds. It's a current-state picture of AI use inside the organization, a gap analysis against existing privacy obligations, and a realistic timeline for what responsible adoption looks like given actual budget and staff capacity.
+
+![Controlled Intelligence Architecture infographic: five stages—People, Interface, Core Layer (local AI engine with Gemma and Mistral), Governance Layer, and Continuous Governance—linked by flows and a feedback loop labeled “Governance that evolves with your organization.”](/images/journal/controlled-intelligence-architecture.png)
 
 The organizations that have a clear answer to "where does our AI-assisted work actually go?" are a small minority. For most, the answer is somewhere inside a commercial platform's infrastructure, governed by a terms of service agreement the organization has never read. Controlled Intelligence changes that answer before the question gets asked in a less comfortable context.

@@ -132,7 +132,8 @@ function isBlockStart(line) {
     line.startsWith('> ') ||
     line.startsWith('- ') ||
     /^\d+\.\s/.test(line) ||
-    /^\*\*.+\*\*$/.test(line)
+    /^\*\*.+\*\*$/.test(line) ||
+    /^!\[[^\]]*\]\([^)]+\)$/.test(line)
   )
 }
 
@@ -151,6 +152,13 @@ function markdownToBlocks(markdown) {
 
     if (line === '---') {
       blocks.push({ type: 'hr' })
+      index += 1
+      continue
+    }
+
+    const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (imageMatch) {
+      blocks.push({ type: 'img', alt: imageMatch[1], src: imageMatch[2] })
       index += 1
       continue
     }
@@ -174,12 +182,42 @@ function markdownToBlocks(markdown) {
     }
 
     if (line.startsWith('> ')) {
-      const quoteLines = []
-      while (index < lines.length && lines[index].trim().startsWith('> ')) {
-        quoteLines.push(lines[index].trim().slice(2))
+      const paragraphs = []
+      let currentLines = []
+
+      const flushParagraph = () => {
+        if (currentLines.length) {
+          paragraphs.push(currentLines.join(' '))
+          currentLines = []
+        }
+      }
+
+      while (index < lines.length) {
+        const trimmed = lines[index].trim()
+
+        if (!trimmed) {
+          flushParagraph()
+          index += 1
+          let peek = index
+          while (peek < lines.length && !lines[peek].trim()) {
+            peek += 1
+          }
+          if (peek >= lines.length || !lines[peek].trim().startsWith('> ')) {
+            break
+          }
+          continue
+        }
+
+        if (!trimmed.startsWith('> ')) {
+          break
+        }
+
+        currentLines.push(trimmed.slice(2))
         index += 1
       }
-      blocks.push({ type: 'blockquote', text: quoteLines.join(' ') })
+
+      flushParagraph()
+      blocks.push({ type: 'blockquote', paragraphs })
       continue
     }
 
@@ -244,12 +282,15 @@ function MarkdownBody({ markdown }) {
         }
 
         if (block.type === 'blockquote') {
+          const paragraphs = block.paragraphs ?? []
           return (
             <blockquote
               key={index}
-              className="my-12 border-l-[3px] border-[#111111] bg-[#f8f8f8] px-8 py-8 text-[20px] font-semibold leading-[1.4] tracking-[-0.01em] text-[#111111] md:px-10"
+              className="my-12 space-y-5 border-l-[3px] border-[#111111] bg-[#f8f8f8] px-8 py-8 text-[20px] font-semibold leading-[1.4] tracking-[-0.01em] text-[#111111] md:px-10 [&>p]:m-0"
             >
-              {renderInline(block.text)}
+              {paragraphs.map((para, pIndex) => (
+                <p key={pIndex}>{renderInline(para)}</p>
+              ))}
             </blockquote>
           )
         }
@@ -269,6 +310,20 @@ function MarkdownBody({ markdown }) {
 
         if (block.type === 'hr') {
           return <hr key={index} className="my-14 border-0 border-t border-[#e8e8e8]" />
+        }
+
+        if (block.type === 'img') {
+          return (
+            <figure key={index} className="my-10">
+              <img
+                src={block.src}
+                alt={block.alt}
+                className="w-full rounded-sm border border-[#e8e8e8]"
+                decoding="async"
+                loading="lazy"
+              />
+            </figure>
+          )
         }
 
         return (
