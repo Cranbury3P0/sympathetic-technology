@@ -255,8 +255,8 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Hero text — bottom left (responsive inset; desktop keeps wide left offset) */}
-        <div className="absolute bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-5 right-5 z-10 pb-8 sm:bottom-[calc(5rem+env(safe-area-inset-bottom))] sm:left-6 sm:right-6 md:bottom-[105px] md:left-20 md:right-12 md:pb-16 lg:left-[210px] lg:right-16 lg:pb-20">
+        {/* Hero text — mobile: flow + top inset clears fixed header; md+: bottom-anchored as before */}
+        <div className="relative z-10 px-5 pb-[calc(5rem+env(safe-area-inset-bottom))] pt-[calc(7.25rem+env(safe-area-inset-top))] sm:px-6 md:absolute md:bottom-[105px] md:left-20 md:right-12 md:pb-16 md:pt-0 lg:left-[210px] lg:right-16 lg:pb-20">
           <div className="max-w-[960px]">
             <h1 className="text-shadow-hero font-sans text-[36px] font-bold leading-[1.18] tracking-tight text-white sm:text-[40px] md:text-[46px] lg:text-[52px]">
               Organizational guidance for
@@ -268,8 +268,8 @@ function HomePage() {
               organizations navigating AI.
             </h1>
             <p className="text-shadow-hero mt-5 max-w-[620px] font-sans text-base font-normal leading-relaxed text-white/85 md:text-lg">
-              From AI adoption strategy to custom tools to a full governance infrastructure,
-              we work at whatever scale actually fits.
+              From AI adoption strategy to custom tools to full governance infrastructure, we advise and build
+              according to what your organization actually needs.
             </p>
             <div className="mt-8 flex max-w-full flex-col gap-3 sm:flex-row sm:flex-wrap md:gap-4">
               <Link
