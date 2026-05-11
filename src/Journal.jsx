@@ -14,6 +14,7 @@ import {
   formatJournalDate,
   formatJournalShortDate,
   getJournalPost,
+  JOURNAL_SLUG_REDIRECTS,
   journalPosts,
 } from './journalData.js'
 
@@ -669,6 +670,12 @@ export function JournalIndexPage() {
 
 export function JournalPostPage() {
   const { slug } = useParams()
+  const canonicalSlug = JOURNAL_SLUG_REDIRECTS[slug] ?? slug
+
+  if (slug !== canonicalSlug) {
+    return <Navigate to={`/journal/${canonicalSlug}`} replace />
+  }
+
   const post = getJournalPost(slug)
 
   useEffect(() => {

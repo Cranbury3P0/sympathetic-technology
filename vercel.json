@@ -4,6 +4,11 @@
       "source": "/sovereign-ai",
       "destination": "/controlled-intelligence",
       "permanent": true
+    },
+    {
+      "source": "/journal/2026-05-10-what-controlled-intelligence-actually-is",
+      "destination": "/journal/2026-05-10-introducing-controlled-intelligence",
+      "permanent": true
     }
   ],
   "rewrites": [

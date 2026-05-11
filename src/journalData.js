@@ -66,6 +66,12 @@ export function formatJournalShortDate(date) {
   }).format(new Date(`${date}T00:00:00`))
 }
 
+/** Old slug -> canonical slug (filename stem); SPA redirects preserve bookmarks */
+export const JOURNAL_SLUG_REDIRECTS = {
+  '2026-05-10-what-controlled-intelligence-actually-is':
+    '2026-05-10-introducing-controlled-intelligence',
+}
+
 export const journalPosts = Object.entries(markdownFiles)
   .map(([path, raw]) => {
     const { data, body } = parseFrontmatter(raw)

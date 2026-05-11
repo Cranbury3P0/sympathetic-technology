@@ -4,6 +4,7 @@
   RewriteEngine On
   RewriteBase /
   RewriteRule ^sovereign-ai/?$ /controlled-intelligence [R=301,L]
+  RewriteRule ^journal/2026-05-10-what-controlled-intelligence-actually-is/?$ /journal/2026-05-10-introducing-controlled-intelligence [R=301,L]
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
