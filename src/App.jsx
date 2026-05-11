@@ -9,6 +9,7 @@ import TalkPage from './talk.jsx'
 import ReadinessAssessmentPage from './readiness-assessment.jsx'
 import PrivacyPage from './privacy.jsx'
 import CookieBanner from './CookieBanner.jsx'
+import HomeMobileSplash from './HomeMobileSplash.jsx'
 import SiteFooter from './SiteFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
 import { journalPosts } from './journalData.js'
@@ -219,6 +220,7 @@ const HERO_VIDEO_POSTER =
 function HomePage() {
   return (
     <main className="min-h-screen bg-white">
+      <HomeMobileSplash />
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section
