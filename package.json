@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:full": "concurrently \"node server.js\" \"vite --open\"",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender-journal-posts.mjs",
     "preview": "vite preview",
     "server": "node server.js",
     "pdf:preview": "node scripts/preview-pdf.js"

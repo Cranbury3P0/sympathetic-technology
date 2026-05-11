@@ -110,6 +110,7 @@ export function applyJournalIndexMeta() {
 }
 
 export function applyJournalPostMeta(post) {
+  /** Live SPA updates meta for browsers; production crawlers use prerendered HTML from scripts/prerender-journal-posts.mjs */
   const path = post.cover_image || ''
   const ogImage =
     path.startsWith('http://') || path.startsWith('https://')
