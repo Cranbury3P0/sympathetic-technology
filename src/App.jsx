@@ -255,32 +255,26 @@ function HomePage() {
           aria-hidden
         />
 
-        {/* Hero text — mobile: smaller type + tighter rhythm so fold fits phones; md+: prior scale */}
-        <div className="relative z-10 px-5 pb-[calc(4rem+env(safe-area-inset-bottom))] pt-[calc(7rem+env(safe-area-inset-top))] sm:px-6 md:absolute md:bottom-[105px] md:left-20 md:right-12 md:pb-16 md:pt-0 lg:left-[210px] lg:right-16 lg:pb-20">
+        {/* Hero text — mobile: matched top/bottom inset + tighter type; md+: bottom-anchored */}
+        <div className="relative z-10 px-5 pb-[calc(8.75rem+env(safe-area-inset-bottom))] pt-[calc(8.75rem+env(safe-area-inset-top))] sm:px-6 md:absolute md:bottom-[105px] md:left-20 md:right-12 md:pb-16 md:pt-0 lg:left-[210px] lg:right-16 lg:pb-20">
           <div className="max-w-[960px]">
-            <h1 className="text-shadow-hero font-sans text-[26px] font-bold leading-[1.12] tracking-tight text-white sm:text-[30px] sm:leading-[1.14] md:text-[46px] md:leading-[1.18] lg:text-[52px]">
-              Organizational guidance for
-              <br />
-              nonprofits, healthcare
-              <br />
-              associations and arts
-              <br />
-              organizations navigating AI.
+            <h1 className="text-shadow-hero font-sans text-[23px] font-bold leading-[1.11] tracking-tight text-white sm:text-[26px] sm:leading-[1.13] md:text-[46px] md:leading-[1.18] lg:text-[52px]">
+              Organizational guidance for nonprofits, healthcare associations and arts organizations navigating AI.
             </h1>
-            <p className="text-shadow-hero mt-3 max-w-[620px] font-sans text-[13px] font-normal leading-[1.55] text-white/85 sm:mt-4 sm:text-[14px] sm:leading-[1.6] md:mt-5 md:text-lg md:leading-relaxed">
+            <p className="text-shadow-hero mt-2.5 max-w-[620px] font-sans text-[12px] font-normal leading-[1.5] text-white/85 sm:mt-3 sm:text-[13px] sm:leading-[1.55] md:mt-5 md:text-lg md:leading-relaxed">
               From AI adoption strategy to custom tools to full governance infrastructure, we advise and build
               according to what your organization actually needs.
             </p>
-            <div className="mt-5 flex max-w-full flex-col gap-2 sm:mt-6 sm:gap-2.5 sm:flex-row sm:flex-wrap md:mt-8 md:gap-4">
+            <div className="mt-4 flex max-w-full flex-col gap-2 sm:mt-5 sm:gap-2 sm:flex-row sm:flex-wrap md:mt-8 md:gap-4">
               <Link
                 to="/talk"
-                className="inline-block w-full max-w-full rounded-none bg-white px-5 py-2.5 text-center font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:px-6 sm:py-3 sm:text-[11px] sm:tracking-[0.2em] sm:text-left md:px-7 md:py-3.5 md:tracking-[0.22em]"
+                className="inline-block w-full max-w-full rounded-none bg-white px-4 py-2 text-center font-sans text-[10px] font-bold uppercase tracking-[0.17em] text-[#111827] transition-colors duration-300 hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:px-5 sm:py-2.5 sm:tracking-[0.18em] sm:text-left md:px-7 md:py-3.5 md:text-[11px] md:tracking-[0.22em]"
               >
                 Book a Conversation
               </Link>
               <Link
                 to="/readiness-assessment"
-                className="inline-block w-full max-w-full rounded-none border border-white/80 bg-transparent px-5 py-2.5 text-center font-sans text-[10px] font-bold uppercase tracking-[0.18em] text-white transition-colors duration-300 hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:px-6 sm:py-3 sm:text-[11px] sm:tracking-[0.2em] sm:text-left md:px-7 md:py-3.5 md:tracking-[0.22em]"
+                className="inline-block w-full max-w-full rounded-none border border-white/80 bg-transparent px-4 py-2 text-center font-sans text-[10px] font-bold uppercase tracking-[0.17em] text-white transition-colors duration-300 hover:border-white hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto sm:px-5 sm:py-2.5 sm:tracking-[0.18em] sm:text-left md:px-7 md:py-3.5 md:text-[11px] md:tracking-[0.22em]"
               >
                 Take the Readiness Assessment
               </Link>
