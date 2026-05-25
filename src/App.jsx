@@ -9,6 +9,7 @@ import TalkPage from './talk.jsx'
 import ReadinessAssessmentPage from './readiness-assessment.jsx'
 import PrivacyPage from './privacy.jsx'
 import CookieBanner from './CookieBanner.jsx'
+import { Analytics } from '@vercel/analytics/react'
 import HomeMobileSplash from './HomeMobileSplash.jsx'
 import SiteFooter from './SiteFooter.jsx'
 import SiteHeader from './SiteHeader.jsx'
@@ -574,6 +575,7 @@ export default function App() {
       </Routes>
       <SiteFooter />
       <CookieBanner />
+      <Analytics />
     </>
   )
 }
