@@ -20,7 +20,7 @@ status: published
 
 Five hundred people marched through downtown Vancouver yesterday because an 18-year-old organized it with a week's notice. They went from Waterfront Station, down Granville Street, over the bridge, and on to Granville Island.
 
-Anyone trying to convince themselves this was a brief tremor of disruption, a fringe reaction that will dissipate, is not reading the room. People here are not impressed by what they're seeing which appears to be government in industry pushing unpopular plans through without consultation.
+Anyone trying to convince themselves this was a brief tremor of disruption, a fringe reaction that will dissipate, is not reading the room. People here are not impressed by what they're seeing which appears to be government and industry pushing unpopular plans through without consultation.
 
 People here are ready to drop the gloves over this, and if the people pushing these projects aren't paying attention, it's going to get ugly.
 
