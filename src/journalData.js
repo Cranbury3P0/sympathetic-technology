@@ -82,7 +82,12 @@ export const journalPosts = Object.entries(markdownFiles)
       href: `/journal/${slugFromPath(path)}`,
     }
   })
-  .filter((post) => post.status === 'published' && post.cover_image)
+  .filter((post) => {
+    const visible =
+      post.status === 'published' ||
+      (import.meta.env.DEV && post.status === 'draft')
+    return visible && post.cover_image
+  })
   .sort((a, b) => new Date(b.date) - new Date(a.date))
   .map((post, index) => ({
     ...post,
